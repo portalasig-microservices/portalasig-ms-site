@@ -1,7 +1,10 @@
 package com.portalasig.ms.site.rest;
 
-import com.portalasig.ms.uaa.client.UserAuthenticationClient;
-import com.portalasig.ms.uaa.dto.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.portalasig.ms.notify.client.EmailNotifyClient;
+import com.portalasig.ms.notify.constant.EmailTemplate;
+import com.portalasig.ms.notify.dto.EmailRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class DemoController {
 
-    @Qualifier("userAuthenticationClientV1")
-    private final UserAuthenticationClient userAuthenticationClient;
+    @Qualifier("emailNotifyClientV1")
+    private final EmailNotifyClient emailNotifyClient;
+    private final ObjectMapper objectMapper;
 
     @GetMapping("/user")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
@@ -31,7 +35,20 @@ public class DemoController {
     }
 
     @GetMapping("/test-client")
-    public User testClient() {
-        return userAuthenticationClient.findUserByIdentity(23950509L).block();
+    public void testClient() throws JsonProcessingException {
+        String simpleMessage = """
+                {
+                  "by": "Frank test ms-site",
+                  "message": "el body"
+                }
+                """;
+        EmailRequest emailRequest = EmailRequest
+                .builder()
+                .emailTo("frankponte95@gmail.com")
+                .subject("soy yo marico")
+                .template(EmailTemplate.SIMPLE_MESSAGE)
+                .templateConfiguration(objectMapper.readTree(simpleMessage))
+                .build();
+        emailNotifyClient.sendApplicationEmail(emailRequest).block();
     }
 }
