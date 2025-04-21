@@ -63,15 +63,15 @@ CREATE TABLE classification
 
 CREATE TABLE semester
 (
-    semester_id     INT          NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    academic_period VARCHAR(32)  NOT NULL COMMENT 'Academic period',
-    description     VARCHAR(128) NOT NULL COMMENT 'Semester description',
-    name            VARCHAR(128) NOT NULL COMMENT 'Semester name',
-    start_date      DATE         NOT NULL COMMENT 'Semester start date',
-    end_date        DATE         NOT NULL COMMENT 'Semester end date',
-    is_active       TINYINT(1)      NOT NULL DEFAULT FALSE COMMENT 'Is this semester active?',
-    created_date    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
-    updated_date    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
+    semester_id     INT         NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
+    academic_period VARCHAR(32) NOT NULL COMMENT 'Academic period',
+    description     VARCHAR(128) COMMENT 'Semester description',
+    name            VARCHAR(128) COMMENT 'Semester name',
+    start_date      DATE COMMENT 'Semester start date',
+    end_date        DATE COMMENT 'Semester end date',
+    is_active       TINYINT(1)       DEFAULT FALSE COMMENT 'Is this semester active?',
+    created_date    TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
+    updated_date    TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
     PRIMARY KEY (semester_id),
     KEY             semester_idx1 (academic_period)
 ) COMMENT 'A semester in one academic period';

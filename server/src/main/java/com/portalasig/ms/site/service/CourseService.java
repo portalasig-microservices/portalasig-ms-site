@@ -11,7 +11,7 @@ import com.portalasig.ms.site.constant.CourseType;
 import com.portalasig.ms.site.converter.CourseConverter;
 import com.portalasig.ms.site.domain.entity.CareerEntity;
 import com.portalasig.ms.site.domain.entity.ClassificationEntity;
-import com.portalasig.ms.site.domain.entity.CourseEntity;
+import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import com.portalasig.ms.site.dto.course.Course;
 import com.portalasig.ms.site.dto.course.CourseRequest;
 import com.portalasig.ms.site.dto.course.CsvCourse;

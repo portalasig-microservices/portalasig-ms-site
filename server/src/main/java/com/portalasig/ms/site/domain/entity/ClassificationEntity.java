@@ -1,6 +1,7 @@
 package com.portalasig.ms.site.domain.entity;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
+import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,9 +18,9 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Objects;
 import java.util.Set;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
@@ -43,17 +44,4 @@ public class ClassificationEntity extends AbstractAuditEntity {
     @ManyToMany(mappedBy = "classifications", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @EqualsAndHashCode.Exclude
     private Set<CourseEntity> courses;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ClassificationEntity that = (ClassificationEntity) o;
-        return classificationId != null && classificationId.equals(that.classificationId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(classificationId, name);
-    }
 }

@@ -56,7 +56,7 @@ public class SemesterService {
             semesterMapper.toEntityFromExisting(request, semester);
         }
         semester = semesterRepository.save(semester);
-        log.info("Semester with semester_id={} has been upserted", semester.getSemesterId());
+        log.info("Semester with semester_id={} has been upserted and activated", semester.getSemesterId());
         return semesterMapper.toDto(semester);
     }
 

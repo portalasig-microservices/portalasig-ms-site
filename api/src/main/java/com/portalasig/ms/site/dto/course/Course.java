@@ -1,6 +1,8 @@
 package com.portalasig.ms.site.dto.course;
 
 import com.portalasig.ms.site.constant.CourseType;
+import com.portalasig.ms.site.dto.Reference;
+import com.portalasig.ms.site.dto.semester.Semester;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -41,4 +43,15 @@ public class Course {
     @ApiModelProperty(value = "List of classifications ids associated with the course")
     private List<Integer> classifications;
 
+    @ApiModelProperty(value = "List of classifications ids associated with the course")
+    private List<CourseObjective> objectives;
+
+    @ApiModelProperty(value = "List of classifications ids associated with the course")
+    private List<Reference> references;
+
+    @ApiModelProperty(value = "List of classifications ids associated with the course")
+    private List<CourseTopic> topics;
+
+    @ApiModelProperty(value = "List of classifications ids associated with the course")
+    private List<Semester> semesters;
 }

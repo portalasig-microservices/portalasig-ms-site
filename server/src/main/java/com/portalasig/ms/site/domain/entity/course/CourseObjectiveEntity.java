@@ -1,7 +1,6 @@
-package com.portalasig.ms.site.domain.entity;
+package com.portalasig.ms.site.domain.entity.course;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
-import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,8 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,23 +22,26 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "career")
+@Table(name = "course_objective")
 @Builder
-public class CareerEntity extends AbstractAuditEntity {
+public class CourseObjectiveEntity extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "career_id")
-    private Integer careerId;
+    @Column(name = "course_objective_id")
+    private Integer courseObjectiveId;
 
-    @NotNull
-    @Column(name = "name", length = 32)
-    private String name;
+    @Column(name = "title")
+    private String title;
 
-    @Transient
-    private boolean shouldBeRemoved;
+    @Column(name = "description")
+    private String description;
 
-    @ManyToMany(mappedBy = "careers", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @Column(name = "priority")
+    private Integer priority;
+
+    @ManyToMany(mappedBy = "objectives", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @EqualsAndHashCode.Exclude
     private Set<CourseEntity> courses;
+
 }

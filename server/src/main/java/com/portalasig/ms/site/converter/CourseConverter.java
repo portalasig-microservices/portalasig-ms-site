@@ -2,7 +2,7 @@ package com.portalasig.ms.site.converter;
 
 import com.portalasig.ms.site.domain.entity.CareerEntity;
 import com.portalasig.ms.site.domain.entity.ClassificationEntity;
-import com.portalasig.ms.site.domain.entity.CourseEntity;
+import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

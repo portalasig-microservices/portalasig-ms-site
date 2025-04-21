@@ -1,17 +1,18 @@
 package com.portalasig.ms.site.domain.entity;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
+import com.portalasig.ms.site.constant.ReferenceType;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,23 +26,35 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "career")
+@Table(name = "reference")
 @Builder
-public class CareerEntity extends AbstractAuditEntity {
+public class ReferenceEntity extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "career_id")
-    private Integer careerId;
+    @Column(name = "reference_id")
+    private Integer referenceId;
 
-    @NotNull
-    @Column(name = "name", length = 32)
-    private String name;
+    @Column(name = "reference_type")
+    @Enumerated(EnumType.STRING)
+    private ReferenceType referenceType;
 
-    @Transient
-    private boolean shouldBeRemoved;
+    @Column(name = "title")
+    private String title;
 
-    @ManyToMany(mappedBy = "careers", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @Column(name = "url")
+    private String url;
+
+    @Column(name = "author")
+    private String author;
+
+    @Column(name = "priority")
+    private Integer priority;
+
+    @Column(name = "is_required")
+    private Boolean isRequired;
+
+    @ManyToMany(mappedBy = "references", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @EqualsAndHashCode.Exclude
     private Set<CourseEntity> courses;
 }
