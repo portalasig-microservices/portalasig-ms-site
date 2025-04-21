@@ -1,17 +1,17 @@
 package com.portalasig.ms.site.domain.entity;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
-import com.portalasig.ms.site.domain.entity.course.CourseEntity;
+import com.portalasig.ms.site.constant.AssessmentType;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Set;
 
 @EqualsAndHashCode(callSuper = true)
@@ -28,38 +28,33 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "semester")
+@Table(name = "site_assessment")
 @Builder
-public class SemesterEntity extends AbstractAuditEntity {
+public class SiteAssessmentEntity extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "semester_id")
-    private Integer semesterId;
+    @Column(name = "site_assessment_id")
+    private Integer siteAssessmentId;
 
+    @Column(name = "weight")
     @NotNull
-    @Column(name = "academic_period", length = 32)
-    private String academicPeriod;
+    private float weight;
 
-    @Column(name = "description", length = 128)
-    private String description;
-
-    @Column(name = "name", length = 128)
+    @Column(name = "name")
     private String name;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "assessment_type")
+    private AssessmentType assessmentType;
+
     @Column(name = "start_date")
-    private LocalDate startDate;
+    private Instant startDate;
 
     @Column(name = "end_date")
-    private LocalDate endDate;
+    private Instant endDate;
 
-    @Column(name = "is_active")
-    private Boolean isActive;
-
-    @ManyToMany(mappedBy = "semesters", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<CourseEntity> courses;
-
-    @OneToMany
-    @JoinColumn(name = "site_id", insertable = false, updatable = false)
+    @ManyToMany(mappedBy = "assessments", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @EqualsAndHashCode.Exclude
     private Set<SiteEntity> sites;
 }

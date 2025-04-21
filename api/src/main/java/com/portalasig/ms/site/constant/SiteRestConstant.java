@@ -20,4 +20,9 @@ public final class SiteRestConstant {
         public static final String ACTIVE_PATH = "/active";
     }
 
+    public static final class Site {
+        public static final String SITE_PATH = "/site";
+        public static final String BASE_PATH = RestConstants.VERSION_ONE + SITE_PATH;
+    }
+
 }

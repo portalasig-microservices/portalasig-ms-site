@@ -1,6 +1,6 @@
 package com.portalasig.ms.site.repository;
 
-import com.portalasig.ms.site.domain.entity.CourseEntity;
+import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
