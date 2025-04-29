@@ -19,11 +19,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 @RestController
-@RequestMapping(SiteRestConstant.Semester.BASE_PATH)
+@RequestMapping(SiteRestConstant.Semester.Path.BASE)
 @RequiredArgsConstructor
 @Api(value = "Semester Controller", tags = "Semester Management")
 public class SemesterController {
@@ -57,7 +60,7 @@ public class SemesterController {
             @ApiResponse(code = 404, message = "Semester not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @DeleteMapping(SiteRestConstant.Semester.SEMESTER_ID_PATH)
+    @DeleteMapping(SiteRestConstant.Semester.Path.SEMESTER_ID)
     public void deleteSemester(
             @PathVariable @ApiParam(value = "Semester id", required = true) Integer semesterId
     ) {
@@ -70,7 +73,7 @@ public class SemesterController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @GetMapping(SiteRestConstant.Semester.ACADEMIC_PERIOD_PATH)
+    @GetMapping(SiteRestConstant.Semester.Path.ACADEMIC_PERIOD)
     public Semester findSemesterByAcademicPeriod(
             @PathVariable @ApiParam(value = "Academic Period", required = true) String academicPeriod
     ) {
@@ -83,8 +86,16 @@ public class SemesterController {
             @ApiResponse(code = 400, message = "Bad request"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @GetMapping(SiteRestConstant.Semester.ACTIVE_PATH)
+    @GetMapping(SiteRestConstant.Semester.Path.ACTIVE)
     public Semester getActiveSemester() {
         return semesterService.getActiveSemester();
+    }
+
+    @GetMapping(SiteRestConstant.Semester.Path.SUGGESTED)
+    public List<Semester> getSuggestedSemesters(
+            @RequestParam(value = "year_limit", required = false, defaultValue = "2")
+            @ApiParam(value = "year_limit") int yearLimit
+    ) {
+        return semesterService.getSuggestedSemesters(yearLimit);
     }
 }

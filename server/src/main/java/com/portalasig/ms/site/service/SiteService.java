@@ -28,7 +28,11 @@ public class SiteService {
     private final SiteMapper siteMapper;
 
     public Site createSite(SiteRequest request) {
-        boolean siteExists = siteRepository.checkIfSiteExists(request.getCourseCode(), request.getAcademicPeriod());
+        boolean siteExists = siteRepository.checkIfSiteExists(
+                request.getCourseCode(),
+                request.getPeriodType().getCode(),
+                request.getPeriodYear()
+        );
         if (siteExists) {
             throw new ConflictException("Site already exists");
         }
@@ -36,10 +40,15 @@ public class SiteService {
         CourseEntity course = courseRepository.findByCode(request.getCourseCode())
                 .orElseThrow(ResourceNotFoundException::new);
 
-        SemesterEntity semester = semesterRepository.findByAcademicPeriod(request.getAcademicPeriod())
-                .orElseThrow(() -> new SystemErrorException(
-                        String.format("Semester with academic_period=%s not found", request.getAcademicPeriod())
-                ));
+        SemesterEntity semester = semesterRepository.findByAcademicPeriod(
+                request.getPeriodType().getCode(),
+                request.getPeriodYear()
+        ).orElseThrow(() -> new SystemErrorException(
+                String.format(
+                        "Semester with academic_period=%s-%s not found",
+                        request.getPeriodType(),
+                        request.getPeriodYear()
+                )));
 
         SiteEntity siteEntity = SiteEntity
                 .builder()

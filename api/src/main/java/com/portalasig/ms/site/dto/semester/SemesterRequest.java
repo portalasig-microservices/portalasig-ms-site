@@ -1,5 +1,6 @@
 package com.portalasig.ms.site.dto.semester;
 
+import com.portalasig.ms.site.constant.AcademicPeriodType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotNull;
@@ -20,9 +21,12 @@ public class SemesterRequest {
     @ApiModelProperty(value = "Semester id")
     private Integer semesterId;
 
-    @ApiModelProperty(value = "Academic period")
+    @ApiModelProperty(value = "Semester academic period")
+    private AcademicPeriodType periodType;
+
+    @ApiModelProperty(value = "Semester description")
     @NotNull
-    private String academicPeriod;
+    private Integer periodYear;
 
     @ApiModelProperty(value = "Name")
     @NotNull
@@ -38,5 +42,4 @@ public class SemesterRequest {
 
     @ApiModelProperty(value = "Description")
     private String description;
-
 }

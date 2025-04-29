@@ -11,7 +11,12 @@ public interface SiteRepository extends JpaRepository<SiteEntity, Integer> {
             SELECT COUNT(site) > 0
             FROM SiteEntity site
             WHERE site.course.code = :courseCode
-              AND site.semester.academicPeriod = :academicPeriod
+              AND site.semester.periodType = :periodType
+              AND site.semester.periodYear = :periodYear
             """)
-    boolean checkIfSiteExists(@Param("courseCode") String courseCode, @Param("academicPeriod") String academicPeriod);
+    boolean checkIfSiteExists(
+            @Param("courseCode") String courseCode,
+            @Param("periodType") String periodType,
+            @Param("periodYear") int periodYear
+    );
 }

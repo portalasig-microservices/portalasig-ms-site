@@ -1,7 +1,9 @@
 package com.portalasig.ms.site.service;
 
 import com.portalasig.ms.commons.rest.dto.Paginated;
+import com.portalasig.ms.commons.rest.exception.BadRequestException;
 import com.portalasig.ms.commons.rest.exception.ResourceNotFoundException;
+import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.dto.semester.Semester;
 import com.portalasig.ms.site.dto.semester.SemesterRequest;
@@ -12,7 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -73,8 +78,12 @@ public class SemesterService {
         }
     }
 
-    public Semester findByAcademicPeriod(String academicPeriod) {
-        SemesterEntity entity = semesterRepository.findByAcademicPeriod(academicPeriod).orElseThrow(
+    public Semester findByAcademicPeriod(String academicPeriodString) {
+        Pair<AcademicPeriodType, Integer> academicPeriod = toAcademicPeriod(academicPeriodString);
+        SemesterEntity entity = semesterRepository.findByAcademicPeriod(
+                academicPeriod.getFirst().getCode(),
+                academicPeriod.getSecond()
+        ).orElseThrow(
                 () -> new ResourceNotFoundException(
                         String.format("Semester with academic_period=%s not found", academicPeriod)
                 )
@@ -82,10 +91,51 @@ public class SemesterService {
         return semesterMapper.toDto(entity);
     }
 
+    /**
+     * Converts a string label in the format <type>-<year> into a pair of AcademicPeriodType and year.
+     *
+     * @param label the academic period label in the format type-year
+     * @return a Pair containing the AcademicPeriodType and the year
+     * @throws BadRequestException if the label format is invalid or contains invalid values
+     */
+    public static Pair<AcademicPeriodType, Integer> toAcademicPeriod(String label) {
+        if (label == null || !label.contains("-")) {
+            throw new BadRequestException("Invalid label format, expected <type>-<year>");
+        }
+        String[] parts = label.split("-");
+        if (parts.length != 2) {
+            throw new BadRequestException("Invalid label format, expected <type>-<year>");
+        }
+
+        int periodYear;
+        try {
+            periodYear = Integer.parseInt(parts[1]);
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("Invalid year format, expected numeric value");
+        }
+
+        AcademicPeriodType periodType = AcademicPeriodType.fromCode(parts[0]);
+        if (AcademicPeriodType.INVALID.equals(periodType)) {
+            throw new BadRequestException("Invalid academic period type");
+        }
+
+        return Pair.of(periodType, periodYear);
+    }
+
     public Semester getActiveSemester() {
         SemesterEntity entity = semesterRepository.getActiveSemester().orElseThrow(
                 () -> new ResourceNotFoundException("No active semester found")
         );
         return semesterMapper.toDto(entity);
+    }
+
+    public List<Semester> getSuggestedSemesters(int yearLimit) {
+        int currentYear = java.time.LocalDate.now().getYear();
+        int suggestedYear = currentYear + yearLimit;
+        List<SemesterEntity> semesters = semesterRepository.findSuggestedSemesters(currentYear, suggestedYear)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("No semesters found within year limit of %d", yearLimit)
+                ));
+        return semesters.stream().map(semesterMapper::toDto).toList();
     }
 }

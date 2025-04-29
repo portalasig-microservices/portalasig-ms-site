@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(SiteRestConstant.Site.BASE_PATH)
+@RequestMapping(SiteRestConstant.Site.Path.BASE)
 @RequiredArgsConstructor
 @Api(value = "Course site controller", tags = "Site Management")
 public class SiteController {

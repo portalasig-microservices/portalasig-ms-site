@@ -3,9 +3,6 @@ package com.portalasig.ms.site.domain.entity.site;
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
 import com.portalasig.ms.site.domain.entity.MediaEntity;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
-import com.portalasig.ms.site.domain.entity.SiteAssessmentEntity;
-import com.portalasig.ms.site.domain.entity.SiteClassScheduleEntity;
-import com.portalasig.ms.site.domain.entity.SiteNewsEntity;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,9 +37,17 @@ public class SiteEntity extends AbstractAuditEntity {
     @Column(name = "site_id")
     private Integer siteId;
 
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private CourseEntity course;
+
+    @ManyToOne
+    @JoinColumn(name = "semester_id", nullable = false)
+    private SemesterEntity semester;
+
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
-            name = "site_class_schedules_link",
+            name = "site_class_schedule_link",
             joinColumns = @JoinColumn(name = "site_id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "site_class_schedule_id")
     )
@@ -79,12 +84,4 @@ public class SiteEntity extends AbstractAuditEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private Set<SiteUserEntity> relatedUsers;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id", nullable = false)
-    private CourseEntity course;
-
-    @ManyToOne
-    @JoinColumn(name = "semester_id", nullable = false)
-    private SemesterEntity semester;
 }

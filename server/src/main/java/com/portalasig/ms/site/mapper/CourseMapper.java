@@ -4,7 +4,6 @@ package com.portalasig.ms.site.mapper;
 import com.portalasig.ms.commons.mapper.EnumStringMapper;
 import com.portalasig.ms.site.constant.CourseType;
 import com.portalasig.ms.site.domain.entity.CareerEntity;
-import com.portalasig.ms.site.domain.entity.ClassificationEntity;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import com.portalasig.ms.site.dto.course.Course;
 import com.portalasig.ms.site.dto.course.CourseRequest;
@@ -29,7 +28,6 @@ public interface CourseMapper {
 
     @Mapping(target = "semesters", ignore = true)
     @Mapping(target = "careers", ignore = true)
-    @Mapping(target = "classifications", ignore = true)
     @Mapping(target = "objectives", ignore = true)
     // TODO: I NEED TO IMPORT THIS DATA AND ADD THEM IN INITIALIZATION SCRIPT
     @Mapping(target = "references", ignore = true)
@@ -39,7 +37,6 @@ public interface CourseMapper {
 
     @Mapping(target = "semesters", ignore = true)
     @Mapping(target = "careers", ignore = true)
-    @Mapping(target = "classifications", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "updatedDate", ignore = true)
     @Mapping(target = "courseId", ignore = true)
@@ -52,7 +49,6 @@ public interface CourseMapper {
 
     @Mapping(target = "semesters", ignore = true)
     @Mapping(target = "careers", ignore = true)
-    @Mapping(target = "classifications", ignore = true)
     @Mapping(target = "courseId", ignore = true)
     // TODO: I NEED TO IMPORT THIS DATA AND ADD THEM IN INITIALIZATION SCRIPT
     @Mapping(target = "objectives", ignore = true)
@@ -63,9 +59,5 @@ public interface CourseMapper {
 
     default List<Integer> flatCareers(Set<CareerEntity> careers) {
         return careers.stream().map(CareerEntity::getCareerId).toList();
-    }
-
-    default List<Integer> flatClassifications(Set<ClassificationEntity> classifications) {
-        return classifications.stream().map(ClassificationEntity::getClassificationId).toList();
     }
 }

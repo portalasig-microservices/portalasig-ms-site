@@ -9,11 +9,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,15 +35,11 @@ public class SemesterEntity extends AbstractAuditEntity {
     @Column(name = "semester_id")
     private Integer semesterId;
 
-    @NotNull
-    @Column(name = "academic_period", length = 32)
-    private String academicPeriod;
+    @Column(name = "period_type")
+    private String periodType;
 
-    @Column(name = "description", length = 128)
-    private String description;
-
-    @Column(name = "name", length = 128)
-    private String name;
+    @Column(name = "period_year")
+    private Integer periodYear;
 
     @Column(name = "start_date")
     private LocalDate startDate;
@@ -59,7 +53,6 @@ public class SemesterEntity extends AbstractAuditEntity {
     @ManyToMany(mappedBy = "semesters", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<CourseEntity> courses;
 
-    @OneToMany
-    @JoinColumn(name = "site_id", insertable = false, updatable = false)
+    @OneToMany(mappedBy = "semester", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SiteEntity> sites;
 }
