@@ -67,19 +67,6 @@ public class SemesterController {
         semesterService.delete(semesterId);
     }
 
-    @ApiOperation(value = "Find semester by academic period", response = Semester.class)
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Semester found"),
-            @ApiResponse(code = 400, message = "Bad request"),
-            @ApiResponse(code = 500, message = "Internal server error")
-    })
-    @GetMapping(SiteRestConstant.Semester.Path.ACADEMIC_PERIOD)
-    public Semester findSemesterByAcademicPeriod(
-            @PathVariable @ApiParam(value = "Academic Period", required = true) String academicPeriod
-    ) {
-        return semesterService.findByAcademicPeriod(academicPeriod);
-    }
-
     @ApiOperation(value = "Get active semester", response = Semester.class)
     @ApiResponses({
             @ApiResponse(code = 200, message = "Semester found"),

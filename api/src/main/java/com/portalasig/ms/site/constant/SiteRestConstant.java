@@ -19,7 +19,6 @@ public final class SiteRestConstant {
             public static final String SEMESTER = "/semester";
             public static final String BASE = RestConstants.VERSION_ONE + SEMESTER;
             public static final String SEMESTER_ID = "/{semesterId:\\d+}";
-            public static final String ACADEMIC_PERIOD = "/{academicPeriod}";
             public static final String ACTIVE = "/active";
             public static final String SUGGESTED = "/suggested";
         }
