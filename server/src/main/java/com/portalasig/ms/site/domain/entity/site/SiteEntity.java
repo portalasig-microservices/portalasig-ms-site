@@ -73,7 +73,7 @@ public class SiteEntity extends AbstractAuditEntity {
     @JoinTable(
             name = "site_media_link",
             joinColumns = @JoinColumn(name = "site_id", insertable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "site_media_id")
+            inverseJoinColumns = @JoinColumn(name = "media_id")
     )
     private Set<MediaEntity> media;
 

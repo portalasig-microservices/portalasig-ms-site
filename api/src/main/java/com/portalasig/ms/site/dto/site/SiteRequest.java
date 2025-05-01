@@ -1,6 +1,5 @@
 package com.portalasig.ms.site.dto.site;
 
-import com.portalasig.ms.site.constant.AcademicPeriodType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +21,7 @@ public class SiteRequest {
 
     @ApiModelProperty(value = "Academic period type")
     @NotNull
-    private AcademicPeriodType periodType;
+    private String periodType;
 
     @ApiModelProperty(value = "Academic period year")
     @NotNull

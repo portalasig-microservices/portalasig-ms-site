@@ -29,7 +29,6 @@ public interface CourseMapper {
     @Mapping(target = "semesters", ignore = true)
     @Mapping(target = "careers", ignore = true)
     @Mapping(target = "objectives", ignore = true)
-    // TODO: I NEED TO IMPORT THIS DATA AND ADD THEM IN INITIALIZATION SCRIPT
     @Mapping(target = "references", ignore = true)
     @Mapping(target = "topics", ignore = true)
     @Mapping(target = "sites", ignore = true)

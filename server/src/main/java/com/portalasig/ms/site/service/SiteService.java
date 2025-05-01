@@ -3,6 +3,7 @@ package com.portalasig.ms.site.service;
 import com.portalasig.ms.commons.rest.exception.ConflictException;
 import com.portalasig.ms.commons.rest.exception.ResourceNotFoundException;
 import com.portalasig.ms.commons.rest.exception.SystemErrorException;
+import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -28,20 +31,22 @@ public class SiteService {
     private final SiteMapper siteMapper;
 
     public Site createSite(SiteRequest request) {
-        boolean siteExists = siteRepository.checkIfSiteExists(
+        // TODO: STICK TO THE ENUM TYPE FOR ALL IN THE FUTURE (use FIRST, SECOND, etc.. over '1', '2,'U', etc)
+        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(request.getPeriodType());
+        Optional<SiteEntity> siteOptional = siteRepository.findSite(
                 request.getCourseCode(),
-                request.getPeriodType().getCode(),
+                academicPeriodType.getCode(),
                 request.getPeriodYear()
         );
-        if (siteExists) {
-            throw new ConflictException("Site already exists");
+        if (siteOptional.isPresent()) {
+            throw new ConflictException("Course already exists");
         }
 
         CourseEntity course = courseRepository.findByCode(request.getCourseCode())
                 .orElseThrow(ResourceNotFoundException::new);
 
         SemesterEntity semester = semesterRepository.findByAcademicPeriod(
-                request.getPeriodType().getCode(),
+                academicPeriodType.getCode(),
                 request.getPeriodYear()
         ).orElseThrow(() -> new SystemErrorException(
                 String.format(
@@ -59,6 +64,18 @@ public class SiteService {
         log.info("Site with site_id={} was successfully created", siteEntity.getSiteId());
         log.debug("DEBUG -- Full object: {}", siteEntity);
 
+        return siteMapper.toDto(siteEntity);
+    }
+
+    public Site findSite(String courseCode, String periodType, Integer periodYear) {
+        // TODO: STICK TO THE ENUM TYPE FOR ALL IN THE FUTURE (use FIRST, SECOND, etc.. over '1', '2,'U', etc)
+        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(periodType);
+        Optional<SiteEntity> siteOptional = siteRepository.findSite(
+                courseCode,
+                academicPeriodType.getCode(),
+                periodYear
+        );
+        SiteEntity siteEntity = siteOptional.orElseThrow(ResourceNotFoundException::new);
         return siteMapper.toDto(siteEntity);
     }
 }

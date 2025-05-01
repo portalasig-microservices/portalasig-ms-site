@@ -16,6 +16,7 @@ public enum CourseLevelType implements Codeable<String> {
     SEVENTH("SEVENTH"),
     EIGHTH("EIGHTH"),
     NINTH("NINTH"),
+    TENTH("TENTH"),
     OPTIONAL("OPTIONAL"),
     INVALID("");
 
