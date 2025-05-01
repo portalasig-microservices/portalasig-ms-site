@@ -2,7 +2,7 @@ spring:
   application.name: portalasig-ms-site
   cloud:
     config:
-      label: TEG-99
+      label: ms
   config:
     import: 'configserver:http://localhost:5859'
   profiles.default: local
