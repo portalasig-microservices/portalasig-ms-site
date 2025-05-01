@@ -9,12 +9,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "site_user_role")
@@ -33,9 +36,8 @@ public class SiteUserRoleEntity {
     @JoinColumn(name = "site_id", insertable = false, updatable = false)
     private SiteEntity site;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private SiteUserEntity user;
+    @ManyToMany(mappedBy = "roles")
+    private Set<SiteUserEntity> users;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "site_user_role_type", nullable = false)

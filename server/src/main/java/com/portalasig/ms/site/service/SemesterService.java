@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -73,19 +75,20 @@ public class SemesterService {
         }
     }
 
-    public Semester findByAcademicPeriod(String academicPeriod) {
-        SemesterEntity entity = semesterRepository.findByAcademicPeriod(academicPeriod).orElseThrow(
-                () -> new ResourceNotFoundException(
-                        String.format("Semester with academic_period=%s not found", academicPeriod)
-                )
-        );
-        return semesterMapper.toDto(entity);
-    }
-
     public Semester getActiveSemester() {
         SemesterEntity entity = semesterRepository.getActiveSemester().orElseThrow(
                 () -> new ResourceNotFoundException("No active semester found")
         );
         return semesterMapper.toDto(entity);
+    }
+
+    public List<Semester> getSuggestedSemesters(int yearLimit) {
+        int currentYear = java.time.LocalDate.now().getYear();
+        int suggestedYear = currentYear + yearLimit;
+        List<SemesterEntity> semesters = semesterRepository.findSuggestedSemesters(currentYear, suggestedYear)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("No semesters found within year limit of %d", yearLimit)
+                ));
+        return semesters.stream().map(semesterMapper::toDto).toList();
     }
 }

@@ -1,9 +1,9 @@
 package com.portalasig.ms.site.domain.entity.course;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
+import com.portalasig.ms.site.constant.CourseLevelType;
 import com.portalasig.ms.site.constant.CourseType;
 import com.portalasig.ms.site.domain.entity.CareerEntity;
-import com.portalasig.ms.site.domain.entity.ClassificationEntity;
 import com.portalasig.ms.site.domain.entity.ReferenceEntity;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
@@ -64,6 +64,13 @@ public class CourseEntity extends AbstractAuditEntity {
     @Column(name = "requirements")
     private String requirements;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "course_level")
+    private CourseLevelType courseLevel;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SiteEntity> sites;
+
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "course_objective_link",
@@ -90,7 +97,7 @@ public class CourseEntity extends AbstractAuditEntity {
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
-            name = "course_career",
+            name = "course_career_link",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "career_id")
     )
@@ -98,24 +105,9 @@ public class CourseEntity extends AbstractAuditEntity {
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
-            name = "course_classification",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "classification_id")
-    )
-    private Set<ClassificationEntity> classifications;
-
-    @ManyToMany(
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
-    )
-    @JoinTable(
-            name = "course_semester",
+            name = "course_semester_link",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "semester_id")
     )
     private Set<SemesterEntity> semesters;
-
-    @OneToMany
-            (mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<SiteEntity> sites;
-
 }

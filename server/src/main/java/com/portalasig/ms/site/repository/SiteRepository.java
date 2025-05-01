@@ -5,13 +5,20 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface SiteRepository extends JpaRepository<SiteEntity, Integer> {
 
     @Query("""
-            SELECT COUNT(site) > 0
-            FROM SiteEntity site
-            WHERE site.course.code = :courseCode
-              AND site.semester.academicPeriod = :academicPeriod
+                SELECT site
+                FROM SiteEntity  site
+                WHERE site.course.code = :courseCode
+                AND site.semester.periodYear = :periodYear
+                AND site.semester.periodType = :periodType
             """)
-    boolean checkIfSiteExists(@Param("courseCode") String courseCode, @Param("academicPeriod") String academicPeriod);
+    Optional<SiteEntity> findSite(
+            @Param("courseCode") String courseCode,
+            @Param("periodType") String periodType,
+            @Param("periodYear") Integer periodYear
+    );
 }

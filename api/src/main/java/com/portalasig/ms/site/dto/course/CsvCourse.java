@@ -2,6 +2,7 @@ package com.portalasig.ms.site.dto.course;
 
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvCustomBindByPosition;
+import com.portalasig.ms.site.constant.CourseLevelType;
 import com.portalasig.ms.site.utils.csv.CommaSeparatedToListConverter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -46,7 +47,7 @@ public class CsvCourse {
     @CsvCustomBindByPosition(position = 5, converter = CommaSeparatedToListConverter.class)
     private List<Integer> careers;
 
-    @ApiModelProperty(value = "List of classifications ids associated with the course")
-    @CsvCustomBindByPosition(position = 6, converter = CommaSeparatedToListConverter.class)
-    private List<Integer> classifications;
+    @ApiModelProperty(value = "Indicates the semester in which the course is taken (e.g., FIRST, SECOND, etc.)")
+    @CsvBindByPosition(position = 6)
+    private CourseLevelType courseLevel;
 }

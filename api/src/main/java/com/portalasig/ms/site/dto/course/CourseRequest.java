@@ -1,5 +1,6 @@
 package com.portalasig.ms.site.dto.course;
 
+import com.portalasig.ms.site.constant.CourseLevelType;
 import com.portalasig.ms.site.constant.CourseType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -48,7 +49,7 @@ public class CourseRequest {
     @NotNull
     private List<Integer> careers;
 
-    @ApiModelProperty(value = "List of classifications ids associated with the course")
+    @ApiModelProperty(value = "Indicates the semester in which the course is taken (e.g., FIRST, SECOND, etc.)")
     @NotNull
-    private List<Integer> classifications;
+    private CourseLevelType courseLevel;
 }

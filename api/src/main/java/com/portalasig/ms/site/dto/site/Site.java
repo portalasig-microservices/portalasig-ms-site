@@ -2,6 +2,7 @@ package com.portalasig.ms.site.dto.site;
 
 import com.portalasig.ms.site.dto.Media;
 import com.portalasig.ms.site.dto.course.Course;
+import com.portalasig.ms.site.dto.semester.Semester;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -39,4 +40,6 @@ public class Site {
     @ApiModelProperty(value = "Site related users")
     private List<SiteUser> relatedUsers;
 
+    @ApiModelProperty(value = "Semester associated to the site")
+    private Semester semester;
 }

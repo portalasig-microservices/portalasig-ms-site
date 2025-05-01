@@ -28,14 +28,14 @@ CREATE TABLE course_topic_link
     PRIMARY KEY (course_topic_link_id)
 ) COMMENT 'Join table between course and its topics';
 
-CREATE TABLE site_class_schedules_link
+CREATE TABLE site_class_schedule_link
 (
-    site_class_schedules_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    site_id                      INT       NOT NULL COMMENT 'site ID',
-    site_class_schedule_id       INT       NOT NULL COMMENT 'site class schedule ID',
-    created_date                 TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
-    updated_date                 TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (site_class_schedules_link_id)
+    site_class_schedule_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
+    site_id                     INT       NOT NULL COMMENT 'site ID',
+    site_class_schedule_id      INT       NOT NULL COMMENT 'site class schedule ID',
+    created_date                TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
+    updated_date                TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
+    PRIMARY KEY (site_class_schedule_link_id)
 ) COMMENT 'Join table between site and its class schedules';
 
 CREATE TABLE site_assessment_link
@@ -72,7 +72,7 @@ CREATE TABLE site_user_link
 (
     site_user_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
     site_id           INT       NOT NULL COMMENT 'Site ID',
-    site_user_id      INT       NOT NULL COMMENT 'Site User ID',
+    user_id           INT       NOT NULL COMMENT 'Site User ID',
     created_date      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
     updated_date      TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
     PRIMARY KEY (site_user_link_id)
@@ -139,8 +139,10 @@ CREATE TABLE site_assessment
 CREATE TABLE site_class_schedule
 (
     site_class_schedule_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    class_section          TIMESTAMP COMMENT 'date and time this class schedule starts',
-    end_date               TIMESTAMP COMMENT 'date and time this class schedule starts',
+    user_id                INT       NOT NULL COMMENT 'Professor related to the schedule',
+    class_section          VARCHAR(8) COMMENT 'Class schedule section',
+    start_date             TIMESTAMP COMMENT 'date and time this class schedule starts',
+    end_date               TIMESTAMP COMMENT 'date and time this class schedule ends',
     classroom              VARCHAR(255) COMMENT 'Place where class will occur',
     class_schedule_type    VARCHAR(32) COMMENT 'Type of class schedule',
     created_date           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
@@ -178,7 +180,8 @@ CREATE TABLE site_user
     user_id      INT       NOT NULL COMMENT 'ms-uaa user id',
     created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
     updated_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (site_user_id)
+    PRIMARY KEY (site_user_id),
+    KEY          site_user_idx1(user_id)
 ) COMMENT 'A site user';
 
 CREATE TABLE site_user_role

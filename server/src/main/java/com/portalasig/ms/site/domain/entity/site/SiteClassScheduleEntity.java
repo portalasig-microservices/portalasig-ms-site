@@ -1,9 +1,7 @@
-package com.portalasig.ms.site.domain.entity;
+package com.portalasig.ms.site.domain.entity.site;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
 import com.portalasig.ms.site.constant.AssessmentType;
-import com.portalasig.ms.site.domain.entity.site.SiteEntity;
-import com.portalasig.ms.site.domain.entity.site.SiteUserEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

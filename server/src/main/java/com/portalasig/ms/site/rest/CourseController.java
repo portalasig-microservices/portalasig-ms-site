@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 @RestController
-@RequestMapping(SiteRestConstant.Course.BASE_PATH)
+@RequestMapping(SiteRestConstant.Course.Path.BASE)
 @RequiredArgsConstructor
 @Api(value = "Course Controller", tags = "Course Management")
 public class CourseController {
@@ -43,7 +43,7 @@ public class CourseController {
     }
 
     @ApiOperation(value = "Get course by code", response = Course.class)
-    @GetMapping(SiteRestConstant.Course.COURSE_CODE_PATH)
+    @GetMapping(SiteRestConstant.Course.Path.COURSE_CODE)
     public Course getCourseByCode(
             @PathVariable @ApiParam(value = "Course code", required = true) String courseCode
     ) {
@@ -70,7 +70,7 @@ public class CourseController {
             @ApiResponse(code = 404, message = "Course not found"),
             @ApiResponse(code = 500, message = "Internal server error")
     })
-    @DeleteMapping(SiteRestConstant.Course.COURSE_CODE_PATH)
+    @DeleteMapping(SiteRestConstant.Course.Path.COURSE_CODE)
     public void deleteCourseByCode(
             @PathVariable @ApiParam(value = "Course id", required = true) String courseCode
     ) {

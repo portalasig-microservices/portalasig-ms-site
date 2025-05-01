@@ -19,7 +19,11 @@ public class SiteRequest {
     @NotNull
     private String courseCode;
 
-    @ApiModelProperty(value = "Academic period")
+    @ApiModelProperty(value = "Academic period type")
     @NotNull
-    private String academicPeriod;
+    private String periodType;
+
+    @ApiModelProperty(value = "Academic period year")
+    @NotNull
+    private Integer periodYear;
 }

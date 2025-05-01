@@ -11,14 +11,16 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(SiteRestConstant.Site.BASE_PATH)
+@RequestMapping(SiteRestConstant.Site.Path.BASE)
 @RequiredArgsConstructor
 @Api(value = "Course site controller", tags = "Site Management")
 public class SiteController {
@@ -36,5 +38,20 @@ public class SiteController {
             @RequestBody @Valid @ApiParam(value = "Semester Request", required = true) SiteRequest request
     ) {
         return siteService.createSite(request);
+    }
+
+    @ApiOperation(value = "Find site by course code, period type and period year")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Site retrieved successfully"),
+            @ApiResponse(code = 404, message = "Site not found"),
+            @ApiResponse(code = 500, message = "Internal server error")
+    })
+    @GetMapping
+    public Site findSite(
+            @RequestParam(value = "course_code") @ApiParam(value = "Course code") String courseCode,
+            @RequestParam(value = "period_type") @ApiParam(value = "Academic period type") String periodType,
+            @RequestParam(value = "period_year") @ApiParam(value = "Academic period year") int periodYear
+    ) {
+        return siteService.findSite(courseCode, periodType, periodYear);
     }
 }

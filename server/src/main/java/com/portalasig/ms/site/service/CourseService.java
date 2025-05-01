@@ -10,14 +10,12 @@ import com.portalasig.ms.commons.rest.exception.SystemErrorException;
 import com.portalasig.ms.site.constant.CourseType;
 import com.portalasig.ms.site.converter.CourseConverter;
 import com.portalasig.ms.site.domain.entity.CareerEntity;
-import com.portalasig.ms.site.domain.entity.ClassificationEntity;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import com.portalasig.ms.site.dto.course.Course;
 import com.portalasig.ms.site.dto.course.CourseRequest;
 import com.portalasig.ms.site.dto.course.CsvCourse;
 import com.portalasig.ms.site.mapper.CourseMapper;
 import com.portalasig.ms.site.repository.CareerRepository;
-import com.portalasig.ms.site.repository.ClassificationRepository;
 import com.portalasig.ms.site.repository.CourseRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +46,6 @@ public class CourseService {
 
     private final CareerRepository careerRepository;
 
-    private final ClassificationRepository classificationRepository;
-
     private final CourseMapper courseMapper;
 
     private final CourseConverter courseConverter;
@@ -70,35 +66,21 @@ public class CourseService {
         CourseEntity course;
         validateRequest(request);
         List<CareerEntity> careers = careerRepository.findAllById(request.getCareers());
-        List<ClassificationEntity> classifications = classificationRepository.findAllById(request.getClassifications());
-        if (careers.isEmpty() || classifications.isEmpty()) {
-            throw new ResourceNotFoundException("No careers or classifications found. Skipping Course upsert");
+        if (careers.isEmpty()) {
+            throw new ResourceNotFoundException("No careers found. Skipping Course upsert");
         }
         Optional<CourseEntity> courseEntity = courseRepository.findByCode(request.getCode());
         if (courseEntity.isEmpty()) {
             course = courseMapper.toEntity(request);
             course.setCareers(new HashSet<>(careers));
-            course.setClassifications(new HashSet<>(classifications));
         } else {
             course = courseEntity.get();
             courseMapper.toEntityFromExisting(course, request);
-            updateClassifications(course, request);
             updateCareers(course, request);
-            // TODO: Implement semester logic
-            // updateSemesters(course, request);
         }
 
         course = courseRepository.save(course);
         return courseMapper.toDto(course);
-    }
-
-    private void updateClassifications(CourseEntity course, CourseRequest request) {
-        if (request.getClassifications() == null) {
-            return;
-        }
-        List<ClassificationEntity> incomingClassifications =
-                classificationRepository.findAllByClassificationIdIn(request.getClassifications());
-        courseConverter.updateClassifications(course, new HashSet<>(incomingClassifications));
     }
 
     private void updateCareers(CourseEntity course, CourseRequest request) {
@@ -157,24 +139,7 @@ public class CourseService {
     private CourseEntity toEntityFromCsv(CsvCourse csvCourse) {
         CourseEntity entity = courseMapper.toEntityFromCsv(csvCourse);
         entity.setCareers(new HashSet<>(getCareers(csvCourse)));
-        entity.setClassifications(new HashSet<>(getClassifications(csvCourse)));
         return entity;
-    }
-
-    private List<ClassificationEntity> getClassifications(CsvCourse csvCourse) {
-        List<ClassificationEntity> classifications = new ArrayList<>();
-        try {
-            if (csvCourse.getClassifications() != null) {
-                classifications = classificationRepository.findAllById(csvCourse.getClassifications());
-            }
-        } catch (Exception e) {
-            log.error(
-                    "Error when fetching classification for course_id={}, skipping",
-                    csvCourse.getCode(),
-                    e
-            );
-        }
-        return classifications;
     }
 
     private List<CareerEntity> getCareers(CsvCourse csvCourse) {
