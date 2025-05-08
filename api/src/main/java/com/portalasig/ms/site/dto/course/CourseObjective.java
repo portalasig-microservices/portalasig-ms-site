@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class CourseObjective {
 
     @ApiModelProperty(value = "Course objective id")
-    private Long courseObjectiveId;
+    private Integer courseObjectiveId;
 
     @ApiModelProperty(value = "Course description")
     private String description;

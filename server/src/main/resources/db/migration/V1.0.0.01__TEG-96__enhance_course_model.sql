@@ -1,22 +1,22 @@
-CREATE TABLE course_objective_link
+CREATE TABLE site_objective_link
 (
-    course_objective_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    course_id                INT       NOT NULL COMMENT 'Course ID',
-    course_objective_id      INT       NOT NULL COMMENT 'Course Objective ID',
-    created_date             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
-    updated_date             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (course_objective_link_id)
-) COMMENT 'Join table between course and its objectives';
+    site_objective_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
+    site_id                INT       NOT NULL COMMENT 'Site ID',
+    course_objective_id    INT       NOT NULL COMMENT 'Site Objective ID',
+    created_date           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
+    updated_date           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
+    PRIMARY KEY (site_objective_link_id)
+) COMMENT 'Join table between site and its objectives';
 
-CREATE TABLE course_reference_link
+CREATE TABLE site_reference_link
 (
-    course_reference_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    course_id                INT       NOT NULL COMMENT 'Course ID',
-    reference_id             INT       NOT NULL COMMENT 'Reference ID',
-    created_date             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
-    updated_date             TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (course_reference_link_id)
-) COMMENT 'Join table between course and its references';
+    site_reference_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
+    site_id                INT       NOT NULL COMMENT 'Site ID',
+    reference_id           INT       NOT NULL COMMENT 'Reference ID',
+    created_date           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
+    updated_date           TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
+    PRIMARY KEY (site_reference_link_id)
+) COMMENT 'Join table between site and its references';
 
 CREATE TABLE course_topic_link
 (
@@ -94,12 +94,12 @@ CREATE TABLE reference
 
 CREATE TABLE course_objective
 (
-    course_objective_id INT          NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    title               VARCHAR(255) NOT NULL COMMENT 'Course Objective title',
+    course_objective_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
+    title               VARCHAR(255) COMMENT 'Course Objective title',
     description         VARCHAR(255) COMMENT 'Course Objective description',
-    priority            INT          NOT NULL DEFAULT 0 COMMENT 'Course Objective Priority',
-    created_date        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
-    updated_date        TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
+    priority            INT       NOT NULL DEFAULT 0 COMMENT 'Course Objective Priority',
+    created_date        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
+    updated_date        TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
     PRIMARY KEY (course_objective_id)
 ) COMMENT 'A course objective';
 

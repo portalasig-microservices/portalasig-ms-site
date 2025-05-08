@@ -2,7 +2,7 @@ package com.portalasig.ms.site.domain.entity;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
 import com.portalasig.ms.site.constant.ReferenceType;
-import com.portalasig.ms.site.domain.entity.course.CourseEntity;
+import com.portalasig.ms.site.domain.entity.site.SiteEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -56,5 +56,5 @@ public class ReferenceEntity extends AbstractAuditEntity {
 
     @ManyToMany(mappedBy = "references", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @EqualsAndHashCode.Exclude
-    private Set<CourseEntity> courses;
+    private Set<SiteEntity> sites;
 }
