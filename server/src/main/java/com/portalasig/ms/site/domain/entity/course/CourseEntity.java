@@ -4,7 +4,6 @@ import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
 import com.portalasig.ms.site.constant.CourseLevelType;
 import com.portalasig.ms.site.constant.CourseType;
 import com.portalasig.ms.site.domain.entity.CareerEntity;
-import com.portalasig.ms.site.domain.entity.ReferenceEntity;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
 import jakarta.persistence.CascadeType;
@@ -70,22 +69,6 @@ public class CourseEntity extends AbstractAuditEntity {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SiteEntity> sites;
-
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "course_objective_link",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_objective_id")
-    )
-    private Set<CourseObjectiveEntity> objectives;
-
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "course_reference_link",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "reference_id")
-    )
-    private Set<ReferenceEntity> references;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(

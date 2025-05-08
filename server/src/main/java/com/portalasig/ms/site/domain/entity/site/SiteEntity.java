@@ -2,8 +2,10 @@ package com.portalasig.ms.site.domain.entity.site;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
 import com.portalasig.ms.site.domain.entity.MediaEntity;
+import com.portalasig.ms.site.domain.entity.ReferenceEntity;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
+import com.portalasig.ms.site.domain.entity.course.CourseObjectiveEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,6 +46,22 @@ public class SiteEntity extends AbstractAuditEntity {
     @ManyToOne
     @JoinColumn(name = "semester_id", nullable = false)
     private SemesterEntity semester;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "site_objective_link",
+            joinColumns = @JoinColumn(name = "site_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_objective_id")
+    )
+    private Set<CourseObjectiveEntity> objectives;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "site_reference_link",
+            joinColumns = @JoinColumn(name = "site_id"),
+            inverseJoinColumns = @JoinColumn(name = "reference_id")
+    )
+    private Set<ReferenceEntity> references;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(

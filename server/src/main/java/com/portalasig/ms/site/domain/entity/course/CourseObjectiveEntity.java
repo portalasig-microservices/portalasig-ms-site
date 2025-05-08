@@ -1,6 +1,7 @@
 package com.portalasig.ms.site.domain.entity.course;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
+import com.portalasig.ms.site.domain.entity.site.SiteEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,6 +43,6 @@ public class CourseObjectiveEntity extends AbstractAuditEntity {
 
     @ManyToMany(mappedBy = "objectives", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @EqualsAndHashCode.Exclude
-    private Set<CourseEntity> courses;
+    private Set<SiteEntity> sites;
 
 }

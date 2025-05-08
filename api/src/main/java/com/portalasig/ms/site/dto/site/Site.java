@@ -2,6 +2,7 @@ package com.portalasig.ms.site.dto.site;
 
 import com.portalasig.ms.site.dto.Media;
 import com.portalasig.ms.site.dto.course.Course;
+import com.portalasig.ms.site.dto.course.CourseObjective;
 import com.portalasig.ms.site.dto.semester.Semester;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -39,6 +40,9 @@ public class Site {
 
     @ApiModelProperty(value = "Site related users")
     private List<SiteUser> relatedUsers;
+
+    @ApiModelProperty(value = "List of objectives associated with the site course")
+    private List<CourseObjective> objectives;
 
     @ApiModelProperty(value = "Semester associated to the site")
     private Semester semester;

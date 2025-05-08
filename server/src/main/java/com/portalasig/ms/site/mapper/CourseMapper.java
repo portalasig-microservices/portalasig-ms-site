@@ -28,8 +28,6 @@ public interface CourseMapper {
 
     @Mapping(target = "semesters", ignore = true)
     @Mapping(target = "careers", ignore = true)
-    @Mapping(target = "objectives", ignore = true)
-    @Mapping(target = "references", ignore = true)
     @Mapping(target = "topics", ignore = true)
     @Mapping(target = "sites", ignore = true)
     CourseEntity toEntity(CourseRequest request);
@@ -39,9 +37,7 @@ public interface CourseMapper {
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "updatedDate", ignore = true)
     @Mapping(target = "courseId", ignore = true)
-    @Mapping(target = "objectives", ignore = true)
     // TODO: I NEED TO IMPORT THIS DATA AND ADD THEM IN INITIALIZATION SCRIPT
-    @Mapping(target = "references", ignore = true)
     @Mapping(target = "topics", ignore = true)
     @Mapping(target = "sites", ignore = true)
     void toEntityFromExisting(@MappingTarget CourseEntity course, CourseRequest request);
@@ -50,8 +46,6 @@ public interface CourseMapper {
     @Mapping(target = "careers", ignore = true)
     @Mapping(target = "courseId", ignore = true)
     // TODO: I NEED TO IMPORT THIS DATA AND ADD THEM IN INITIALIZATION SCRIPT
-    @Mapping(target = "objectives", ignore = true)
-    @Mapping(target = "references", ignore = true)
     @Mapping(target = "topics", ignore = true)
     @Mapping(target = "sites", ignore = true)
     CourseEntity toEntityFromCsv(CsvCourse courseCsv);

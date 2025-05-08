@@ -31,4 +31,11 @@ public final class SiteRestConstant {
         }
     }
 
+    public static final class SiteObjective {
+        public static final class Path {
+            public static final String OBJECTIVE = "/objective";
+            public static final String BASE = RestConstants.VERSION_ONE + Site.Path.SITE + OBJECTIVE;
+        }
+    }
+
 }
