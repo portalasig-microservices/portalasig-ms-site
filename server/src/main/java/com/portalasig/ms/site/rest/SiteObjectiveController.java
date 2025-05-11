@@ -2,6 +2,7 @@ package com.portalasig.ms.site.rest;
 
 import com.portalasig.ms.site.constant.SiteRestConstant;
 import com.portalasig.ms.site.dto.course.Course;
+import com.portalasig.ms.site.dto.course.SiteObjectiveRemoveRequest;
 import com.portalasig.ms.site.dto.course.SiteObjectiveRequest;
 import com.portalasig.ms.site.dto.site.Site;
 import com.portalasig.ms.site.service.SiteObjectiveService;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,5 +34,15 @@ public class SiteObjectiveController {
             @ApiParam(value = "Course objective request", required = true) SiteObjectiveRequest request
     ) {
         return siteObjectiveService.upsertObjective(request);
+    }
+
+    @ApiOperation(value = "Delete Objective by objective_id")
+    @DeleteMapping
+    public Site deleteObjectiveById(
+            @Valid
+            @RequestBody
+            @ApiParam(value = "Course objective request", required = true) SiteObjectiveRemoveRequest request
+    ) {
+        return siteObjectiveService.deleteObjective(request);
     }
 }

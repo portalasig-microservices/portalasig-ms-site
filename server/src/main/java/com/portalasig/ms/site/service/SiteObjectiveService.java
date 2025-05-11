@@ -4,6 +4,7 @@ import com.portalasig.ms.commons.rest.exception.ResourceNotFoundException;
 import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.domain.entity.course.CourseObjectiveEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
+import com.portalasig.ms.site.dto.course.SiteObjectiveRemoveRequest;
 import com.portalasig.ms.site.dto.course.SiteObjectiveRequest;
 import com.portalasig.ms.site.dto.site.Site;
 import com.portalasig.ms.site.mapper.CourseObjectiveMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -64,4 +66,29 @@ public class SiteObjectiveService {
         siteEntity.getObjectives().add(newObjective);
     }
 
+    public Site deleteObjective(SiteObjectiveRemoveRequest request) {
+        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(request.getPeriodType());
+        SiteEntity siteEntity = siteRepository.findSite(
+                request.getCourseCode(),
+                academicPeriodType.getCode(),
+                request.getPeriodYear()
+        ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
+        Optional<CourseObjectiveEntity> maybeObjective = siteEntity
+                .getObjectives()
+                .stream()
+                .filter(objective ->
+                        objective.getCourseObjectiveId().equals(request.getCourseObjectiveId())
+                )
+                .findAny();
+
+        if (maybeObjective.isEmpty()) {
+            throw new ResourceNotFoundException(
+                    String.format("course_objective_id=%s not found", request.getCourseObjectiveId())
+            );
+        }
+        var objective = maybeObjective.get();
+        siteEntity.getObjectives().remove(objective);
+        siteRepository.save(siteEntity);
+        return siteMapper.toDto(siteEntity);
+    }
 }
