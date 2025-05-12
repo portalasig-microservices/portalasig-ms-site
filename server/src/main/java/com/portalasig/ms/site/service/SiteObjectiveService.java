@@ -30,15 +30,13 @@ public class SiteObjectiveService {
 
     public Site upsertObjective(
             SiteObjectiveRequest request,
-            String periodType,
+            AcademicPeriodType periodType,
             Integer periodYear,
             String courseCode
     ) {
-        // TODO: FIX ENUM AND DB EXPECTED VALUE SO WE STOP DOING THIS TRANSFORMATION
-        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(periodType);
         SiteEntity siteEntity = siteRepository.findSite(
                 courseCode,
-                academicPeriodType.getCode(),
+                periodType,
                 periodYear
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
 
@@ -57,7 +55,7 @@ public class SiteObjectiveService {
         }
         siteEntity = siteRepository.save(siteEntity);
 
-        String academicPeriod = String.format("%s-%s", academicPeriodType.getCode(), periodYear);
+        String academicPeriod = String.format("%s-%s", periodType, periodYear);
         log.info("Course objective={} upserted in site with academic_period={}", request.getDescription(), academicPeriod);
         return siteMapper.toDto(siteEntity);
     }
@@ -73,14 +71,13 @@ public class SiteObjectiveService {
 
     public Site deleteObjective(
             Integer courseObjectiveId,
-            String periodType,
+            AcademicPeriodType periodType,
             Integer periodYear,
             String courseCode
     ) {
-        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(periodType);
         SiteEntity siteEntity = siteRepository.findSite(
                 courseCode,
-                academicPeriodType.getCode(),
+                periodType,
                 periodYear
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
         Optional<CourseObjectiveEntity> maybeObjective = siteEntity

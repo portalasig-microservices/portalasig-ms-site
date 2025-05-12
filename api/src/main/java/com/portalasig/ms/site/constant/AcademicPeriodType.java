@@ -7,10 +7,10 @@ import com.portalasig.ms.commons.persistence.Codeable;
 
 public enum AcademicPeriodType implements Codeable<String> {
 
-    FIRST("1", 2),
-    SECOND("2", 1),
-    INTENSIVE("I", 0),
-    UNIQUE("U", 0),
+    FIRST("FIRST", 1),
+    SECOND("SECOND", 2),
+    INTENSIVE("INTENSIVE", 3),
+    UNIQUE("UNIQUE", 0),
     INVALID("", null);
 
     private static final CodeToEnumMapper<String, AcademicPeriodType> CODE_TO_ENUM_MAPPER =

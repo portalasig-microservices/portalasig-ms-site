@@ -1,5 +1,6 @@
 package com.portalasig.ms.site.rest;
 
+import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.constant.SiteRestConstant;
 import com.portalasig.ms.site.dto.site.Site;
 import com.portalasig.ms.site.dto.site.SiteObjectiveRequest;
@@ -33,7 +34,7 @@ public class SiteObjectiveController {
             @RequestBody
             @ApiParam(value = "Course objective request", required = true) SiteObjectiveRequest request,
             @RequestParam(value = "period_type")
-            @ApiParam(value = "period_type") String periodType,
+            @ApiParam(value = "period_type") AcademicPeriodType periodType,
             @RequestParam(value = "period_year")
             @ApiParam(value = "period_year") Integer periodYear,
             @RequestParam(value = "course_code")
@@ -47,7 +48,7 @@ public class SiteObjectiveController {
     public Site deleteObjectiveById(
             @PathVariable @ApiParam(value = "Course objective id", required = true) Integer courseObjectiveId,
             @RequestParam(value = "period_type")
-            @ApiParam(value = "period_type") String periodType,
+            @ApiParam(value = "period_type") AcademicPeriodType periodType,
             @RequestParam(value = "period_year")
             @ApiParam(value = "period_year") Integer periodYear,
             @RequestParam(value = "course_code")

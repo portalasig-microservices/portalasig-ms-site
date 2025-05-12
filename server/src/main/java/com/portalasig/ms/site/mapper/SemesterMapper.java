@@ -1,6 +1,5 @@
 package com.portalasig.ms.site.mapper;
 
-import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.dto.semester.Semester;
 import com.portalasig.ms.site.dto.semester.SemesterRequest;
@@ -24,12 +23,4 @@ public interface SemesterMapper {
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "updatedDate", ignore = true)
     void toEntityFromExisting(SemesterRequest request, @MappingTarget SemesterEntity semester);
-
-    default AcademicPeriodType toPeriodType(String periodType) {
-        return periodType == null ? null : AcademicPeriodType.fromCode(periodType);
-    }
-
-    default String toPeriodTypeString(AcademicPeriodType periodType) {
-        return periodType == null ? null : periodType.getCode();
-    }
 }

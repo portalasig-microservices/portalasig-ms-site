@@ -46,7 +46,7 @@ CREATE TABLE career
 CREATE TABLE semester
 (
     semester_id  INT         NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    period_type  VARCHAR(16) NOT NULL COMMENT 'academic period type, such as 1, 2, U, I',
+    period_type  VARCHAR(16) NOT NULL COMMENT 'academic period type, such as FIRST, SECOND, UNIQUE, INTENSIVE',
     period_year  INT         NOT NULL COMMENT 'academic period year',
     start_date   DATE COMMENT 'Semester start date',
     end_date     DATE COMMENT 'Semester end date',

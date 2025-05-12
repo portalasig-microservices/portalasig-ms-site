@@ -29,16 +29,14 @@ public class SiteReferenceService {
 
     public Site upsertReference(
             ReferenceRequest request,
-            String periodType,
+            AcademicPeriodType periodType,
             Integer periodYear,
             String courseCode
     ) {
         request.validateUrl();
-        // TODO: FIX ENUM AND DB EXPECTED VALUE SO WE STOP DOING THIS TRANSFORMATION
-        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(periodType);
         SiteEntity siteEntity = siteRepository.findSite(
                 courseCode,
-                academicPeriodType.getCode(),
+                periodType,
                 periodYear
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
 
@@ -57,7 +55,7 @@ public class SiteReferenceService {
         }
         siteEntity = siteRepository.save(siteEntity);
 
-        String academicPeriod = String.format("%s-%s", academicPeriodType.getCode(), periodYear);
+        String academicPeriod = String.format("%s-%s", periodType, periodYear);
         log.info(
                 "Site reference={} upserted in site with academic_period={}",
                 request.getDescription(),
@@ -75,11 +73,15 @@ public class SiteReferenceService {
         siteEntity.getReferences().add(newReference);
     }
 
-    public Site deleteReference(Integer referenceId, String periodType, Integer periodYear, String courseCode) {
-        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(periodType);
+    public Site deleteReference(
+            Integer referenceId,
+            AcademicPeriodType periodType,
+            Integer periodYear,
+            String courseCode
+    ) {
         SiteEntity siteEntity = siteRepository.findSite(
                 courseCode,
-                academicPeriodType.getCode(),
+                periodType,
                 periodYear
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
         Optional<ReferenceEntity> maybeReference = siteEntity
