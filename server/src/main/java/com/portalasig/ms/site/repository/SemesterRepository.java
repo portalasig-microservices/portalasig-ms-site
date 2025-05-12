@@ -1,5 +1,6 @@
 package com.portalasig.ms.site.repository;
 
+import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,7 +25,7 @@ SemesterRepository extends JpaRepository<SemesterEntity, Integer> {
                         WHERE semester.periodType = :periodType
                         AND semester.periodYear = :periodYear
             """)
-    Optional<SemesterEntity> findByAcademicPeriod(@Param("periodType") String periodType,
+    Optional<SemesterEntity> findByAcademicPeriod(@Param("periodType") AcademicPeriodType periodType,
                                                   @Param("periodYear") int periodYear
     );
 

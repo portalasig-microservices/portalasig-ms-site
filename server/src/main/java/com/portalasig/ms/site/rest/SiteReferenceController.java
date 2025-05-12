@@ -1,5 +1,6 @@
 package com.portalasig.ms.site.rest;
 
+import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.constant.SiteRestConstant;
 import com.portalasig.ms.site.dto.site.ReferenceRequest;
 import com.portalasig.ms.site.dto.site.Site;
@@ -33,7 +34,7 @@ public class SiteReferenceController {
             @RequestBody
             @ApiParam(value = "Site reference request", required = true) ReferenceRequest request,
             @RequestParam(value = "period_type")
-            @ApiParam(value = "period_type") String periodType,
+            @ApiParam(value = "period_type") AcademicPeriodType periodType,
             @RequestParam(value = "period_year")
             @ApiParam(value = "period_year") Integer periodYear,
             @RequestParam(value = "course_code")
@@ -47,7 +48,7 @@ public class SiteReferenceController {
     public Site deleteSiteReference(
             @PathVariable @ApiParam(value = "Reference id", required = true) Integer referenceId,
             @RequestParam(value = "period_type")
-            @ApiParam(value = "period_type") String periodType,
+            @ApiParam(value = "period_type") AcademicPeriodType periodType,
             @RequestParam(value = "period_year")
             @ApiParam(value = "period_year") Integer periodYear,
             @RequestParam(value = "course_code")

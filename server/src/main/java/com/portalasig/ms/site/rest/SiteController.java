@@ -1,5 +1,6 @@
 package com.portalasig.ms.site.rest;
 
+import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.constant.SiteRestConstant;
 import com.portalasig.ms.site.dto.site.Site;
 import com.portalasig.ms.site.dto.site.SiteRequest;
@@ -49,8 +50,8 @@ public class SiteController {
     @GetMapping
     public Site findSite(
             @RequestParam(value = "course_code") @ApiParam(value = "Course code") String courseCode,
-            @RequestParam(value = "period_type") @ApiParam(value = "Academic period type") String periodType,
-            @RequestParam(value = "period_year") @ApiParam(value = "Academic period year") int periodYear
+            @RequestParam(value = "period_type") @ApiParam(value = "period type") AcademicPeriodType periodType,
+            @RequestParam(value = "period_year") @ApiParam(value = "period year") int periodYear
     ) {
         return siteService.findSite(courseCode, periodType, periodYear);
     }

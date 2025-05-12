@@ -31,11 +31,9 @@ public class SiteService {
     private final SiteMapper siteMapper;
 
     public Site createSite(SiteRequest request) {
-        // TODO: STICK TO THE ENUM TYPE FOR ALL IN THE FUTURE (use FIRST, SECOND, etc.. over '1', '2,'U', etc)
-        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(request.getPeriodType());
         Optional<SiteEntity> siteOptional = siteRepository.findSite(
                 request.getCourseCode(),
-                academicPeriodType.getCode(),
+                request.getPeriodType(),
                 request.getPeriodYear()
         );
         if (siteOptional.isPresent()) {
@@ -46,12 +44,12 @@ public class SiteService {
                 .orElseThrow(ResourceNotFoundException::new);
 
         SemesterEntity semester = semesterRepository.findByAcademicPeriod(
-                academicPeriodType.getCode(),
+                request.getPeriodType(),
                 request.getPeriodYear()
         ).orElseThrow(() -> new SystemErrorException(
                 String.format(
                         "Semester with academic_period=%s-%s not found",
-                        academicPeriodType.getCode(),
+                        request.getPeriodType(),
                         request.getPeriodYear()
                 )));
 
@@ -67,12 +65,10 @@ public class SiteService {
         return siteMapper.toDto(siteEntity);
     }
 
-    public Site findSite(String courseCode, String periodType, Integer periodYear) {
-        // TODO: STICK TO THE ENUM TYPE FOR ALL IN THE FUTURE (use FIRST, SECOND, etc.. over '1', '2,'U', etc)
-        AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(periodType);
+    public Site findSite(String courseCode, AcademicPeriodType periodType, Integer periodYear) {
         Optional<SiteEntity> siteOptional = siteRepository.findSite(
                 courseCode,
-                academicPeriodType.getCode(),
+                periodType,
                 periodYear
         );
         SiteEntity siteEntity = siteOptional.orElseThrow(ResourceNotFoundException::new);
