@@ -35,6 +35,15 @@ public final class SiteRestConstant {
         public static final class Path {
             public static final String OBJECTIVE = "/objective";
             public static final String BASE = RestConstants.VERSION_ONE + Site.Path.SITE + OBJECTIVE;
+            public static final String ELEMENT = "/{courseObjectiveId:\\d+}";
+        }
+    }
+
+    public static final class SiteReference {
+        public static final class Path {
+            public static final String REFERENCE = "/reference";
+            public static final String BASE = RestConstants.VERSION_ONE + Site.Path.SITE + REFERENCE;
+            public static final String ELEMENT = "/{referenceId:\\d+}";
         }
     }
 

@@ -85,6 +85,7 @@ CREATE TABLE reference
     title          VARCHAR(255) NOT NULL COMMENT 'Reference title',
     url            VARCHAR(255) COMMENT 'Reference URL',
     author         VARCHAR(255) COMMENT 'Reference author',
+    description    VARCHAR(255) COMMENT 'Reference description',
     priority       INT          NOT NULL DEFAULT 0 COMMENT 'Reference Priority',
     is_required    TINYINT(1) NOT NULL DEFAULT 0 COMMENT 'Is this reference required',
     created_date   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',

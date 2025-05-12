@@ -2,11 +2,11 @@ package com.portalasig.ms.site.service;
 
 import com.portalasig.ms.commons.rest.exception.ResourceNotFoundException;
 import com.portalasig.ms.site.constant.AcademicPeriodType;
-import com.portalasig.ms.site.domain.entity.course.CourseObjectiveEntity;
+import com.portalasig.ms.site.domain.entity.ReferenceEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
+import com.portalasig.ms.site.dto.site.ReferenceRequest;
 import com.portalasig.ms.site.dto.site.Site;
-import com.portalasig.ms.site.dto.site.SiteObjectiveRequest;
-import com.portalasig.ms.site.mapper.CourseObjectiveMapper;
+import com.portalasig.ms.site.mapper.ReferenceMapper;
 import com.portalasig.ms.site.mapper.SiteMapper;
 import com.portalasig.ms.site.repository.SiteRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,19 +21,19 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class SiteObjectiveService {
-
+public class SiteReferenceService {
 
     private final SiteRepository siteRepository;
     private final SiteMapper siteMapper;
-    private final CourseObjectiveMapper courseObjectiveMapper;
+    private final ReferenceMapper referenceMapper;
 
-    public Site upsertObjective(
-            SiteObjectiveRequest request,
+    public Site upsertReference(
+            ReferenceRequest request,
             String periodType,
             Integer periodYear,
             String courseCode
     ) {
+        request.validateUrl();
         // TODO: FIX ENUM AND DB EXPECTED VALUE SO WE STOP DOING THIS TRANSFORMATION
         AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(periodType);
         SiteEntity siteEntity = siteRepository.findSite(
@@ -42,62 +42,61 @@ public class SiteObjectiveService {
                 periodYear
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
 
-        if (request.getCourseObjectiveId() == null) {
-            addNewCourseObjective(siteEntity, request);
+        if (request.getReferenceId() == null) {
+            addNewSiteReference(siteEntity, request);
         } else {
-            var existingObjective = siteEntity
-                    .getObjectives()
+            var existingReference = siteEntity
+                    .getReferences()
                     .stream()
-                    .filter(obj -> Objects.equals(
-                            obj.getCourseObjectiveId(), request.getCourseObjectiveId()
+                    .filter(reference -> Objects.equals(
+                            reference.getReferenceId(), request.getReferenceId()
                     ))
                     .findFirst()
-                    .orElseThrow(() -> new ResourceNotFoundException("Objective to edit not found"));
-            courseObjectiveMapper.toEntityFromExisting(existingObjective, request);
+                    .orElseThrow(() -> new ResourceNotFoundException("Reference to edit not found"));
+            referenceMapper.toEntityFromExisting(existingReference, request);
         }
         siteEntity = siteRepository.save(siteEntity);
 
         String academicPeriod = String.format("%s-%s", academicPeriodType.getCode(), periodYear);
-        log.info("Course objective={} upserted in site with academic_period={}", request.getDescription(), academicPeriod);
+        log.info(
+                "Site reference={} upserted in site with academic_period={}",
+                request.getDescription(),
+                academicPeriod
+        );
         return siteMapper.toDto(siteEntity);
     }
 
-    private void addNewCourseObjective(SiteEntity siteEntity, SiteObjectiveRequest request) {
-        CourseObjectiveEntity newObjective = courseObjectiveMapper.toEntityFromRequest(request);
-        newObjective.setSites(Set.of(siteEntity));
-        if (siteEntity.getObjectives() == null) {
-            siteEntity.setObjectives(new HashSet<>());
+    private void addNewSiteReference(SiteEntity siteEntity, ReferenceRequest request) {
+        ReferenceEntity newReference = referenceMapper.toEntityFromRequest(request);
+        newReference.setSites(Set.of(siteEntity));
+        if (siteEntity.getReferences() == null) {
+            siteEntity.setReferences(new HashSet<>());
         }
-        siteEntity.getObjectives().add(newObjective);
+        siteEntity.getReferences().add(newReference);
     }
 
-    public Site deleteObjective(
-            Integer courseObjectiveId,
-            String periodType,
-            Integer periodYear,
-            String courseCode
-    ) {
+    public Site deleteReference(Integer referenceId, String periodType, Integer periodYear, String courseCode) {
         AcademicPeriodType academicPeriodType = AcademicPeriodType.valueOf(periodType);
         SiteEntity siteEntity = siteRepository.findSite(
                 courseCode,
                 academicPeriodType.getCode(),
                 periodYear
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
-        Optional<CourseObjectiveEntity> maybeObjective = siteEntity
-                .getObjectives()
+        Optional<ReferenceEntity> maybeReference = siteEntity
+                .getReferences()
                 .stream()
                 .filter(objective ->
-                        objective.getCourseObjectiveId().equals(courseObjectiveId)
+                        objective.getReferenceId().equals(referenceId)
                 )
                 .findAny();
 
-        if (maybeObjective.isEmpty()) {
+        if (maybeReference.isEmpty()) {
             throw new ResourceNotFoundException(
-                    String.format("course_objective_id=%s not found", courseObjectiveId)
+                    String.format("reference_id=%s not found", referenceId)
             );
         }
-        var objective = maybeObjective.get();
-        siteEntity.getObjectives().remove(objective);
+        var reference = maybeReference.get();
+        siteEntity.getReferences().remove(reference);
         siteRepository.save(siteEntity);
         return siteMapper.toDto(siteEntity);
     }

@@ -2,7 +2,7 @@ package com.portalasig.ms.site.mapper;
 
 import com.portalasig.ms.site.domain.entity.course.CourseObjectiveEntity;
 import com.portalasig.ms.site.dto.course.CourseObjective;
-import com.portalasig.ms.site.dto.course.SiteObjectiveRequest;
+import com.portalasig.ms.site.dto.site.SiteObjectiveRequest;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

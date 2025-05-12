@@ -51,7 +51,7 @@ public class SiteService {
         ).orElseThrow(() -> new SystemErrorException(
                 String.format(
                         "Semester with academic_period=%s-%s not found",
-                        request.getPeriodType(),
+                        academicPeriodType.getCode(),
                         request.getPeriodYear()
                 )));
 
