@@ -25,6 +25,9 @@ public class Reference {
     @ApiModelProperty(value = "Reference Title")
     private String title;
 
+    @ApiModelProperty(value = "Reference description")
+    private String description;
+
     @ApiModelProperty(value = "Reference URL in case of a website")
     private String url;
 
