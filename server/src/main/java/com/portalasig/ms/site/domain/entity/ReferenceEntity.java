@@ -42,6 +42,9 @@ public class ReferenceEntity extends AbstractAuditEntity {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "url")
     private String url;
 

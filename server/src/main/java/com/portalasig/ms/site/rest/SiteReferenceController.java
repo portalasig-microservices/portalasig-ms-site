@@ -1,9 +1,9 @@
 package com.portalasig.ms.site.rest;
 
 import com.portalasig.ms.site.constant.SiteRestConstant;
+import com.portalasig.ms.site.dto.site.ReferenceRequest;
 import com.portalasig.ms.site.dto.site.Site;
-import com.portalasig.ms.site.dto.site.SiteObjectiveRequest;
-import com.portalasig.ms.site.service.SiteObjectiveService;
+import com.portalasig.ms.site.service.SiteReferenceService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -18,20 +18,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(SiteRestConstant.SiteObjective.Path.BASE)
+@RequestMapping(SiteRestConstant.SiteReference.Path.BASE)
 @RequiredArgsConstructor
-@Api(value = "Site Objective Controller", tags = "Course Management")
-public class SiteObjectiveController {
+@Api(value = "Site Reference Controller", tags = "Course Management")
+public class SiteReferenceController {
 
-    private final SiteObjectiveService siteObjectiveService;
+    private final SiteReferenceService siteReferenceService;
 
-    @ApiOperation(value = "Upsert site objective", response = Site.class)
+    @ApiOperation(value = "Upsert site reference", response = Site.class)
     @PostMapping
     // TODO SPECIAL AUTHORIZATION FOR THIS OPERATION
-    public Site upsertSiteObjective(
+    public Site upsertSiteReference(
             @Valid
             @RequestBody
-            @ApiParam(value = "Course objective request", required = true) SiteObjectiveRequest request,
+            @ApiParam(value = "Site reference request", required = true) ReferenceRequest request,
             @RequestParam(value = "period_type")
             @ApiParam(value = "period_type") String periodType,
             @RequestParam(value = "period_year")
@@ -39,13 +39,13 @@ public class SiteObjectiveController {
             @RequestParam(value = "course_code")
             @ApiParam(value = "course_code") String courseCode
     ) {
-        return siteObjectiveService.upsertObjective(request, periodType, periodYear, courseCode);
+        return siteReferenceService.upsertReference(request, periodType, periodYear, courseCode);
     }
 
-    @ApiOperation(value = "Delete Objective")
-    @DeleteMapping(SiteRestConstant.SiteObjective.Path.ELEMENT)
-    public Site deleteObjectiveById(
-            @PathVariable @ApiParam(value = "Course objective id", required = true) Integer courseObjectiveId,
+    @ApiOperation(value = "Delete site reference")
+    @DeleteMapping(SiteRestConstant.SiteReference.Path.ELEMENT)
+    public Site deleteSiteReference(
+            @PathVariable @ApiParam(value = "Reference id", required = true) Integer referenceId,
             @RequestParam(value = "period_type")
             @ApiParam(value = "period_type") String periodType,
             @RequestParam(value = "period_year")
@@ -53,6 +53,6 @@ public class SiteObjectiveController {
             @RequestParam(value = "course_code")
             @ApiParam(value = "course_code") String courseCode
     ) {
-        return siteObjectiveService.deleteObjective(courseObjectiveId, periodType, periodYear, courseCode);
+        return siteReferenceService.deleteReference(referenceId, periodType, periodYear, courseCode);
     }
 }

@@ -16,6 +16,7 @@ import java.util.Set;
         MediaMapper.class,
         SiteUserMapper.class,
         SemesterMapper.class,
+        ReferenceMapper.class,
 })
 public interface SiteMapper {
 
