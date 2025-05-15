@@ -27,7 +27,7 @@ jobs:
 
       - name: Clone and build portalasig-ms-uaa
         run: |
-          git clone --branch master https://github.com/portalasig-microservices/portalasig-ms-uaa.git
+          git clone --branch develop https://github.com/portalasig-microservices/portalasig-ms-uaa.git
           cd portalasig-ms-uaa
           mvn clean install
 
