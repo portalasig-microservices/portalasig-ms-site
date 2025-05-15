@@ -24,11 +24,11 @@ public class Site {
     @ApiModelProperty(value = "Site id")
     private Integer siteId;
 
-    @ApiModelProperty(value = "Class schedules for course site")
-    private List<SiteClassSchedule> classSchedules;
-
     @ApiModelProperty(value = "Site belongs to this course")
     private Course course;
+
+    @ApiModelProperty(value = "Class schedules for course site")
+    private List<SiteClassSchedule> classSchedules;
 
     @ApiModelProperty(value = "Class assessments for course site")
     private List<SiteAssessment> assessments;
@@ -40,7 +40,7 @@ public class Site {
     private List<Media> media;
 
     @ApiModelProperty(value = "Site related users")
-    private List<SiteUser> relatedUsers;
+    private List<SiteParty> parties;
 
     @ApiModelProperty(value = "List of objectives associated with the site course")
     private List<CourseObjective> objectives;

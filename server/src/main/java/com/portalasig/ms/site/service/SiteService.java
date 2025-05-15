@@ -4,10 +4,12 @@ import com.portalasig.ms.commons.rest.exception.ConflictException;
 import com.portalasig.ms.commons.rest.exception.ResourceNotFoundException;
 import com.portalasig.ms.commons.rest.exception.SystemErrorException;
 import com.portalasig.ms.site.constant.AcademicPeriodType;
+import com.portalasig.ms.site.converter.SiteConverter;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
 import com.portalasig.ms.site.dto.site.Site;
+import com.portalasig.ms.site.dto.site.SitePartyRequest;
 import com.portalasig.ms.site.dto.site.SiteRequest;
 import com.portalasig.ms.site.mapper.SiteMapper;
 import com.portalasig.ms.site.repository.CourseRepository;
@@ -29,6 +31,7 @@ public class SiteService {
     private final SiteRepository siteRepository;
     private final SemesterRepository semesterRepository;
     private final SiteMapper siteMapper;
+    private final SiteConverter siteConverter;
 
     public Site createSite(SiteRequest request) {
         Optional<SiteEntity> siteOptional = siteRepository.findSite(
@@ -66,12 +69,20 @@ public class SiteService {
     }
 
     public Site findSite(String courseCode, AcademicPeriodType periodType, Integer periodYear) {
-        Optional<SiteEntity> siteOptional = siteRepository.findSite(
+        SiteEntity siteEntity = siteRepository.findSite(
                 courseCode,
                 periodType,
                 periodYear
+        ).orElseThrow(ResourceNotFoundException::new);
+        return siteMapper.toDto(siteEntity);
+    }
+
+    public Site bulkPatchParties(Integer siteId, SitePartyRequest request) {
+        SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(() ->
+                new ResourceNotFoundException(String.format("Site with site_id=%s not found", siteId))
         );
-        SiteEntity siteEntity = siteOptional.orElseThrow(ResourceNotFoundException::new);
+        siteConverter.patchParties(siteEntity, request.getParties());
+        siteEntity = siteRepository.save(siteEntity);
         return siteMapper.toDto(siteEntity);
     }
 }

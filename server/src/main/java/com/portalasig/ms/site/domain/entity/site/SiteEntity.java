@@ -16,6 +16,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,13 +26,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "site")
 @Builder
+@EqualsAndHashCode(callSuper = true)
 public class SiteEntity extends AbstractAuditEntity {
 
     @Id
@@ -95,11 +96,6 @@ public class SiteEntity extends AbstractAuditEntity {
     )
     private Set<MediaEntity> media;
 
-    @ManyToMany
-    @JoinTable(
-            name = "site_user_link",
-            joinColumns = @JoinColumn(name = "site_id", insertable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<SiteUserEntity> relatedUsers;
+    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<SitePartyEntity> parties;
 }

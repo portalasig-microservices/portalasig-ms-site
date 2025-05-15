@@ -59,5 +59,5 @@ public class SiteClassScheduleEntity extends AbstractAuditEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private SiteUserEntity professor;
+    private SitePartyEntity professor;
 }

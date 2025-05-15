@@ -1,15 +1,17 @@
 package com.portalasig.ms.site.domain.entity.site;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
+import com.portalasig.ms.site.constant.PartyRole;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -25,33 +27,36 @@ import java.util.Set;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "site_user")
+@Table(name = "site_party")
 @Builder
-public class SiteUserEntity extends AbstractAuditEntity {
+public class SitePartyEntity extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "site_user_id")
-    private Integer siteUserId;
+    @Column(name = "party_id")
+    private Integer partyId;
 
-    @Column(name = "user_id")
-    private Integer userId;
+    @Column(name = "identity")
+    private Long identity;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "last_name")
+    private String lastName;
+
+    @Column(name = "party_role")
+    @Enumerated(EnumType.STRING)
+    private PartyRole partyRole;
 
     @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SiteClassScheduleEntity> classSchedules;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "site_user_role_link",
-            joinColumns = @JoinColumn(name = "site_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "site_user_role_id")
-    )
-    private Set<SiteUserRoleEntity> roles;
-
-    @ManyToMany(
-            mappedBy = "relatedUsers",
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}
-    )
+    @ManyToOne
+    @JoinColumn(name = "site_id", nullable = false)
     @EqualsAndHashCode.Exclude
-    private Set<SiteEntity> sites;
+    private SiteEntity site;
 }

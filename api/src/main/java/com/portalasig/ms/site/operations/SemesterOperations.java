@@ -21,7 +21,7 @@ public interface SemesterOperations {
 
     @ApiOperation(value = "Get all semesters paginated", response = Paginated.class)
     @GetExchange
-    Paginated<Semester> findAll(
+    Paginated<Semester> findAllSemesters(
             @RequestParam(defaultValue = "0") @ApiParam(value = "Page number", example = "0") Integer page,
             @RequestParam(defaultValue = "20") @ApiParam(value = "Page size", example = "20") Integer size
     );

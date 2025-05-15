@@ -36,6 +36,6 @@ public class SiteClassSchedule {
     private AssessmentType classScheduleType;
 
     @ApiModelProperty(value = "Professor in charge of the class")
-    private SiteUser professor;
+    private SiteParty professor;
 
 }

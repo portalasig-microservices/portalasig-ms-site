@@ -24,7 +24,7 @@ public class SemesterController implements SemesterOperations {
     private final SemesterService semesterService;
 
     @Override
-    public Paginated<Semester> findAll(Integer page, Integer size) {
+    public Paginated<Semester> findAllSemesters(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         return semesterService.findAll(pageable);
     }

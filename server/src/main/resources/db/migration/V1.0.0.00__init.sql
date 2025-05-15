@@ -50,7 +50,7 @@ CREATE TABLE semester
     period_year  INT         NOT NULL COMMENT 'academic period year',
     start_date   DATE COMMENT 'Semester start date',
     end_date     DATE COMMENT 'Semester end date',
-    is_active    TINYINT(1)       DEFAULT FALSE COMMENT 'Is this semester active?',
+    is_active    TINYINT       DEFAULT FALSE COMMENT 'Is this semester active?',
     created_date TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
     updated_date TIMESTAMP   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
     PRIMARY KEY (semester_id),

@@ -28,13 +28,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "course")
 @Builder
+@EqualsAndHashCode(callSuper = true)
 public class CourseEntity extends AbstractAuditEntity {
 
     @Id
@@ -68,6 +68,7 @@ public class CourseEntity extends AbstractAuditEntity {
     private CourseLevelType courseLevel;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
     private Set<SiteEntity> sites;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
