@@ -25,16 +25,16 @@ jobs:
           cd portalasig-commons
           mvn clean install
 
-      - name: Clone and build portalasig-ms-uaa
-        run: |
-          git clone --branch develop https://github.com/portalasig-microservices/portalasig-ms-uaa.git
-          cd portalasig-ms-uaa
-          mvn clean install
-
       - name: Clone and build portalasig-ms-notify
         run: |
           git clone --branch develop https://github.com/portalasig-microservices/portalasig-ms-notify.git
           cd portalasig-ms-notify
+          mvn clean install
+
+      - name: Clone and build portalasig-ms-uaa
+        run: |
+          git clone --branch develop https://github.com/portalasig-microservices/portalasig-ms-uaa.git
+          cd portalasig-ms-uaa
           mvn clean install
 
       - name: Build and verify portalasig-ms-site
