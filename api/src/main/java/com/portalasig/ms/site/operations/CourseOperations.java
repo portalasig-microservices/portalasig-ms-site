@@ -23,7 +23,7 @@ public interface CourseOperations {
 
     @ApiOperation(value = "Get all courses paginated", response = Paginated.class)
     @GetExchange
-    Paginated<Course> findAll(
+    Paginated<Course> findAllCourses(
             @RequestParam(defaultValue = "0") @ApiParam(value = "Page number", example = "0") Integer page,
             @RequestParam(defaultValue = "100") @ApiParam(value = "Page size", example = "20") Integer size
     );

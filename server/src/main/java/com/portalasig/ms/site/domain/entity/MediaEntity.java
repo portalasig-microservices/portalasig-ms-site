@@ -44,10 +44,10 @@ public class MediaEntity extends AbstractAuditEntity {
     @Column(name = "url")
     private String url;
 
-    @Column(name = "filename")
-    private String filename;
+    @Column(name = "file_name")
+    private String fileName;
 
-    @Column(name = "filesize")
+    @Column(name = "file_size")
     private Long fileSize;
 
     @Enumerated(EnumType.STRING)

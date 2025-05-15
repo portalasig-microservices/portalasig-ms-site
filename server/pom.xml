@@ -33,6 +33,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>com.portalasig.ms</groupId>
+            <artifactId>portalasig-ms-uaa-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>com.portalasig</groupId>
             <artifactId>core-lib</artifactId>
             <version>0.0.2-SNAPSHOT</version>

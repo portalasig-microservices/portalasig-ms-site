@@ -26,7 +26,7 @@ public class CourseController implements CourseOperations {
     private final CourseService courseService;
 
     @Override
-    public Paginated<Course> findAll(Integer page, Integer size) {
+    public Paginated<Course> findAllCourses(Integer page, Integer size) {
         Pageable pageable = PageRequest.of(page, size);
         return courseService.findAll(pageable);
     }

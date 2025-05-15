@@ -2,6 +2,7 @@ package com.portalasig.ms.site.rest;
 
 import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.dto.site.Site;
+import com.portalasig.ms.site.dto.site.SitePartyRequest;
 import com.portalasig.ms.site.dto.site.SiteRequest;
 import com.portalasig.ms.site.operations.SiteOperations;
 import com.portalasig.ms.site.service.SiteService;
@@ -28,5 +29,10 @@ public class SiteController implements SiteOperations {
     @Override
     public Site findSite(String courseCode, AcademicPeriodType periodType, int periodYear) {
         return siteService.findSite(courseCode, periodType, periodYear);
+    }
+
+    @Override
+    public Site bulkPatchParties(Integer siteId, SitePartyRequest request) {
+        return siteService.bulkPatchParties(siteId, request);
     }
 }

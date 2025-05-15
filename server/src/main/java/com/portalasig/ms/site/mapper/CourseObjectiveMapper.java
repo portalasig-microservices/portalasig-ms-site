@@ -16,9 +16,13 @@ public interface CourseObjectiveMapper {
     CourseObjective toDto(CourseObjectiveEntity courseObjective);
 
     @Mapping(target = "title", ignore = true)
+    @Mapping(target = "sites", ignore = true)
     CourseObjectiveEntity toEntityFromRequest(SiteObjectiveRequest courseObjective);
 
     @Mapping(target = "title", ignore = true)
+    @Mapping(target = "sites", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "updatedDate", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void toEntityFromExisting(@MappingTarget CourseObjectiveEntity objective, SiteObjectiveRequest request);
 

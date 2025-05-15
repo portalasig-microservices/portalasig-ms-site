@@ -16,11 +16,13 @@ public interface SemesterMapper {
 
     @Mapping(target = "isActive", ignore = true)
     @Mapping(target = "courses", ignore = true)
+    @Mapping(target = "sites", ignore = true)
     SemesterEntity toEntity(SemesterRequest semester);
 
     @Mapping(target = "isActive", ignore = true)
     @Mapping(target = "courses", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "updatedDate", ignore = true)
+    @Mapping(target = "sites", ignore = true)
     void toEntityFromExisting(SemesterRequest request, @MappingTarget SemesterEntity semester);
 }
