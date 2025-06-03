@@ -9,6 +9,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a user linked to a site, such as a student, coordinator, or teacher.
+ */
 @Data
 @Builder
 @AllArgsConstructor

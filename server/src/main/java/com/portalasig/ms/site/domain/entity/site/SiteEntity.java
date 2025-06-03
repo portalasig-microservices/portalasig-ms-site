@@ -26,6 +26,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Represents the academic configuration for a specific course and semester,
+ * including its objectives, references, schedules, assessments, associated media,
+ * and involved parties (e.g., professors and assistants).
+ */
 @Entity
 @Data
 @AllArgsConstructor

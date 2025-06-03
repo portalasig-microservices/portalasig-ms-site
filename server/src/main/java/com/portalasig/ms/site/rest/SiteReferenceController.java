@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST controller for handling site reference operations such as create, update, and delete.
+ * Implements the SiteReferenceOperations interface.
+ */
 @RestController
 @RequiredArgsConstructor
 @Api(value = "Site Reference Management Controller", tags = "Site Management")

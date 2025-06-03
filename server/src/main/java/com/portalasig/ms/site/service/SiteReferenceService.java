@@ -18,6 +18,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Service for managing site references. Supports creating, updating, and deleting references on a course site.
+ */
 @RequiredArgsConstructor
 @Service
 @Slf4j
@@ -27,6 +30,16 @@ public class SiteReferenceService {
     private final SiteMapper siteMapper;
     private final ReferenceMapper referenceMapper;
 
+    /**
+     * Creates or updates a reference on the specified course site.
+     * If referenceId is null, a new reference is created.
+     *
+     * @param request    the reference data
+     * @param periodType the academic period type
+     * @param periodYear the academic period year
+     * @param courseCode the course code
+     * @return the updated site with the reference
+     */
     public Site upsertReference(
             ReferenceRequest request,
             AcademicPeriodType periodType,
@@ -64,6 +77,12 @@ public class SiteReferenceService {
         return siteMapper.toDto(siteEntity);
     }
 
+    /**
+     * Adds a new reference entity to the given site.
+     *
+     * @param siteEntity the site entity
+     * @param request    the reference request
+     */
     private void addNewSiteReference(SiteEntity siteEntity, ReferenceRequest request) {
         ReferenceEntity newReference = referenceMapper.toEntityFromRequest(request);
         newReference.setSites(Set.of(siteEntity));
@@ -73,6 +92,15 @@ public class SiteReferenceService {
         siteEntity.getReferences().add(newReference);
     }
 
+    /**
+     * Deletes a reference from the specified course site.
+     *
+     * @param referenceId the ID of the reference to delete
+     * @param periodType  the academic period type
+     * @param periodYear  the academic period year
+     * @param courseCode  the course code
+     * @return the updated site without the reference
+     */
     public Site deleteReference(
             Integer referenceId,
             AcademicPeriodType periodType,

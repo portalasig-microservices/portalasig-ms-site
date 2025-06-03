@@ -24,6 +24,9 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.Set;
 
+/**
+ * Represents an academic semester with associated courses and sites.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

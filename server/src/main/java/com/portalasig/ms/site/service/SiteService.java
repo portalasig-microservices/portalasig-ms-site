@@ -21,18 +21,28 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Service class for handling business logic related to course sites.
+ * Includes creation, retrieval, and bulk update of site parties.
+ */
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class SiteService {
 
     private final CourseRepository courseRepository;
-
     private final SiteRepository siteRepository;
     private final SemesterRepository semesterRepository;
     private final SiteMapper siteMapper;
     private final SiteConverter siteConverter;
 
+    /**
+     * Creates a new site for the given course and semester.
+     * Throws ConflictException if the site already exists.
+     *
+     * @param request the site request payload
+     * @return the created site
+     */
     public Site createSite(SiteRequest request) {
         Optional<SiteEntity> siteOptional = siteRepository.findSite(
                 request.getCourseCode(),
@@ -68,6 +78,15 @@ public class SiteService {
         return siteMapper.toDto(siteEntity);
     }
 
+    /**
+     * Finds a site by course code, period type, and period year.
+     * Throws ResourceNotFoundException if not found.
+     *
+     * @param courseCode the course code
+     * @param periodType the academic period type
+     * @param periodYear the academic period year
+     * @return the matching site
+     */
     public Site findSite(String courseCode, AcademicPeriodType periodType, Integer periodYear) {
         SiteEntity siteEntity = siteRepository.findSite(
                 courseCode,
@@ -77,6 +96,14 @@ public class SiteService {
         return siteMapper.toDto(siteEntity);
     }
 
+    /**
+     * Replaces the list of parties associated with a site.
+     * Throws ResourceNotFoundException if the site does not exist.
+     *
+     * @param siteId  the site identifier
+     * @param request the list of parties to update
+     * @return the updated site
+     */
     public Site bulkPatchParties(Integer siteId, SitePartyRequest request) {
         SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(() ->
                 new ResourceNotFoundException(String.format("Site with site_id=%s not found", siteId))

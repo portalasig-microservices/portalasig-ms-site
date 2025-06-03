@@ -11,6 +11,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Request body for creating or updating a course reference in a site.
+ * Includes validation for mandatory URL in case of online references.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -50,6 +54,10 @@ public class ReferenceRequest {
     @ApiModelProperty(value = "Can be marked as a mandatory to read")
     private Boolean isRequired = false;
 
+    /**
+     * Validates that the URL is present when the reference type is ONLINE.
+     * Throws BadRequestException if missing.
+     */
     public void validateUrl() {
         if (ReferenceType.ONLINE.equals(this.referenceType) && (this.url == null || this.url.trim().isEmpty())) {
             throw new BadRequestException("URL is mandatory for online references");

@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a news item published on a course site.
+ */
 @Data
 @Builder
 @AllArgsConstructor

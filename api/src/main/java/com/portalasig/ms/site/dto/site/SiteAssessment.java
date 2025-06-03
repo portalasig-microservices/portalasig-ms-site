@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+/**
+ * Represents an assessment for a course site, including type, name, weight, and evaluation dates.
+ */
 @Data
 @Builder
 @AllArgsConstructor

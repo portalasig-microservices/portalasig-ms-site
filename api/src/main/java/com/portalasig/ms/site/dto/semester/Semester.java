@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a college semester, including academic period and date range.
+ */
 @Data
 @Builder
 @AllArgsConstructor

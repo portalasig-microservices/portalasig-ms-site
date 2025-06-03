@@ -17,6 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+/**
+ * REST controller for managing academic courses.
+ * Implements CourseOperations.
+ */
 @RestController
 @RequiredArgsConstructor
 @Api(value = "Course Management Controller", tags = "Course Management")

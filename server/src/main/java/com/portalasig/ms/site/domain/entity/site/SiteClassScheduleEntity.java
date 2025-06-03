@@ -23,6 +23,13 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.Set;
 
+
+/**
+ * Represents a scheduled class session within a site, including details such as time,
+ * location, and the assigned professor.
+ * <p>
+ * This entity is used to manage academic scheduling for courses.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

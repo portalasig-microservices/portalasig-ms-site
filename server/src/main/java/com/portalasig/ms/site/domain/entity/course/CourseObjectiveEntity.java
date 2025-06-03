@@ -18,6 +18,13 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Represents a learning objective associated with a course.
+ * <p>
+ * Objectives can be linked to multiple {@link SiteEntity} instances,
+ * allowing them to be reused across different course implementations (sites).
+ * This entity is auditable through {@link AbstractAuditEntity}.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

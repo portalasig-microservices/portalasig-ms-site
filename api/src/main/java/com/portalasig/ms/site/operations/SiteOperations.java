@@ -16,15 +16,24 @@ import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PatchExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
+/**
+ * REST operations for managing academic sites.
+ */
 @HttpExchange(SiteRestConstant.Site.Path.BASE)
 public interface SiteOperations {
 
+    /**
+     * Creates a new site for a given course code.
+     */
     @ApiOperation(value = "Create new site by course code", response = Site.class)
     @PostExchange
     Site createSite(
             @RequestBody @Valid @ApiParam(value = "Site Request", required = true) SiteRequest request
     );
 
+    /**
+     * Retrieves a site by course code, period type, and year.
+     */
     @ApiOperation(value = "Find site by course code, period type and period year", response = Site.class)
     @GetExchange
     Site findSite(
@@ -33,6 +42,9 @@ public interface SiteOperations {
             @RequestParam("period_year") @ApiParam(value = "Period year") int periodYear
     );
 
+    /**
+     * Updates parties in bulk for a given site.
+     */
     @PatchExchange(SiteRestConstant.Site.Path.ELEMENT)
     Site bulkPatchParties(
             @PathVariable @ApiParam(value = "Semester ID", required = true) Integer siteId,

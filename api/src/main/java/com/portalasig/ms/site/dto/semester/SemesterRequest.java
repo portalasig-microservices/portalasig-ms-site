@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Request body for creating or updating a college semester.
+ */
 @Data
 @Builder
 @AllArgsConstructor
