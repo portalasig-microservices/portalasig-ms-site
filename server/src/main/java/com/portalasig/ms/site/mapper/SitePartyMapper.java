@@ -9,7 +9,7 @@ import org.mapstruct.MappingConstants;
  * Maps {@link SitePartyEntity} to its corresponding DTO {@link SiteParty}.
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface SiteUserMapper {
+public interface SitePartyMapper {
 
     /**
      * Converts a {@link SitePartyEntity} to a {@link SiteParty} DTO.

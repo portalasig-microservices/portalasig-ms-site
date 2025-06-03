@@ -3,12 +3,13 @@ package com.portalasig.ms.site.dto.site;
 import com.portalasig.ms.site.constant.AcademicPeriodType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 /**
  * Request body for creating or updating a site.
@@ -26,10 +27,12 @@ public class SiteRequest {
 
     @ApiModelProperty(value = "Academic period type")
     @NotNull
-    @NotEmpty
     private AcademicPeriodType periodType;
 
     @ApiModelProperty(value = "Academic period year")
     @NotNull
     private Integer periodYear;
+
+    @ApiModelProperty(value = "Site parties")
+    List<SiteParty> parties;
 }
