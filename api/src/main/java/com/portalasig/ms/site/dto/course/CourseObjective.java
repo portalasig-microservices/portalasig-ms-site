@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a learning objective for a college course.
+ */
 @Data
 @Builder
 @AllArgsConstructor

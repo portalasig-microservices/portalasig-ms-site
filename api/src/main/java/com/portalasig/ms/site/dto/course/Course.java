@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Represents a college course, including metadata, associations, and structure.
+ */
 @Data
 @Builder
 @AllArgsConstructor

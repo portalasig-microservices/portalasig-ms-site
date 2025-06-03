@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.portalasig.ms.commons.persistence.CodeToEnumMapper;
 import com.portalasig.ms.commons.persistence.Codeable;
 
+/**
+ * Enum representing types of study references such as books, websites, or articles.
+ * Includes fallback to INVALID for unknown values.
+ */
 public enum ReferenceType implements Codeable<String> {
 
     BOOK("BOOK"),
@@ -23,6 +27,10 @@ public enum ReferenceType implements Codeable<String> {
         this.code = code;
     }
 
+    /**
+     * Maps a string code to a ReferenceType.
+     * Defaults to INVALID if the code doesn't match.
+     */
     @JsonCreator
     public static ReferenceType fromCode(String code) {
         return CODE_TO_ENUM_MAPPER.fromCode(code).isPresent() ? CODE_TO_ENUM_MAPPER.fromCode(code).get() : INVALID;

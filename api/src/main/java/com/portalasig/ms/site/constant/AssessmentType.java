@@ -5,6 +5,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.portalasig.ms.commons.persistence.CodeToEnumMapper;
 import com.portalasig.ms.commons.persistence.Codeable;
 
+/**
+ * Enum representing types of assessments such as lectures, practices, or labs.
+ * Defaults to INVALID for unknown codes.
+ */
 public enum AssessmentType implements Codeable<String> {
 
     LECTURE("LECTURE"),
@@ -22,6 +26,10 @@ public enum AssessmentType implements Codeable<String> {
         this.code = code;
     }
 
+    /**
+     * Maps a string code to an AssessmentType.
+     * Defaults to INVALID if not recognized.
+     */
     @JsonCreator
     public static AssessmentType fromCode(String code) {
         return CODE_TO_ENUM_MAPPER.fromCode(code).isPresent() ? CODE_TO_ENUM_MAPPER.fromCode(code).get() : INVALID;

@@ -17,6 +17,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Represents a piece of news or announcement associated with one or more academic sites.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

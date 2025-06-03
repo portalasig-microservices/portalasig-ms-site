@@ -28,6 +28,17 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Entity representing a Course within the academic system.
+ * <p>
+ * A Course is associated with:
+ * - One or many {@link CareerEntity} instances (degree programs).
+ * - One or many {@link SemesterEntity} instances (semesters it's offered in).
+ * - One or many {@link SiteEntity} instances (course implementation per period).
+ * - One or many {@link CourseTopicEntity} instances (linked topics).
+ * <p>
+ * This entity extends {@link AbstractAuditEntity} for audit metadata (created/updated).
+ */
 @Entity
 @Data
 @AllArgsConstructor

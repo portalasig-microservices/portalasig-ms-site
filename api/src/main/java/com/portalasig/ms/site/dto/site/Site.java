@@ -14,6 +14,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Represents a course site instance for a given semester, including schedules, assessments, media, and related data.
+ */
 @Data
 @Builder
 @AllArgsConstructor

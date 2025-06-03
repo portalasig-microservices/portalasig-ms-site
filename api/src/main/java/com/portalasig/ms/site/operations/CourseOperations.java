@@ -18,9 +18,15 @@ import org.springframework.web.service.annotation.PostExchange;
 
 import java.io.IOException;
 
+/**
+ * REST operations for managing courses.
+ */
 @HttpExchange(SiteRestConstant.Course.Path.BASE)
 public interface CourseOperations {
 
+    /**
+     * Retrieves all courses with pagination.
+     */
     @ApiOperation(value = "Get all courses paginated", response = Paginated.class)
     @GetExchange
     Paginated<Course> findAllCourses(
@@ -28,24 +34,36 @@ public interface CourseOperations {
             @RequestParam(defaultValue = "100") @ApiParam(value = "Page size", example = "20") Integer size
     );
 
+    /**
+     * Retrieves a course by its code.
+     */
     @ApiOperation(value = "Get course by code", response = Course.class)
     @GetExchange(SiteRestConstant.Course.Path.COURSE_CODE)
     Course getCourseByCode(
             @PathVariable @ApiParam(value = "Course code", required = true) String courseCode
     );
 
+    /**
+     * Creates or updates a course.
+     */
     @ApiOperation(value = "Upsert a course", response = Course.class)
     @PostExchange
     Course upsertCourse(
             @Valid @RequestBody @ApiParam(value = "Course Request", required = true) CourseRequest request
     );
 
+    /**
+     * Deletes a course by its code.
+     */
     @ApiOperation(value = "Delete a course by course code")
     @DeleteExchange(SiteRestConstant.Course.Path.COURSE_CODE)
     void deleteCourseByCode(
             @PathVariable @ApiParam(value = "Course code", required = true) String courseCode
     );
 
+    /**
+     * Imports courses from a CSV file.
+     */
     @ApiOperation(value = "Import courses from CSV file")
     @PostExchange(SiteRestConstant.CSV_PATH)
     void importCoursesFromCsv(

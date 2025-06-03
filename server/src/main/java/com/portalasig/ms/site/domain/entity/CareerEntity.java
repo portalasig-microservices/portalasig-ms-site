@@ -20,6 +20,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Represents an academic career (degree program) that can be associated with multiple courses.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

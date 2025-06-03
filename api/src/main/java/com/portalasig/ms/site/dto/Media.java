@@ -8,6 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Represents a media item such as an image, video, audio, or external URL.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -33,7 +36,6 @@ public class Media {
     @ApiModelProperty(value = "Media file size (if applies)")
     private Long fileSize;
 
-    @ApiModelProperty(value = "Media Type")
+    @ApiModelProperty(value = "Media type")
     private MediaType mediaType;
-
 }

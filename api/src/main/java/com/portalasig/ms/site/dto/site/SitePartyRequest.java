@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Request body containing a list of site parties.
+ */
 @Data
 @Builder
 @AllArgsConstructor

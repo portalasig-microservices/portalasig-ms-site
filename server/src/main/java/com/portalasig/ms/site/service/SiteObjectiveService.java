@@ -18,16 +18,28 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Service for managing course objectives in a site.
+ * Supports create, update, and delete operations.
+ */
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class SiteObjectiveService {
 
-
     private final SiteRepository siteRepository;
     private final SiteMapper siteMapper;
     private final CourseObjectiveMapper courseObjectiveMapper;
 
+    /**
+     * Creates or updates a course objective in a site.
+     *
+     * @param request    the objective request data
+     * @param periodType the academic period type
+     * @param periodYear the academic period year
+     * @param courseCode the course code
+     * @return the updated site
+     */
     public Site upsertObjective(
             SiteObjectiveRequest request,
             AcademicPeriodType periodType,
@@ -60,6 +72,12 @@ public class SiteObjectiveService {
         return siteMapper.toDto(siteEntity);
     }
 
+    /**
+     * Adds a new course objective to the site.
+     *
+     * @param siteEntity the site entity
+     * @param request    the request with objective data
+     */
     private void addNewCourseObjective(SiteEntity siteEntity, SiteObjectiveRequest request) {
         CourseObjectiveEntity newObjective = courseObjectiveMapper.toEntityFromRequest(request);
         newObjective.setSites(Set.of(siteEntity));
@@ -69,6 +87,15 @@ public class SiteObjectiveService {
         siteEntity.getObjectives().add(newObjective);
     }
 
+    /**
+     * Deletes a course objective from the site.
+     *
+     * @param courseObjectiveId the ID of the objective to delete
+     * @param periodType        the academic period type
+     * @param periodYear        the academic period year
+     * @param courseCode        the course code
+     * @return the updated site
+     */
     public Site deleteObjective(
             Integer courseObjectiveId,
             AcademicPeriodType periodType,

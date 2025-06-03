@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * REST controller for handling course site objectives.
+ * Implements SiteObjectiveOperations.
+ */
 @RestController
 @RequiredArgsConstructor
 @Api(value = "Site Objective Management Controller", tags = "Site Management")

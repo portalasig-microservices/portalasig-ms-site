@@ -22,6 +22,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Represents a party involved in a site, such as a professor or assistant,
+ * with associated identity and role information.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

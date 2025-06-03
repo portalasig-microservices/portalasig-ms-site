@@ -13,9 +13,15 @@ import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
+/**
+ * REST operations for managing site references.
+ */
 @HttpExchange(SiteRestConstant.SiteReference.Path.BASE)
 public interface SiteReferenceOperations {
 
+    /**
+     * Creates or updates a site reference.
+     */
     @ApiOperation(value = "Upsert site reference", response = Site.class)
     @PostExchange
     Site upsertSiteReference(
@@ -25,6 +31,9 @@ public interface SiteReferenceOperations {
             @RequestParam("course_code") @ApiParam(value = "course_code") String courseCode
     );
 
+    /**
+     * Deletes a site reference by ID.
+     */
     @ApiOperation(value = "Delete site reference", response = Site.class)
     @DeleteExchange(SiteRestConstant.SiteReference.Path.ELEMENT)
     Site deleteSiteReference(

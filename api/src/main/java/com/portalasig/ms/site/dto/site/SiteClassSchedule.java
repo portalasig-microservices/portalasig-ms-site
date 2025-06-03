@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.Instant;
 
+/**
+ * Represents a scheduled class for a course site, including timing, type, and assigned professor.
+ */
 @Data
 @Builder
 @AllArgsConstructor

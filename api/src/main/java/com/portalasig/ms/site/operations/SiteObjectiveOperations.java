@@ -13,9 +13,15 @@ import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
+/**
+ * REST operations for managing course objectives.
+ */
 @HttpExchange(SiteRestConstant.SiteObjective.Path.BASE)
 public interface SiteObjectiveOperations {
 
+    /**
+     * Creates or updates a course objective.
+     */
     @ApiOperation(value = "Upsert site objective", response = Site.class)
     @PostExchange
     Site upsertSiteObjective(
@@ -25,6 +31,9 @@ public interface SiteObjectiveOperations {
             @RequestParam("course_code") @ApiParam(value = "course_code") String courseCode
     );
 
+    /**
+     * Deletes a course objective by ID.
+     */
     @ApiOperation(value = "Delete objective", response = Site.class)
     @DeleteExchange(SiteRestConstant.SiteObjective.Path.ELEMENT)
     Site deleteObjectiveById(

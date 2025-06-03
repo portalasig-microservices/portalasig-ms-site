@@ -21,6 +21,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Represents a study reference linked to one or more sites.
+ * This can be a book, website, article, document, etc.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

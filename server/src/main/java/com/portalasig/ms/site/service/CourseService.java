@@ -37,22 +37,25 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * Service for managing course operations, including create, update, delete, retrieve, and CSV import.
+ */
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class CourseService {
 
     private final CourseRepository courseRepository;
-
     private final CareerRepository careerRepository;
-
     private final CourseMapper courseMapper;
-
     private final CourseConverter courseConverter;
 
     @Value("${site.tools.courses.csv.input-header}")
     private final HashSet<String> inputCsvHeader;
 
+    /**
+     * Returns all courses in paginated form.
+     */
     public Paginated<Course> findAll(Pageable pageable) {
         Page<CourseEntity> courses = courseRepository.findAll(pageable);
         if (courses.isEmpty()) {
@@ -61,14 +64,18 @@ public class CourseService {
         return Paginated.wrap(courses.map(courseMapper::toDto));
     }
 
+    /**
+     * Creates or updates a course based on the given request.
+     */
     @Transactional
     public Course upsert(CourseRequest request) {
-        CourseEntity course;
         validateRequest(request);
         List<CareerEntity> careers = careerRepository.findAllById(request.getCareers());
         if (careers.isEmpty()) {
             throw new ResourceNotFoundException("No careers found. Skipping Course upsert");
         }
+
+        CourseEntity course;
         Optional<CourseEntity> courseEntity = courseRepository.findByCode(request.getCode());
         if (courseEntity.isEmpty()) {
             course = courseMapper.toEntity(request);
@@ -97,6 +104,9 @@ public class CourseService {
         }
     }
 
+    /**
+     * Deletes a course by its code.
+     */
     @Transactional
     public void deleteCourseByCode(String courseCode) {
         courseRepository.findByCode(courseCode).orElseThrow(
@@ -114,25 +124,34 @@ public class CourseService {
         }
     }
 
+    /**
+     * Imports course data from a CSV file.
+     */
     public void importCoursesFromCsv(InputStream stream) {
         try (CSVReader reader = new CSVReader(new InputStreamReader(stream))) {
             StopWatch stopWatch = new StopWatch();
             stopWatch.start();
-            // readNext() method reads the line and skips it from the array
-            String[] header = reader.readNext();
+
+            String[] header = reader.readNext(); // skip header
             validateHeader(Arrays.asList(header));
+
             List<CsvCourse> csvCourses = new CsvToBeanBuilder<CsvCourse>(reader)
                     .withType(CsvCourse.class)
                     .build()
                     .parse();
+
             log.info("Starting courses import from csv with courses_size={}", csvCourses.size());
             List<CourseEntity> courseEntities = csvCourses.stream().map(this::toEntityFromCsv).toList();
             courseRepository.saveAll(courseEntities);
             stopWatch.stop();
             log.info("Import courses from csv finished in {}ms", stopWatch.getTotalTimeMillis());
+
         } catch (CsvValidationException | IOException e) {
-            throw new SystemErrorException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Something went wrong while parsing csv file", e);
+            throw new SystemErrorException(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    "Something went wrong while parsing csv file",
+                    e
+            );
         }
     }
 
@@ -143,19 +162,14 @@ public class CourseService {
     }
 
     private List<CareerEntity> getCareers(CsvCourse csvCourse) {
-        List<CareerEntity> careers = new ArrayList<>();
         try {
-            if (csvCourse.getCareers() != null) {
-                careers = careerRepository.findAllById(csvCourse.getCareers());
-            }
+            return csvCourse.getCareers() != null
+                    ? careerRepository.findAllById(csvCourse.getCareers())
+                    : new ArrayList<>();
         } catch (Exception e) {
-            log.error(
-                    "Error when fetching career  for course_id={}, skipping",
-                    csvCourse.getCode(),
-                    e
-            );
+            log.error("Error when fetching career for course_id={}, skipping", csvCourse.getCode(), e);
+            return new ArrayList<>();
         }
-        return careers;
     }
 
     private void validateHeader(List<String> fileHeader) {
@@ -165,6 +179,9 @@ public class CourseService {
         }
     }
 
+    /**
+     * Finds a course by its code.
+     */
     public Course findByCode(String courseCode) {
         return courseRepository.findByCode(courseCode)
                 .map(courseMapper::toDto)

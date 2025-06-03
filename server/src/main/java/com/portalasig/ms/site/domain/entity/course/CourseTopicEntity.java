@@ -17,6 +17,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Represents a topic associated with one or more courses.
+ * <p>
+ * Topics provide a way to categorize or describe the main content areas of a course.
+ * This entity is auditable via {@link AbstractAuditEntity}.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

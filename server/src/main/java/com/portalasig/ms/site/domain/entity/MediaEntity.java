@@ -21,6 +21,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
+/**
+ * Represents media content (such as files or links) that can be associated with a Site.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

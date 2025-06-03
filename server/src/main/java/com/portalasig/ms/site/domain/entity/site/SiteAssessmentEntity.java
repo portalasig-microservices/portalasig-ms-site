@@ -22,6 +22,12 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 import java.util.Set;
 
+/**
+ * Represents an evaluation or assessment component associated with a site.
+ * <p>
+ * These may include exams, projects, or other graded activities.
+ * This entity supports auditing through {@link AbstractAuditEntity}.
+ */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data

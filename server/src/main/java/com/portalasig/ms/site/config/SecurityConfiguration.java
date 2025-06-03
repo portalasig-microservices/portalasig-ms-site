@@ -8,6 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Configures security settings for the application, including OAuth2 JWT authentication
+ * and default form login behavior.
+ */
 @Configuration
 public class SecurityConfiguration {
 

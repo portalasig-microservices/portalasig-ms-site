@@ -16,19 +16,26 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Service for managing academic semesters. Supports CRUD operations and active semester logic.
+ */
 @RequiredArgsConstructor
 @Service
 @Slf4j
 public class SemesterService {
 
     private final SemesterRepository semesterRepository;
-
     private final SemesterMapper semesterMapper;
 
     @Value("${site.semester.default-creation-status:false}")
     private Boolean isSemesterActiveByDefault;
 
-
+    /**
+     * Retrieves all semesters paginated.
+     *
+     * @param pageable pagination config
+     * @return paginated list of semesters
+     */
     public Paginated<Semester> findAll(Pageable pageable) {
         Page<SemesterEntity> semesters = semesterRepository.findAll(pageable);
         if (semesters.isEmpty()) {
@@ -37,6 +44,12 @@ public class SemesterService {
         return Paginated.wrap(semesters.map(semesterMapper::toDto));
     }
 
+    /**
+     * Creates or updates a semester. Sets it as active and deactivates the previous one if needed.
+     *
+     * @param request semester data
+     * @return the upserted semester
+     */
     public Semester upsert(SemesterRequest request) {
         SemesterEntity semester;
         if (request.getSemesterId() == null) {
@@ -62,6 +75,11 @@ public class SemesterService {
         return semesterMapper.toDto(semester);
     }
 
+    /**
+     * Deletes a semester by its ID.
+     *
+     * @param semesterId ID of the semester to delete
+     */
     public void delete(Integer semesterId) {
         semesterRepository.findById(semesterId).orElseThrow(
                 () -> new ResourceNotFoundException(String.format("Semester with semester_id=%s not found", semesterId))
@@ -75,6 +93,11 @@ public class SemesterService {
         }
     }
 
+    /**
+     * Retrieves the currently active semester.
+     *
+     * @return the active semester
+     */
     public Semester getActiveSemester() {
         SemesterEntity entity = semesterRepository.getActiveSemester().orElseThrow(
                 () -> new ResourceNotFoundException("No active semester found")
@@ -82,6 +105,12 @@ public class SemesterService {
         return semesterMapper.toDto(entity);
     }
 
+    /**
+     * Suggests semesters within a range from the current year.
+     *
+     * @param yearLimit number of years ahead to include
+     * @return list of suggested semesters
+     */
     public List<Semester> getSuggestedSemesters(int yearLimit) {
         int currentYear = java.time.LocalDate.now().getYear();
         int suggestedYear = currentYear + yearLimit;

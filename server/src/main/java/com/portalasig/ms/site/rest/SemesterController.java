@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * REST controller for managing academic semesters.
+ * Implements SemesterOperations.
+ */
 @RestController
 @RequiredArgsConstructor
 @Api(value = "Semester Management Controller", tags = "Semester Management")

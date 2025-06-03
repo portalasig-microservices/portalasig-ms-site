@@ -8,10 +8,21 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Converter component for handling transformations related to CourseEntity.
+ */
 @Component
 @RequiredArgsConstructor
 public class CourseConverter {
 
+    /**
+     * Updates the careers associated with a given course entity.
+     * Marks careers for removal if they are no longer present in the incoming set,
+     * and adds new careers, maintaining bidirectional relationship consistency.
+     *
+     * @param course          the course entity to update
+     * @param incomingCareers the new set of careers to associate
+     */
     public void updateCareers(CourseEntity course, Set<CareerEntity> incomingCareers) {
         if (incomingCareers.isEmpty()) {
             return;
