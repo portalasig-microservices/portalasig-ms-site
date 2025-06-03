@@ -21,7 +21,7 @@ import java.util.Set;
         SiteAssessmentMapper.class,
         SiteNewsMapper.class,
         MediaMapper.class,
-        SiteUserMapper.class,
+        SitePartyMapper.class,
         SemesterMapper.class,
         ReferenceMapper.class,
 })
