@@ -52,6 +52,7 @@ public final class SiteRestConstant {
         public static final class Path {
             public static final String SITE = "/site";
             public static final String BASE = RestConstants.VERSION_ONE + SITE;
+            public static final String PARTIES = "/parties";
             public static final String ELEMENT = "/{siteId:\\d+}";
         }
     }

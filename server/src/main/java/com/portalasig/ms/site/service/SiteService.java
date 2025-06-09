@@ -123,6 +123,20 @@ public class SiteService {
     }
 
     /**
+     * Deletes a site by its ID.
+     * Throws ResourceNotFoundException if the site does not exist.
+     *
+     * @param siteId the ID of the site to delete
+     */
+    public void deleteSite(Integer siteId) {
+        SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(() ->
+                new ResourceNotFoundException(String.format("Site with site_id=%s not found", siteId))
+        );
+        log.info("Attempting to delete site_id={}", siteId);
+        siteRepository.delete(siteEntity);
+    }
+
+    /**
      * Creates a map of IdentityPartyRole to UserInformation from a SitePartyRequest.
      *
      * @param request the SitePartyRequest containing party data
