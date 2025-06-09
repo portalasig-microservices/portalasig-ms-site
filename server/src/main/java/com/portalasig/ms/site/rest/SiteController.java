@@ -39,4 +39,9 @@ public class SiteController implements SiteOperations {
     public Site bulkPatchParties(Integer siteId, SitePartyRequest request) {
         return siteService.processBulkPatchParties(siteId, request);
     }
+
+    @Override
+    public void deleteSite(Integer siteId) {
+        siteService.deleteSite(siteId);
+    }
 }

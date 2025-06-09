@@ -68,16 +68,6 @@ CREATE TABLE site_media_link
     PRIMARY KEY (site_media_link_id)
 ) COMMENT 'Join table between site and its media';
 
-CREATE TABLE site_party_link
-(
-    site_party_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    site_id       INT       NOT NULL COMMENT 'Site id',
-    party_id      INT       NOT NULL COMMENT 'Site party id',
-    created_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
-    updated_date  TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (site_party_id)
-) COMMENT 'Join table between site and its related users';
-
 CREATE TABLE reference
 (
     reference_id   INT          NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',

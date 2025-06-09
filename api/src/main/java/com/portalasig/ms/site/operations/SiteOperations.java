@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PatchExchange;
@@ -45,9 +46,17 @@ public interface SiteOperations {
     /**
      * Updates parties in bulk for a given site.
      */
-    @PatchExchange(SiteRestConstant.Site.Path.ELEMENT)
+    @PatchExchange(SiteRestConstant.Site.Path.ELEMENT + SiteRestConstant.Site.Path.PARTIES)
     Site bulkPatchParties(
             @PathVariable @ApiParam(value = "Semester ID", required = true) Integer siteId,
             @RequestBody @Valid @ApiParam(value = "Site Party Request", required = true) SitePartyRequest request
     );
+
+    /**
+     * Deletes a site by its ID.
+     *
+     * @param siteId the ID of the site to delete
+     */
+    @DeleteExchange(SiteRestConstant.Site.Path.ELEMENT)
+    void deleteSite(@PathVariable @ApiParam(value = "Site ID", required = true) Integer siteId);
 }
