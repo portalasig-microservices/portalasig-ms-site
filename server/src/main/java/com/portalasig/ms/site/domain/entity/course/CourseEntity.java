@@ -35,7 +35,6 @@ import java.util.Set;
  * - One or many {@link CareerEntity} instances (degree programs).
  * - One or many {@link SemesterEntity} instances (semesters it's offered in).
  * - One or many {@link SiteEntity} instances (course implementation per period).
- * - One or many {@link CourseTopicEntity} instances (linked topics).
  * <p>
  * This entity extends {@link AbstractAuditEntity} for audit metadata (created/updated).
  */
@@ -81,14 +80,6 @@ public class CourseEntity extends AbstractAuditEntity {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     private Set<SiteEntity> sites;
-
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "course_topic_link",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_topic_id")
-    )
-    private Set<CourseTopicEntity> topics;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(

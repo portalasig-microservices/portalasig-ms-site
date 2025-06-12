@@ -84,4 +84,21 @@ public final class SiteRestConstant {
             public static final String ELEMENT = "/{referenceId:\\d+}";
         }
     }
+
+    /**
+     * Paths related to site course topics within a site.
+     */
+    public static final class SiteCourseTopic {
+        /**
+         * Path definitions for site course topics operations.
+         */
+        public static final class Path {
+            public static final String COURSE_TOPIC = "/course-topic";
+            public static final String BASE = RestConstants.VERSION_ONE +
+                    Site.Path.SITE +
+                    Site.Path.ELEMENT +
+                    COURSE_TOPIC;
+            public static final String ELEMENT = "/{siteCourseTopicId:\\d+}";
+        }
+    }
 }

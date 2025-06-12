@@ -26,7 +26,7 @@ import java.util.Set;
 @Mapper(
         componentModel = MappingConstants.ComponentModel.SPRING,
         imports = {EnumStringMapper.class, CourseType.class, HashSet.class, Set.class},
-        uses = {ReferenceMapper.class, CourseTopicMapper.class, CourseObjectiveMapper.class, SemesterMapper.class}
+        uses = {ReferenceMapper.class, CourseObjectiveMapper.class, SemesterMapper.class}
 )
 public interface CourseMapper {
 
@@ -46,7 +46,6 @@ public interface CourseMapper {
      */
     @Mapping(target = "semesters", ignore = true)
     @Mapping(target = "careers", ignore = true)
-    @Mapping(target = "topics", ignore = true)
     @Mapping(target = "sites", ignore = true)
     CourseEntity toEntity(CourseRequest request);
 
@@ -62,7 +61,6 @@ public interface CourseMapper {
     @Mapping(target = "updatedDate", ignore = true)
     @Mapping(target = "courseId", ignore = true)
     // TODO: I NEED TO IMPORT THIS DATA AND ADD THEM IN INITIALIZATION SCRIPT
-    @Mapping(target = "topics", ignore = true)
     @Mapping(target = "sites", ignore = true)
     void toEntityFromExisting(@MappingTarget CourseEntity course, CourseRequest request);
 
@@ -76,7 +74,6 @@ public interface CourseMapper {
     @Mapping(target = "careers", ignore = true)
     @Mapping(target = "courseId", ignore = true)
     // TODO: I NEED TO IMPORT THIS DATA AND ADD THEM IN INITIALIZATION SCRIPT
-    @Mapping(target = "topics", ignore = true)
     @Mapping(target = "sites", ignore = true)
     CourseEntity toEntityFromCsv(CsvCourse courseCsv);
 

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -53,22 +52,13 @@ public class SiteObjectiveService {
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
 
         if (request.getCourseObjectiveId() == null) {
-            addNewCourseObjective(siteEntity, request);
+            createCourseObjective(siteEntity, request);
         } else {
-            var existingObjective = siteEntity
-                    .getObjectives()
-                    .stream()
-                    .filter(obj -> Objects.equals(
-                            obj.getCourseObjectiveId(), request.getCourseObjectiveId()
-                    ))
-                    .findFirst()
-                    .orElseThrow(() -> new ResourceNotFoundException("Objective to edit not found"));
-            courseObjectiveMapper.toEntityFromExisting(existingObjective, request);
+            updateCourseObjective(siteEntity, request);
         }
         siteEntity = siteRepository.save(siteEntity);
 
-        String academicPeriod = String.format("%s-%s", periodType, periodYear);
-        log.info("Course objective={} upserted in site with academic_period={}", request.getDescription(), academicPeriod);
+        log.info("Course objective has been upserted in site_id={}", siteEntity.getSiteId());
         return siteMapper.toDto(siteEntity);
     }
 
@@ -78,13 +68,31 @@ public class SiteObjectiveService {
      * @param siteEntity the site entity
      * @param request    the request with objective data
      */
-    private void addNewCourseObjective(SiteEntity siteEntity, SiteObjectiveRequest request) {
+    private void createCourseObjective(SiteEntity siteEntity, SiteObjectiveRequest request) {
         CourseObjectiveEntity newObjective = courseObjectiveMapper.toEntityFromRequest(request);
         newObjective.setSites(Set.of(siteEntity));
         if (siteEntity.getObjectives() == null) {
             siteEntity.setObjectives(new HashSet<>());
         }
         siteEntity.getObjectives().add(newObjective);
+    }
+
+    private void updateCourseObjective(SiteEntity siteEntity, SiteObjectiveRequest request) {
+        var existingObjective = siteEntity
+                .getObjectives()
+                .stream()
+                .filter(obj -> Objects.equals(
+                        obj.getCourseObjectiveId(), request.getCourseObjectiveId()
+                ))
+                .findFirst()
+                .orElseThrow(() -> {
+                    String errorMessage = String.format(
+                            "course_objective=%s not found",
+                            request.getCourseObjectiveId()
+                    );
+                    return new ResourceNotFoundException(errorMessage);
+                });
+        courseObjectiveMapper.toEntityFromExisting(existingObjective, request);
     }
 
     /**
@@ -107,20 +115,20 @@ public class SiteObjectiveService {
                 periodType,
                 periodYear
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
-        Optional<CourseObjectiveEntity> maybeObjective = siteEntity
+        CourseObjectiveEntity objective = siteEntity
                 .getObjectives()
                 .stream()
-                .filter(objective ->
-                        objective.getCourseObjectiveId().equals(courseObjectiveId)
+                .filter(obj ->
+                        obj.getCourseObjectiveId().equals(courseObjectiveId)
                 )
-                .findAny();
-
-        if (maybeObjective.isEmpty()) {
-            throw new ResourceNotFoundException(
-                    String.format("course_objective_id=%s not found", courseObjectiveId)
-            );
-        }
-        var objective = maybeObjective.get();
+                .findAny()
+                .orElseThrow(() -> {
+                    String errorMessage = String.format(
+                            "course_objective_id=%s not found",
+                            courseObjectiveId
+                    );
+                    return new ResourceNotFoundException(errorMessage);
+                });
         siteEntity.getObjectives().remove(objective);
         siteRepository.save(siteEntity);
         return siteMapper.toDto(siteEntity);

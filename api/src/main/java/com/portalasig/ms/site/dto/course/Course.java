@@ -45,7 +45,4 @@ public class Course {
     @ApiModelProperty(value = "List of careers ids associated with the course")
     private List<Integer> careers;
 
-    @ApiModelProperty(value = "List of topics ids associated with the course")
-    private List<CourseTopic> topics;
-
 }

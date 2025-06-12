@@ -18,16 +18,6 @@ CREATE TABLE site_reference_link
     PRIMARY KEY (site_reference_link_id)
 ) COMMENT 'Join table between site and its references';
 
-CREATE TABLE course_topic_link
-(
-    course_topic_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    course_id            INT       NOT NULL COMMENT 'Course ID',
-    course_topic_id      INT       NOT NULL COMMENT 'Course Topic ID',
-    created_date         TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
-    updated_date         TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (course_topic_link_id)
-) COMMENT 'Join table between course and its topics';
-
 CREATE TABLE site_class_schedule_link
 (
     site_class_schedule_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
@@ -77,7 +67,7 @@ CREATE TABLE reference
     author         VARCHAR(255) COMMENT 'Reference author',
     description    VARCHAR(255) COMMENT 'Reference description',
     priority       INT          NOT NULL DEFAULT 0 COMMENT 'Reference Priority',
-    is_required    TINYINT NOT NULL DEFAULT 0 COMMENT 'Is this reference required',
+    is_required    TINYINT      NOT NULL DEFAULT 0 COMMENT 'Is this reference required',
     created_date   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
     updated_date   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
     PRIMARY KEY (reference_id)
@@ -94,15 +84,16 @@ CREATE TABLE course_objective
     PRIMARY KEY (course_objective_id)
 ) COMMENT 'A course objective';
 
-CREATE TABLE course_topic
+CREATE TABLE site_course_topic
 (
-    course_topic_id INT          NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    title           VARCHAR(255) NOT NULL COMMENT 'Course Topic title',
-    description     VARCHAR(255) COMMENT 'Course Topic description',
-    created_date    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
-    updated_date    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (course_topic_id)
-) COMMENT 'A course topic';
+    site_course_topic_id INT          NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
+    site_id              INT          NOT NULL COMMENT 'Site ID',
+    title                VARCHAR(255) NOT NULL COMMENT 'Site course Topic title',
+    description          VARCHAR(255) COMMENT 'Site course Topic description',
+    created_date         TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
+    updated_date         TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
+    PRIMARY KEY (site_course_topic_id)
+) COMMENT 'A course topic instance for a site';
 
 CREATE TABLE site
 (
@@ -147,8 +138,8 @@ CREATE TABLE media
     name         VARCHAR(255) NOT NULL COMMENT 'Media public name',
     description  VARCHAR(255) COMMENT 'Media file description',
     url          VARCHAR(255) COMMENT 'Media URL',
-    file_name     VARCHAR(255) NOT NULL COMMENT 'Media filename',
-    file_size     INT          NOT NULL COMMENT 'Media file size',
+    file_name    VARCHAR(255) NOT NULL COMMENT 'Media filename',
+    file_size    INT          NOT NULL COMMENT 'Media file size',
     media_type   VARCHAR(32)  NOT NULL COMMENT 'Media type',
     created_date TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
     updated_date TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
