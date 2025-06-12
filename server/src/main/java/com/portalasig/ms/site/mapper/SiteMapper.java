@@ -24,6 +24,7 @@ import java.util.Set;
         SitePartyMapper.class,
         SemesterMapper.class,
         ReferenceMapper.class,
+        SiteCourseTopicMapper.class
 })
 public interface SiteMapper {
 

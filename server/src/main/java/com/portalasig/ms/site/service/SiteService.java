@@ -8,7 +8,6 @@ import com.portalasig.ms.site.converter.SiteConverter;
 import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
-import com.portalasig.ms.site.domain.entity.site.SitePartyEntity;
 import com.portalasig.ms.site.dto.site.Site;
 import com.portalasig.ms.site.dto.site.SiteParty;
 import com.portalasig.ms.site.dto.site.SitePartyRequest;
@@ -26,11 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -78,7 +75,7 @@ public class SiteService {
                 .semester(semester)
                 .build();
         var identityPartyRoleToUserMap = createIdentityPartyRoleMap(request.getParties());
-        createParties(siteEntity, identityPartyRoleToUserMap);
+        siteConverter.createPartiesEntities(siteEntity, identityPartyRoleToUserMap);
         siteEntity = siteRepository.save(siteEntity);
         log.info("Site with site_id={} was successfully created", siteEntity.getSiteId());
         log.debug("DEBUG -- Full object: {}", siteEntity);
@@ -105,24 +102,6 @@ public class SiteService {
     }
 
     /**
-     * Performs a bulk update (patch) of parties associated with a site.
-     * Throws ResourceNotFoundException if the site is not found.
-     *
-     * @param siteId  the site identifier
-     * @param request the request containing new parties data
-     * @return the updated Site DTO
-     */
-    public Site processBulkPatchParties(Integer siteId, SitePartyRequest request) {
-        SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(() ->
-                new ResourceNotFoundException(String.format("Site with site_id=%s not found", siteId))
-        );
-        Map<IdentityPartyRole, UserInformation> identityPartyRoleToUserMap = createIdentityPartyRoleMap(request);
-        patchParties(siteEntity, identityPartyRoleToUserMap);
-        siteEntity = siteRepository.save(siteEntity);
-        return siteMapper.toDto(siteEntity);
-    }
-
-    /**
      * Deletes a site by its ID.
      * Throws ResourceNotFoundException if the site does not exist.
      *
@@ -142,7 +121,7 @@ public class SiteService {
      * @param request the SitePartyRequest containing party data
      * @return a map linking IdentityPartyRole to UserInformation
      */
-    private Map<IdentityPartyRole, UserInformation> createIdentityPartyRoleMap(SitePartyRequest request) {
+    public Map<IdentityPartyRole, UserInformation> createIdentityPartyRoleMap(SitePartyRequest request) {
         var identities = request
                 .getParties()
                 .stream()
@@ -166,75 +145,6 @@ public class SiteService {
         List<User> parties = adminUserOperations.getUsers(identities);
         var identityToUserMap = parties.stream().collect(Collectors.toMap(User::getIdentity, user -> user));
         return siteConverter.toIdentityPartyRoleMap(siteParties, identityToUserMap);
-    }
-
-    /**
-     * Adds new parties to the given site entity based on the provided map.
-     *
-     * @param siteEntity                 the site entity to update
-     * @param identityPartyRoleToUserMap the map of IdentityPartyRole to UserInformation
-     */
-    private void createParties(SiteEntity siteEntity, Map<IdentityPartyRole, UserInformation> identityPartyRoleToUserMap) {
-        if (siteEntity.getParties() == null) {
-            siteEntity.setParties(new HashSet<>());
-        }
-        var existingParties = siteEntity.getParties();
-
-        Set<IdentityPartyRole> existingKeys = existingParties.stream()
-                .map(p -> new IdentityPartyRole(p.getIdentity(), p.getPartyRole()))
-                .collect(Collectors.toSet());
-
-        identityPartyRoleToUserMap.values().forEach(userInformation -> {
-            IdentityPartyRole key = new IdentityPartyRole(
-                    userInformation.user().getIdentity(),
-                    userInformation.siteParty().getPartyRole()
-            );
-
-            if (!existingKeys.contains(key)) {
-                SitePartyEntity newParty = SitePartyEntity.builder()
-                        .identity(key.identity())
-                        .email(userInformation.user().getEmail())
-                        .firstName(userInformation.user().getFirstName())
-                        .lastName(userInformation.user().getLastName())
-                        .partyRole(key.partyRole())
-                        .build();
-                newParty.setSite(siteEntity);
-                existingParties.add(newParty);
-                existingKeys.add(key);
-            }
-        });
-    }
-
-    /**
-     * Updates existing parties in the site entity using the given map,
-     * and creates new parties for remaining entries in the map.
-     *
-     * @param siteEntity                 the site entity to patch
-     * @param identityPartyRoleToUserMap the map of IdentityPartyRole to UserInformation
-     */
-    private void patchParties(
-            SiteEntity siteEntity,
-            Map<IdentityPartyRole, UserInformation> identityPartyRoleToUserMap
-    ) {
-        if (siteEntity.getParties() == null) {
-            siteEntity.setParties(new HashSet<>());
-        }
-        var existingParties = siteEntity.getParties();
-
-        existingParties.removeIf(existingParty -> {
-            var composeKey = new IdentityPartyRole(existingParty.getIdentity(), existingParty.getPartyRole());
-            UserInformation userInformation = identityPartyRoleToUserMap.remove(composeKey);
-            if (userInformation != null) {
-                User user = userInformation.user();
-                existingParty.setEmail(user.getEmail());
-                existingParty.setFirstName(user.getFirstName());
-                existingParty.setLastName(user.getLastName());
-                return false;
-            } else {
-                return true;
-            }
-        });
-        createParties(siteEntity, identityPartyRoleToUserMap);
     }
 
     /**

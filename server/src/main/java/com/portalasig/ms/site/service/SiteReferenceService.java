@@ -15,11 +15,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 /**
- * Service for managing site references. Supports creating, updating, and deleting references on a course site.
+ * Service class responsible for managing bibliographic references in course sites.
+ * Provides functionality to create, update, and delete references associated with a specific site.
  */
 @RequiredArgsConstructor
 @Service
@@ -31,14 +31,14 @@ public class SiteReferenceService {
     private final ReferenceMapper referenceMapper;
 
     /**
-     * Creates or updates a reference on the specified course site.
-     * If referenceId is null, a new reference is created.
+     * Creates or updates a reference on a course site. If the request does not contain an ID,
+     * a new reference is created; otherwise, the existing reference is updated.
      *
-     * @param request    the reference data
-     * @param periodType the academic period type
-     * @param periodYear the academic period year
-     * @param courseCode the course code
-     * @return the updated site with the reference
+     * @param request    the reference request payload
+     * @param periodType the academic period type (e.g., SEMESTER)
+     * @param periodYear the academic period year (e.g., 2025)
+     * @param courseCode the code of the course to which the site belongs
+     * @return the updated Site DTO with the reference upserted
      */
     public Site upsertReference(
             ReferenceRequest request,
@@ -47,6 +47,7 @@ public class SiteReferenceService {
             String courseCode
     ) {
         request.validateUrl();
+
         SiteEntity siteEntity = siteRepository.findSite(
                 courseCode,
                 periodType,
@@ -54,52 +55,63 @@ public class SiteReferenceService {
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
 
         if (request.getReferenceId() == null) {
-            addNewSiteReference(siteEntity, request);
+            createReference(siteEntity, request);
         } else {
-            var existingReference = siteEntity
-                    .getReferences()
-                    .stream()
-                    .filter(reference -> Objects.equals(
-                            reference.getReferenceId(), request.getReferenceId()
-                    ))
-                    .findFirst()
-                    .orElseThrow(() -> new ResourceNotFoundException("Reference to edit not found"));
-            referenceMapper.toEntityFromExisting(existingReference, request);
+            updateReference(siteEntity, request);
         }
+
         siteEntity = siteRepository.save(siteEntity);
 
-        String academicPeriod = String.format("%s-%s", periodType, periodYear);
-        log.info(
-                "Site reference={} upserted in site with academic_period={}",
-                request.getDescription(),
-                academicPeriod
-        );
+        log.info("Reference upserted in site_id={}", siteEntity.getSiteId());
         return siteMapper.toDto(siteEntity);
     }
 
     /**
-     * Adds a new reference entity to the given site.
+     * Adds a new reference to the given site.
      *
-     * @param siteEntity the site entity
-     * @param request    the reference request
+     * @param siteEntity the site entity to which the reference will be added
+     * @param request    the reference request data
      */
-    private void addNewSiteReference(SiteEntity siteEntity, ReferenceRequest request) {
+    private void createReference(SiteEntity siteEntity, ReferenceRequest request) {
         ReferenceEntity newReference = referenceMapper.toEntityFromRequest(request);
         newReference.setSites(Set.of(siteEntity));
+
         if (siteEntity.getReferences() == null) {
             siteEntity.setReferences(new HashSet<>());
         }
+
         siteEntity.getReferences().add(newReference);
     }
 
     /**
-     * Deletes a reference from the specified course site.
+     * Updates an existing reference in the given site.
+     *
+     * @param siteEntity the site entity containing the reference
+     * @param request    the request with updated reference data
+     * @throws ResourceNotFoundException if the reference ID does not exist in the site
+     */
+    private void updateReference(SiteEntity siteEntity, ReferenceRequest request) {
+        ReferenceEntity existingReference = siteEntity
+                .getReferences()
+                .stream()
+                .filter(ref -> Objects.equals(ref.getReferenceId(), request.getReferenceId()))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("reference_id=%d not found", request.getReferenceId()))
+                );
+
+        referenceMapper.toEntityFromExisting(existingReference, request);
+    }
+
+    /**
+     * Deletes a reference from a course site.
      *
      * @param referenceId the ID of the reference to delete
      * @param periodType  the academic period type
      * @param periodYear  the academic period year
      * @param courseCode  the course code
-     * @return the updated site without the reference
+     * @return the updated Site DTO without the deleted reference
+     * @throws ResourceNotFoundException if the site or reference does not exist
      */
     public Site deleteReference(
             Integer referenceId,
@@ -112,22 +124,20 @@ public class SiteReferenceService {
                 periodType,
                 periodYear
         ).orElseThrow(() -> new ResourceNotFoundException("Site not found"));
-        Optional<ReferenceEntity> maybeReference = siteEntity
+
+        ReferenceEntity reference = siteEntity
                 .getReferences()
                 .stream()
-                .filter(objective ->
-                        objective.getReferenceId().equals(referenceId)
-                )
-                .findAny();
+                .filter(ref -> ref.getReferenceId().equals(referenceId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("reference_id=%d not found", referenceId)
+                ));
 
-        if (maybeReference.isEmpty()) {
-            throw new ResourceNotFoundException(
-                    String.format("reference_id=%s not found", referenceId)
-            );
-        }
-        var reference = maybeReference.get();
         siteEntity.getReferences().remove(reference);
         siteRepository.save(siteEntity);
+
+        log.info("Reference with id={} deleted from site_id={}", referenceId, siteEntity.getSiteId());
         return siteMapper.toDto(siteEntity);
     }
 }

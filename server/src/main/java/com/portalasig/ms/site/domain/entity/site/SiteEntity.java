@@ -53,6 +53,10 @@ public class SiteEntity extends AbstractAuditEntity {
     @JoinColumn(name = "semester_id", nullable = false)
     private SemesterEntity semester;
 
+    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    private Set<SiteCourseTopicEntity> courseTopics;
+
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
             name = "site_objective_link",

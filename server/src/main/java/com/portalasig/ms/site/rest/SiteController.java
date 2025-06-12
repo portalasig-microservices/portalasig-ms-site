@@ -5,6 +5,7 @@ import com.portalasig.ms.site.dto.site.Site;
 import com.portalasig.ms.site.dto.site.SitePartyRequest;
 import com.portalasig.ms.site.dto.site.SiteRequest;
 import com.portalasig.ms.site.operations.SiteOperations;
+import com.portalasig.ms.site.service.SitePartyService;
 import com.portalasig.ms.site.service.SiteService;
 import io.swagger.annotations.Api;
 import jakarta.validation.Valid;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class SiteController implements SiteOperations {
 
     private final SiteService siteService;
+    private final SitePartyService sitePartyService;
 
     @Override
     public Site createSite(@Valid SiteRequest request) {
@@ -37,7 +39,7 @@ public class SiteController implements SiteOperations {
 
     @Override
     public Site bulkPatchParties(Integer siteId, SitePartyRequest request) {
-        return siteService.processBulkPatchParties(siteId, request);
+        return sitePartyService.processBulkPatchParties(siteId, request);
     }
 
     @Override
