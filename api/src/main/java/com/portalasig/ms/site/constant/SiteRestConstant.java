@@ -52,7 +52,6 @@ public final class SiteRestConstant {
         public static final class Path {
             public static final String SITE = "/site";
             public static final String BASE = RestConstants.VERSION_ONE + SITE;
-            public static final String PARTIES = "/parties";
             public static final String ELEMENT = "/{siteId:\\d+}";
         }
     }
@@ -99,6 +98,22 @@ public final class SiteRestConstant {
                     Site.Path.ELEMENT +
                     COURSE_TOPIC;
             public static final String ELEMENT = "/{siteCourseTopicId:\\d+}";
+        }
+    }
+
+    /**
+     * Paths related to site parties within a site.
+     */
+    public static final class SiteParty {
+        /**
+         * Path definitions for site party operations.
+         */
+        public static final class Path {
+            public static final String PARTY = "/party";
+            public static final String LIST = "/list";
+            public static final String BASE =
+                    RestConstants.VERSION_ONE + Site.Path.SITE + Site.Path.ELEMENT + PARTY;
+            public static final String ELEMENT = "/{partyId:\\d+}";
         }
     }
 }

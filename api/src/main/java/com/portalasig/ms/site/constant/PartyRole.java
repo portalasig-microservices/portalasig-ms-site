@@ -13,7 +13,7 @@ public enum PartyRole implements Codeable<String> {
 
     PROFESSOR("PROFESSOR"),
     COORDINATOR("COORDINATOR"),
-    TEACHING_ASSISTANT("TEACHING_ASSISTANT"),
+    STUDENT_TEACHER("STUDENT_TEACHER"),
     STUDENT("STUDENT"),
     INVALID("");
 
