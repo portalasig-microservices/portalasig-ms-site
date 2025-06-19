@@ -56,6 +56,9 @@ public class SitePartyEntity extends AbstractAuditEntity {
     @Enumerated(EnumType.STRING)
     private PartyRole partyRole;
 
+    @Column(name = "party_site_title")
+    private String partySiteTitle;
+
     @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SiteClassScheduleEntity> classSchedules;
 

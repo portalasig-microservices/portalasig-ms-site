@@ -77,6 +77,7 @@ public class SiteConverter {
                         .firstName(userInformation.user().getFirstName())
                         .lastName(userInformation.user().getLastName())
                         .partyRole(key.partyRole())
+                        .partySiteTitle(userInformation.siteParty().getPartySiteTitle())
                         .build();
                 newParty.setSite(siteEntity);
                 existingParties.add(newParty);
