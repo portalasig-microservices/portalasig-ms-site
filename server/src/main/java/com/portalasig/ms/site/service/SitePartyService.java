@@ -3,6 +3,7 @@ package com.portalasig.ms.site.service;
 import com.portalasig.ms.commons.rest.exception.ResourceNotFoundException;
 import com.portalasig.ms.site.converter.SiteConverter;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
+import com.portalasig.ms.site.domain.entity.site.SitePartyEntity;
 import com.portalasig.ms.site.dto.site.Site;
 import com.portalasig.ms.site.dto.site.SitePartyRequest;
 import com.portalasig.ms.site.mapper.SiteMapper;
@@ -78,5 +79,30 @@ public class SitePartyService {
             }
         });
         siteConverter.createPartiesEntities(siteEntity, identityPartyRoleToUserMap);
+    }
+
+    /**
+     * Deletes a party from the specified site by party ID.
+     * Throws ResourceNotFoundException if the site or party is not found.
+     *
+     * @param siteId  the site identifier
+     * @param partyId the party identifier to remove
+     * @return the updated Site DTO
+     */
+    public Site deleteParty(Integer siteId, Integer partyId) {
+        SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(() ->
+                new ResourceNotFoundException(String.format("site_id=%s not found", siteId))
+        );
+        SitePartyEntity partyToRemove = siteEntity
+                .getParties()
+                .stream()
+                .filter(party -> party.getPartyId().equals(partyId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("party_id=%s not found on site_id=%s", partyId, siteId))
+                );
+        siteEntity.getParties().remove(partyToRemove);
+        siteEntity = siteRepository.save(siteEntity);
+        return siteMapper.toDto(siteEntity);
     }
 }

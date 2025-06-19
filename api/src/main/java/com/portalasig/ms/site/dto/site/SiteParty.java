@@ -19,6 +19,10 @@ import lombok.NoArgsConstructor;
 @ApiModel(description = "A Site Party. Represents a user in the system that is related to a site. Can be a student, coordinator or teacher")
 public class SiteParty {
 
+    @ApiModelProperty
+    @NotNull
+    private Integer partyId;
+
     @ApiModelProperty(value = "User Identity")
     @NotNull
     private Long identity;
