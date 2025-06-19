@@ -40,4 +40,7 @@ public class SiteParty {
     @ApiModelProperty(value = "User email")
     private String email;
 
+    @ApiModelProperty(value = "Title that a party receives in a specific site, e.g: Teacher Assistant")
+    private String partySiteTitle;
+
 }
