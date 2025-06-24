@@ -43,8 +43,8 @@ public class SitePartyService {
         SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(() ->
                 new ResourceNotFoundException(String.format("Site with site_id=%s not found", siteId))
         );
-        var identityPartyRoleToUserMap = siteService.createIdentityPartyRoleMap(request);
-        patchParties(siteEntity, identityPartyRoleToUserMap);
+        var partiesMap = siteService.createIdentityPartyRoleMap(request);
+        patchParties(siteEntity, partiesMap);
         siteEntity = siteRepository.save(siteEntity);
         return siteMapper.toDto(siteEntity);
     }
@@ -53,32 +53,43 @@ public class SitePartyService {
      * Updates existing parties in the site entity using the given map,
      * and creates new parties for remaining entries in the map.
      *
-     * @param siteEntity                 the site entity to patch
-     * @param identityPartyRoleToUserMap the map of IdentityPartyRole to UserInformation
+     * @param siteEntity the site entity to patch
+     * @param partiesMap the map of IdentityPartyRole to UserInformation
      */
     private void patchParties(
             SiteEntity siteEntity,
-            Map<IdentityPartyRole, UserInformation> identityPartyRoleToUserMap
+            Map<IdentityPartyRole, UserInformation> partiesMap
     ) {
         if (siteEntity.getParties() == null) {
             siteEntity.setParties(new HashSet<>());
         }
         var existingParties = siteEntity.getParties();
 
-        existingParties.removeIf(existingParty -> {
+        existingParties.forEach(existingParty -> {
             var composeKey = new IdentityPartyRole(existingParty.getIdentity(), existingParty.getPartyRole());
-            UserInformation userInformation = identityPartyRoleToUserMap.remove(composeKey);
+            UserInformation userInformation = partiesMap.remove(composeKey);
             if (userInformation != null) {
-                User user = userInformation.user();
-                existingParty.setEmail(user.getEmail());
-                existingParty.setFirstName(user.getFirstName());
-                existingParty.setLastName(user.getLastName());
-                return false;
-            } else {
-                return true;
+                patchParty(userInformation.user(), existingParty);
             }
         });
-        siteConverter.createPartiesEntities(siteEntity, identityPartyRoleToUserMap);
+        siteConverter.createPartiesEntities(siteEntity, partiesMap);
+    }
+
+    private void patchParty(
+            User user,
+            SitePartyEntity existingParty
+    ) {
+        if (user.getFirstName() != null) {
+            existingParty.setFirstName(user.getFirstName());
+        }
+
+        if (user.getLastName() != null) {
+            existingParty.setLastName(user.getLastName());
+        }
+
+        if (user.getEmail() != null) {
+            existingParty.setEmail(user.getEmail());
+        }
     }
 
     /**
