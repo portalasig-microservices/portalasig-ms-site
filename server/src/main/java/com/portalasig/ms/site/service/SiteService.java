@@ -125,11 +125,22 @@ public class SiteService {
         var identities = request
                 .getParties()
                 .stream()
-                .map(SiteParty::getIdentity).toList();
-        List<User> parties = adminUserOperations.getUsers(identities);
+                .map(SiteParty::getIdentity)
+                .toList();
 
-        var identityToUserMap = parties.stream().collect(Collectors.toMap(User::getIdentity, user -> user));
-        return siteConverter.toIdentityPartyRoleMap(request.getParties(), identityToUserMap);
+        List<User> users = adminUserOperations.getUsers(identities);
+        var identityToUserMap = users
+                .stream()
+                .collect(Collectors.toMap(User::getIdentity, user -> user));
+
+        return request.getParties().stream()
+                .collect(Collectors.toMap(
+                        siteParty -> new IdentityPartyRole(siteParty.getIdentity(), siteParty.getPartyRole()),
+                        siteParty -> {
+                            User uaaUser = identityToUserMap.get(siteParty.getIdentity());
+                            return new UserInformation(uaaUser, siteParty);
+                        }
+                ));
     }
 
     /**
