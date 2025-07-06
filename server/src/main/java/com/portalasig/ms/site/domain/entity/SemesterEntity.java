@@ -64,7 +64,7 @@ public class SemesterEntity extends AbstractAuditEntity {
     private Set<SiteEntity> sites;
 
     /**
-     * Returns the academic period as a formatted string, e.g., "SPRING-2024".
+     * Returns the academic period as a formatted string, e.g., "I-2024".
      *
      * @return the academic period label and year
      */
