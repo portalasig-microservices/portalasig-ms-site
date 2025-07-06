@@ -43,4 +43,19 @@ public enum AcademicPeriodType implements Codeable<String> {
         return code;
     }
 
+    /**
+     * Returns a short label for the academic period type.
+     * For INTENSIVE returns "I", for UNIQUE returns "U", otherwise returns the order as a string.
+     */
+    public String getPeriodTypeLabel() {
+        if (this == INTENSIVE) {
+            return "I";
+        }
+        if (this == UNIQUE) {
+            return "U";
+        }
+        return order.toString();
+    }
+
+
 }
