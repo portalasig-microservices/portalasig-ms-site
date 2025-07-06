@@ -30,9 +30,11 @@ public class SitePartyService {
     private final SiteService siteService;
     private final SiteMapper siteMapper;
     private final SiteConverter siteConverter;
+    private final SiteNotificationService siteNotificationService;
 
     /**
      * Performs a bulk update (patch) of parties associated with a site.
+     * after the association is completed, notify user via email
      * Throws ResourceNotFoundException if the site is not found.
      *
      * @param siteId  the site identifier
@@ -46,6 +48,12 @@ public class SitePartyService {
         var partiesMap = siteService.createIdentityPartyRoleMap(request);
         patchParties(siteEntity, partiesMap);
         siteEntity = siteRepository.save(siteEntity);
+        log.info("site_id={} parties request has been processed", siteId);
+        SiteEntity finalSiteEntity = siteEntity;
+        partiesMap.forEach(
+                (identityPartyRole, userInformation) ->
+                        siteNotificationService.notifyPartyAssociation(userInformation, finalSiteEntity)
+        );
         return siteMapper.toDto(siteEntity);
     }
 

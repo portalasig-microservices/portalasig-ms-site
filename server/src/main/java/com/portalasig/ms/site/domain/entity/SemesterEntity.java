@@ -62,4 +62,17 @@ public class SemesterEntity extends AbstractAuditEntity {
 
     @OneToMany(mappedBy = "semester", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<SiteEntity> sites;
+
+    /**
+     * Returns the academic period as a formatted string, e.g., "I-2024".
+     *
+     * @return the academic period label and year
+     */
+    public String getAcademicPeriod() {
+        return String.format(
+                "%s-%s",
+                this.getPeriodType().getPeriodTypeLabel(),
+                this.getPeriodYear()
+        );
+    }
 }
