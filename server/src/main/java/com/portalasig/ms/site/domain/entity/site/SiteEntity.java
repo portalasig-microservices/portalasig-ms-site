@@ -63,6 +63,7 @@ public class SiteEntity extends AbstractAuditEntity {
             joinColumns = @JoinColumn(name = "site_id"),
             inverseJoinColumns = @JoinColumn(name = "course_objective_id")
     )
+    @EqualsAndHashCode.Exclude
     private Set<CourseObjectiveEntity> objectives;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -71,15 +72,8 @@ public class SiteEntity extends AbstractAuditEntity {
             joinColumns = @JoinColumn(name = "site_id"),
             inverseJoinColumns = @JoinColumn(name = "reference_id")
     )
+    @EqualsAndHashCode.Exclude
     private Set<ReferenceEntity> references;
-
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "site_class_schedule_link",
-            joinColumns = @JoinColumn(name = "site_id", insertable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "site_class_schedule_id")
-    )
-    private Set<SiteClassScheduleEntity> classSchedules;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
@@ -87,6 +81,7 @@ public class SiteEntity extends AbstractAuditEntity {
             joinColumns = @JoinColumn(name = "site_id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "site_assessment_id")
     )
+    @EqualsAndHashCode.Exclude
     private Set<SiteAssessmentEntity> assessments;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -95,6 +90,7 @@ public class SiteEntity extends AbstractAuditEntity {
             joinColumns = @JoinColumn(name = "site_id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "site_news_id")
     )
+    @EqualsAndHashCode.Exclude
     private Set<SiteNewsEntity> news;
 
     @ManyToMany
@@ -103,8 +99,14 @@ public class SiteEntity extends AbstractAuditEntity {
             joinColumns = @JoinColumn(name = "site_id", insertable = false, updatable = false),
             inverseJoinColumns = @JoinColumn(name = "media_id")
     )
+    @EqualsAndHashCode.Exclude
     private Set<MediaEntity> media;
 
     @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
     private Set<SitePartyEntity> parties;
+
+    @OneToMany(mappedBy = "site", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    private Set<SiteSectionEntity> sections;
 }

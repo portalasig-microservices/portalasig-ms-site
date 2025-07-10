@@ -9,8 +9,8 @@ import com.portalasig.ms.site.domain.entity.SemesterEntity;
 import com.portalasig.ms.site.domain.entity.course.CourseEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
 import com.portalasig.ms.site.dto.site.Site;
+import com.portalasig.ms.site.dto.site.SitePartiesRequest;
 import com.portalasig.ms.site.dto.site.SiteParty;
-import com.portalasig.ms.site.dto.site.SitePartyRequest;
 import com.portalasig.ms.site.dto.site.SiteRequest;
 import com.portalasig.ms.site.mapper.SiteMapper;
 import com.portalasig.ms.site.record.IdentityPartyRole;
@@ -121,7 +121,7 @@ public class SiteService {
      * @param request the SitePartyRequest containing party data
      * @return a map linking IdentityPartyRole to UserInformation
      */
-    public Map<IdentityPartyRole, UserInformation> createIdentityPartyRoleMap(SitePartyRequest request) {
+    public Map<IdentityPartyRole, UserInformation> createIdentityPartyRoleMap(SitePartiesRequest request) {
         var identities = request
                 .getParties()
                 .stream()

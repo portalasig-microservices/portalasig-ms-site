@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "A site request")
-public class SitePartyRequest {
+public class SitePartiesRequest {
 
     @ApiModelProperty(value = "Site parties")
     List<SiteParty> parties;

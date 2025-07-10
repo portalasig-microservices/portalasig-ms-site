@@ -1,7 +1,7 @@
 package com.portalasig.ms.site.rest;
 
 import com.portalasig.ms.site.dto.site.Site;
-import com.portalasig.ms.site.dto.site.SitePartyRequest;
+import com.portalasig.ms.site.dto.site.SitePartiesRequest;
 import com.portalasig.ms.site.operations.SitePartyOperations;
 import com.portalasig.ms.site.service.SitePartyService;
 import io.swagger.annotations.Api;
@@ -22,7 +22,7 @@ public class SitePartyController implements SitePartyOperations {
     private final SitePartyService sitePartyService;
 
     @Override
-    public Site bulkPatchParties(Integer siteId, SitePartyRequest request) {
+    public Site bulkPatchParties(Integer siteId, SitePartiesRequest request) {
         return sitePartyService.processBulkPatchParties(siteId, request);
     }
 
