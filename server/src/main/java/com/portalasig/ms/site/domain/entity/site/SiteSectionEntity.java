@@ -1,11 +1,9 @@
 package com.portalasig.ms.site.domain.entity.site;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
-import com.portalasig.ms.site.constant.PartyRole;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,48 +20,32 @@ import lombok.NoArgsConstructor;
 import java.util.Set;
 
 /**
- * Represents a party involved in a site, such as a professor or assistant,
- * with associated identity and role information.
+ * Entity representing a section within a site.
+ * Contains section code, related schedules, and associated site.
  */
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "site_party")
+@Table(name = "site_section")
 @Builder
-public class SitePartyEntity extends AbstractAuditEntity {
+public class SiteSectionEntity extends AbstractAuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "party_id")
-    private Integer partyId;
+    @Column(name = "section_id")
+    private Integer sectionId;
 
-    @Column(name = "identity")
-    private Long identity;
+    @Column(name = "code")
+    private String code;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "party_role")
-    @Enumerated(EnumType.STRING)
-    private PartyRole partyRole;
-
-    @Column(name = "party_site_title")
-    private String partySiteTitle;
-
-    @OneToMany(mappedBy = "instructor")
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
     @EqualsAndHashCode.Exclude
     private Set<SiteSectionScheduleEntity> schedules;
 
     @ManyToOne
-    @JoinColumn(name = "site_id", nullable = false)
+    @JoinColumn(name = "site_id")
     @EqualsAndHashCode.Exclude
     private SiteEntity site;
 }

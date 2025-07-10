@@ -33,9 +33,6 @@ public class Site {
     @ApiModelProperty(value = "List of topics ids associated with the course")
     private List<SiteCourseTopic> courseTopics;
 
-    @ApiModelProperty(value = "Class schedules for course site")
-    private List<SiteClassSchedule> classSchedules;
-
     @ApiModelProperty(value = "Class assessments for course site")
     private List<SiteAssessment> assessments;
 
@@ -53,6 +50,9 @@ public class Site {
 
     @ApiModelProperty(value = "List of references associated with the site course")
     private List<Reference> references;
+
+    @ApiModelProperty(value = "List of sections associated with the site course")
+    private List<SiteSection> sections;
 
     @ApiModelProperty(value = "Semester associated to the site")
     private Semester semester;

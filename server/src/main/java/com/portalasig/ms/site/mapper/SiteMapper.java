@@ -17,8 +17,8 @@ import java.util.Set;
  * </p>
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {
-        SiteClassScheduleMapper.class,
         SiteAssessmentMapper.class,
+        SiteSectionMapper.class,
         SiteNewsMapper.class,
         MediaMapper.class,
         SitePartyMapper.class,

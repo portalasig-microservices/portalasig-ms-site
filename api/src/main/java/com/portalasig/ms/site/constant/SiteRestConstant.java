@@ -116,4 +116,40 @@ public final class SiteRestConstant {
             public static final String ELEMENT = "/{partyId:\\d+}";
         }
     }
+
+    /**
+     * Paths related to site sections within a site.
+     */
+    public static final class SiteSection {
+        /**
+         * Path definitions for site section operations.
+         */
+        public static final class Path {
+            public static final String SECTION = "/section";
+            public static final String BASE = RestConstants.VERSION_ONE +
+                    Site.Path.SITE +
+                    Site.Path.ELEMENT +
+                    SECTION;
+            public static final String ELEMENT = "/{sectionId:\\d+}";
+        }
+    }
+
+    /**
+     * Paths related to site section schedules within a site section.
+     */
+    public static final class SiteSectionSchedule {
+        /**
+         * Path definitions for site section schedule operations.
+         */
+        public static final class Path {
+            public static final String SCHEDULE = "/schedule";
+            public static final String BASE = RestConstants.VERSION_ONE +
+                    Site.Path.SITE +
+                    Site.Path.ELEMENT +
+                    SiteSection.Path.SECTION +
+                    SiteSection.Path.ELEMENT +
+                    SCHEDULE;
+            public static final String ELEMENT = "/{scheduleId:\\d+}";
+        }
+    }
 }

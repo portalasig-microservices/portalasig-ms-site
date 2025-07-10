@@ -2,7 +2,7 @@ package com.portalasig.ms.site.operations;
 
 import com.portalasig.ms.site.constant.SiteRestConstant;
 import com.portalasig.ms.site.dto.site.Site;
-import com.portalasig.ms.site.dto.site.SitePartyRequest;
+import com.portalasig.ms.site.dto.site.SitePartiesRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import jakarta.validation.Valid;
@@ -24,7 +24,7 @@ public interface SitePartyOperations {
     @PatchExchange(SiteRestConstant.SiteParty.Path.LIST)
     Site bulkPatchParties(
             @PathVariable @ApiParam(value = "Site ID", required = true) Integer siteId,
-            @RequestBody @Valid @ApiParam(value = "Site Party Request", required = true) SitePartyRequest request
+            @RequestBody @Valid @ApiParam(value = "Site Party Request", required = true) SitePartiesRequest request
     );
 
     /**

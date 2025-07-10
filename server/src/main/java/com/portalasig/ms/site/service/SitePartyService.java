@@ -5,7 +5,7 @@ import com.portalasig.ms.site.converter.SiteConverter;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
 import com.portalasig.ms.site.domain.entity.site.SitePartyEntity;
 import com.portalasig.ms.site.dto.site.Site;
-import com.portalasig.ms.site.dto.site.SitePartyRequest;
+import com.portalasig.ms.site.dto.site.SitePartiesRequest;
 import com.portalasig.ms.site.mapper.SiteMapper;
 import com.portalasig.ms.site.record.IdentityPartyRole;
 import com.portalasig.ms.site.record.UserInformation;
@@ -41,7 +41,7 @@ public class SitePartyService {
      * @param request the request containing new parties data
      * @return the updated Site DTO
      */
-    public Site processBulkPatchParties(Integer siteId, SitePartyRequest request) {
+    public Site processBulkPatchParties(Integer siteId, SitePartiesRequest request) {
         SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(() ->
                 new ResourceNotFoundException(String.format("Site with site_id=%s not found", siteId))
         );
