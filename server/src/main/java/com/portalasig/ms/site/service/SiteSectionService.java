@@ -4,15 +4,20 @@ import com.portalasig.ms.commons.rest.exception.ResourceNotFoundException;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
 import com.portalasig.ms.site.domain.entity.site.SiteSectionEntity;
 import com.portalasig.ms.site.dto.site.Site;
+import com.portalasig.ms.site.dto.site.SiteSection;
 import com.portalasig.ms.site.dto.site.SiteSectionRequest;
 import com.portalasig.ms.site.mapper.SiteMapper;
 import com.portalasig.ms.site.mapper.SiteSectionMapper;
 import com.portalasig.ms.site.repository.SiteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -34,6 +39,9 @@ public class SiteSectionService {
     private final SiteRepository siteRepository;
     private final SiteMapper siteMapper;
     private final SiteSectionMapper siteSectionMapper;
+
+    @Value("${site.section.search.response-limit:5}")
+    private Integer responseLimit;
 
     /**
      * Creates or updates a section in a given site.
@@ -68,7 +76,7 @@ public class SiteSectionService {
      * @param siteEntity the site entity to which the section will be added
      * @param request    the request containing section creation data
      */
-    private void createSection(SiteEntity siteEntity, SiteSectionRequest request) {
+    public SiteSectionEntity createSection(SiteEntity siteEntity, SiteSectionRequest request) {
         SiteSectionEntity newSection = siteSectionMapper.toEntityFromRequest(request);
         newSection.setSite(siteEntity);
 
@@ -77,6 +85,7 @@ public class SiteSectionService {
         }
 
         siteEntity.getSections().add(newSection);
+        return newSection;
     }
 
     /**
@@ -128,5 +137,18 @@ public class SiteSectionService {
 
         log.info("Site section_id={} has been deleted from site_id={}", sectionId, siteId);
         return siteMapper.toDto(siteEntity);
+    }
+
+    /**
+     * Searches for site sections by their code within a specific site.
+     *
+     * @param siteId the ID of the site to search within
+     * @param code   the code to search for among site sections
+     * @return a list of matching {@link SiteSection} DTOs, limited by the configured response limit
+     */
+    public List<SiteSection> searchSectionByCode(Integer siteId, String code) {
+        Pageable pageable = PageRequest.of(0, responseLimit);
+        List<SiteSectionEntity> entityMatches = siteRepository.findSiteSections(siteId, code, pageable);
+        return entityMatches.stream().map(siteSectionMapper::toDto).toList();
     }
 }
