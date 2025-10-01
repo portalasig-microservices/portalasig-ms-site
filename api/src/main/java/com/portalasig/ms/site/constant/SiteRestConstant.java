@@ -131,6 +131,7 @@ public final class SiteRestConstant {
                     Site.Path.ELEMENT +
                     SECTION;
             public static final String ELEMENT = "/{sectionId:\\d+}";
+            public static final String SEARCH = "/search";
         }
     }
 
@@ -146,9 +147,7 @@ public final class SiteRestConstant {
             public static final String BASE = RestConstants.VERSION_ONE +
                     Site.Path.SITE +
                     Site.Path.ELEMENT +
-                    SiteSection.Path.SECTION +
-                    SiteSection.Path.ELEMENT +
-                    SCHEDULE;
+                    SiteSection.Path.SECTION;
             public static final String ELEMENT = "/{scheduleId:\\d+}";
         }
     }

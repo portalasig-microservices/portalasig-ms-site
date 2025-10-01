@@ -1,6 +1,7 @@
 package com.portalasig.ms.site.domain.entity.site;
 
 import com.portalasig.ms.commons.persistence.AbstractAuditEntity;
+import com.portalasig.ms.site.constant.ScheduleType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -38,6 +39,13 @@ public class SiteSectionScheduleEntity extends AbstractAuditEntity {
     @Column(name = "schedule_id")
     private Integer scheduleId;
 
+    @Column(name = "read_only")
+    private Boolean readOnly;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "schedule_type")
+    private ScheduleType scheduleType;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "day")
     private DayOfWeek day;
@@ -47,6 +55,9 @@ public class SiteSectionScheduleEntity extends AbstractAuditEntity {
 
     @Column(name = "end_time")
     private LocalTime endTime;
+
+    @Column(name = "location")
+    private String location;
 
     @ManyToOne
     @JoinColumn(name = "party_id")

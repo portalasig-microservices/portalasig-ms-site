@@ -2,10 +2,13 @@ package com.portalasig.ms.site.repository;
 
 import com.portalasig.ms.site.constant.AcademicPeriodType;
 import com.portalasig.ms.site.domain.entity.site.SiteEntity;
+import com.portalasig.ms.site.domain.entity.site.SiteSectionEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -34,5 +37,28 @@ public interface SiteRepository extends JpaRepository<SiteEntity, Integer> {
             @Param("courseCode") String courseCode,
             @Param("periodType") AcademicPeriodType periodType,
             @Param("periodYear") Integer periodYear
+    );
+
+    /**
+     * Retrieves a paginated list of {@link SiteSectionEntity} objects associated with a specific site,
+     * filtered by a case-insensitive section code prefix and ordered by the site's last update date in descending order.
+     *
+     * @param siteId   the unique identifier of the site
+     * @param code     the prefix of the section code to filter (case-insensitive)
+     * @param pageable pagination information
+     * @return a list of matching {@link SiteSectionEntity} instances
+     */
+    @Query(value = """
+            SELECT siteSection
+            FROM SiteEntity site
+            JOIN site.sections siteSection
+            WHERE site.siteId = :siteId
+              AND LOWER(siteSection.code) LIKE CONCAT(LOWER(:code), '%')
+            ORDER BY site.updatedDate DESC
+            """)
+    List<SiteSectionEntity> findSiteSections(
+            @Param("siteId") Integer siteId,
+            @Param("code") String code,
+            Pageable pageable
     );
 }

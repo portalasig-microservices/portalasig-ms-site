@@ -22,8 +22,8 @@ public class SiteSectionScheduleController implements SiteSectionScheduleOperati
     private final SiteScheduleService siteScheduleService;
 
     @Override
-    public Site upsertSchedule(Integer siteId, Integer sectionId, SiteScheduleRequest request) {
-        return siteScheduleService.upsertSchedule(siteId, sectionId, request);
+    public Site upsertSchedule(Integer siteId, SiteScheduleRequest request) {
+        return siteScheduleService.upsertSchedule(siteId, request);
     }
 
     @Override

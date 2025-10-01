@@ -11,6 +11,8 @@ import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
+import static com.portalasig.ms.site.constant.SiteRestConstant.SiteSectionSchedule.Path.SCHEDULE;
+
 /**
  * Operations for managing site section schedules.
  * <p>
@@ -23,16 +25,14 @@ public interface SiteSectionScheduleOperations {
     /**
      * Upserts a schedule for a site section.
      *
-     * @param siteId    the ID of the site
-     * @param sectionId the ID of the section
-     * @param request   the schedule request details
+     * @param siteId  the ID of the site
+     * @param request the schedule request details
      * @return the updated Site object
      */
     @ApiOperation(value = "Upsert site schedule", response = Site.class)
-    @PostExchange
+    @PostExchange(SCHEDULE)
     Site upsertSchedule(
             @PathVariable @ApiParam(value = "Site id", required = true) Integer siteId,
-            @PathVariable @ApiParam(value = "Section id", required = true) Integer sectionId,
             @RequestBody
             @ApiParam(value = "Site section request", required = true)
             SiteScheduleRequest request
@@ -47,7 +47,11 @@ public interface SiteSectionScheduleOperations {
      * @return the updated Site object
      */
     @ApiOperation(value = "Delete schedule", response = Site.class)
-    @DeleteExchange(SiteRestConstant.SiteSectionSchedule.Path.ELEMENT)
+    @DeleteExchange(
+            SiteRestConstant.SiteSection.Path.ELEMENT +
+                    SiteRestConstant.SiteSectionSchedule.Path.SCHEDULE +
+                    SiteRestConstant.SiteSectionSchedule.Path.ELEMENT
+    )
     Site deleteSchedule(
             @PathVariable @ApiParam(value = "Site id", required = true) Integer siteId,
             @PathVariable @ApiParam(value = "Site section id", required = true) Integer sectionId,

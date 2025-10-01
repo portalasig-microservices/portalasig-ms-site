@@ -1,5 +1,6 @@
 package com.portalasig.ms.site.dto.site;
 
+import com.portalasig.ms.site.constant.ScheduleType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,14 @@ public class SiteScheduleRequest {
     @ApiModelProperty(value = "Section id")
     private Integer scheduleId;
 
+    @ApiModelProperty(value = "This schedule use is to be displayed only")
+    @NotNull
+    private Boolean readOnly;
+
+    @ApiModelProperty(value = "Schedule type")
+    @NotNull
+    private ScheduleType scheduleType;
+
     @ApiModelProperty(value = "Day of week")
     @NotNull
     private DayOfWeek day;
@@ -37,8 +46,16 @@ public class SiteScheduleRequest {
     @NotNull
     private LocalTime endTime;
 
+    @ApiModelProperty(value = "Location of course class for a section")
+    @NotNull
+    private String location;
+
     @ApiModelProperty(value = "Instructor in charge of giving class in this schedule")
     @NotNull
     private SiteParty instructor;
+
+    @ApiModelProperty(value = "Section where schedule will be upserted")
+    @NotNull
+    private SiteSectionRequest section;
 
 }

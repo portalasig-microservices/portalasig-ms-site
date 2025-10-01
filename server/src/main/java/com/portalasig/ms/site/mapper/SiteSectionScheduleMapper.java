@@ -58,8 +58,10 @@ public interface SiteSectionScheduleMapper {
      * @param request          the incoming request containing new values
      */
     @Mapping(target = "section", ignore = true)
+    @Mapping(target = "scheduleId", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "updatedDate", ignore = true)
+    @Mapping(target = "instructor", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void toEntityFromExisting(@MappingTarget SiteSectionScheduleEntity existingSchedule, SiteScheduleRequest request);
 }

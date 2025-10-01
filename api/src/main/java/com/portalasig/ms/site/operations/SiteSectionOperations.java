@@ -2,6 +2,7 @@ package com.portalasig.ms.site.operations;
 
 import com.portalasig.ms.site.constant.SiteRestConstant;
 import com.portalasig.ms.site.dto.site.Site;
+import com.portalasig.ms.site.dto.site.SiteSection;
 import com.portalasig.ms.site.dto.site.SiteSectionRequest;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
+
+import java.util.List;
 
 /**
  * REST client interface for managing site sections within a site.
@@ -53,5 +56,19 @@ public interface SiteSectionOperations {
     Site deleteSiteSection(
             @PathVariable @ApiParam(value = "Site id", required = true) Integer siteId,
             @PathVariable @ApiParam(value = "Site section id", required = true) Integer sectionId
+    );
+
+    /**
+     * Searches for site sections by their code within a given site.
+     *
+     * @param siteId  the ID of the site to search within
+     * @param request the request containing the section code to search for
+     * @return a list of {@link SiteSection} objects matching the code
+     */
+    @ApiOperation(value = "Search site section by code", response = Site.class)
+    @PostExchange(SiteRestConstant.SiteSection.Path.SEARCH)
+    List<SiteSection> searchSectionByCode(
+            @PathVariable @ApiParam(value = "Site id", required = true) Integer siteId,
+            @RequestBody @ApiParam(value = "Site section request", required = true) SiteSectionRequest request
     );
 }
