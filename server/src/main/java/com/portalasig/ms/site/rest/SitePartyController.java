@@ -1,7 +1,9 @@
 package com.portalasig.ms.site.rest;
 
+import com.portalasig.ms.site.constant.PartyRole;
 import com.portalasig.ms.site.dto.site.Site;
 import com.portalasig.ms.site.dto.site.SitePartiesRequest;
+import com.portalasig.ms.site.dto.site.SiteParty;
 import com.portalasig.ms.site.operations.SitePartyOperations;
 import com.portalasig.ms.site.service.SitePartyService;
 import io.swagger.annotations.Api;
@@ -29,5 +31,14 @@ public class SitePartyController implements SitePartyOperations {
     @Override
     public Site deleteParty(Integer siteId, Integer partyId) {
         return sitePartyService.deleteParty(siteId, partyId);
+    }
+
+    @Override
+    public SiteParty findParty(
+            Integer siteId,
+            Integer partyId,
+            PartyRole partyRole
+    ) {
+        return sitePartyService.findParty(siteId, partyId, partyRole);
     }
 }
