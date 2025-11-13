@@ -110,10 +110,13 @@ public final class SiteRestConstant {
          */
         public static final class Path {
             public static final String PARTY = "/party";
+            public static final String STUDENT = "/student";
             public static final String LIST = "/list";
             public static final String BASE =
                     RestConstants.VERSION_ONE + Site.Path.SITE + Site.Path.ELEMENT + PARTY;
             public static final String ELEMENT = "/{partyId:\\d+}";
+            public static final String IDENTITY = "/{identity:\\d+}";
+            public static final String FIND = "/find";
         }
     }
 
