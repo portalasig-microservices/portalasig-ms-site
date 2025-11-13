@@ -17,15 +17,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "A Site Party. Represents a user in the system that is related to a site. Can be a student, coordinator or teacher")
-public class SiteParty {
+public class SitePartyRequest {
 
     @ApiModelProperty
-    @NotNull
     private Integer partyId;
 
     @ApiModelProperty(value = "User Identity")
     @NotNull
     private Long identity;
+
+    @ApiModelProperty(value = "Section id")
+    private Integer sectionId;
 
     @ApiModelProperty(value = "User current site roles")
     @NotNull
@@ -42,8 +44,5 @@ public class SiteParty {
 
     @ApiModelProperty(value = "Title that a party receives in a specific site, e.g: Teacher Assistant")
     private String partySiteTitle;
-
-    @ApiModelProperty(value = "Section that the student belongs to")
-    private SiteSection section;
 
 }

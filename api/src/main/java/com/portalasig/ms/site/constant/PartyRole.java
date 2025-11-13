@@ -27,6 +27,15 @@ public enum PartyRole implements Codeable<String> {
     }
 
     /**
+     * Is current party role a site staff roll?
+     *
+     * @return
+     */
+    public boolean isSiteStaff() {
+        return !PartyRole.STUDENT.equals(this);
+    }
+
+    /**
      * Maps a string code to a PartyRole.
      * Returns INVALID if the code is unknown.
      */

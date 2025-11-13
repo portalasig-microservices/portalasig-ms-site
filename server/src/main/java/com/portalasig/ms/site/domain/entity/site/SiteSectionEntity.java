@@ -44,6 +44,10 @@ public class SiteSectionEntity extends AbstractAuditEntity {
     @EqualsAndHashCode.Exclude
     private Set<SiteSectionScheduleEntity> schedules;
 
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    private Set<SiteStudentEntity> students;
+
     @ManyToOne
     @JoinColumn(name = "site_id")
     @EqualsAndHashCode.Exclude
