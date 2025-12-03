@@ -117,6 +117,7 @@ public final class SiteRestConstant {
             public static final String ELEMENT = "/{partyId:\\d+}";
             public static final String IDENTITY = "/{identity:\\d+}";
             public static final String FIND = "/find";
+            public static final String CSV = "/csv";
         }
     }
 

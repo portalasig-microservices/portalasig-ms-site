@@ -14,12 +14,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PatchExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -108,4 +110,18 @@ public interface SitePartyOperations {
             @RequestParam String query,
             @RequestParam(value = "party_roles", required = false) List<PartyRole> partyRoles
     );
+
+    /**
+     * Upsert students from a csv. if they aren't registered they will also be.
+     *
+     * @param siteId site id
+     * @param file   Excel file from CONEST containing the student list
+     * @throws IOException if the file is invalid
+     */
+    @ApiOperation(value = "Bulk add student to a site. If they don't exist, create their accounts")
+    @PostExchange(SiteRestConstant.SiteParty.Path.STUDENT + SiteRestConstant.SiteParty.Path.CSV)
+    void upsertStudentsFromCsv(
+            @PathVariable @ApiParam(value = "Site id", required = true) Integer siteId,
+            @RequestParam @ApiParam(value = "CSV file containing students", required = true) MultipartFile file
+    ) throws IOException;
 }

@@ -8,11 +8,13 @@ import com.portalasig.ms.site.dto.site.SiteParty;
 import com.portalasig.ms.site.dto.site.SitePartyRequest;
 import com.portalasig.ms.site.operations.SitePartyOperations;
 import com.portalasig.ms.site.service.SitePartyService;
+import com.portalasig.ms.site.service.StudentImportUseCase;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ import java.util.List;
 public class SitePartyController implements SitePartyOperations {
 
     private final SitePartyService sitePartyService;
+    private final StudentImportUseCase studentImportUseCase;
 
     @Override
     public void addPartyToSite(Integer siteId, SitePartyRequest request) {
@@ -65,6 +68,11 @@ public class SitePartyController implements SitePartyOperations {
             List<PartyRole> userRoles
     ) {
         return sitePartyService.findParties(siteId, query, userRoles);
+    }
+
+    @Override
+    public void upsertStudentsFromCsv(Integer siteId, MultipartFile file) {
+        studentImportUseCase.upsertStudentsFromExcel(siteId, file);
     }
 
 

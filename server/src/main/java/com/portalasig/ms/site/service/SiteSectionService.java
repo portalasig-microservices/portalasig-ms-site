@@ -79,6 +79,8 @@ public class SiteSectionService {
     public SiteSectionEntity createSection(SiteEntity siteEntity, SiteSectionRequest request) {
         SiteSectionEntity newSection = siteSectionMapper.toEntityFromRequest(request);
         newSection.setSite(siteEntity);
+        newSection.setSchedules(new HashSet<>());
+        newSection.setStudents(new HashSet<>());
 
         if (siteEntity.getSections() == null) {
             siteEntity.setSections(new HashSet<>());
