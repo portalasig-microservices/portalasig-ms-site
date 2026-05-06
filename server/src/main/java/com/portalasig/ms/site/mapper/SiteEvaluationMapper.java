@@ -27,5 +27,5 @@ public interface SiteEvaluationMapper {
 
     @Mapping(target = "site", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void toEntityFromExisting(SiteEvaluationEntity existingEvaluation, SiteEvaluationRequest request);
+    void toEntityFromExisting(@MappingTarget SiteEvaluationEntity existingEvaluation, SiteEvaluationRequest request);
 }

@@ -12,12 +12,12 @@ import java.util.Set;
 /**
  * MapStruct mapper for converting between {@link SiteEntity} and its DTO {@link Site}.
  * <p>
- * This mapper leverages other mappers to handle nested objects, including class schedules, assessments,
+ * This mapper leverages other mappers to handle nested objects, including class schedules, evaluations,
  * news, media, users, semester, and references.
  * </p>
  */
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING, uses = {
-        SiteAssessmentMapper.class,
+        SiteEvaluationMapper.class,
         SiteSectionMapper.class,
         SiteNewsMapper.class,
         MediaMapper.class,

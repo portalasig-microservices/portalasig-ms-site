@@ -28,7 +28,7 @@ import java.util.Set;
 
 /**
  * Represents the academic configuration for a specific course and semester,
- * including its objectives, references, schedules, assessments, associated media,
+ * including its objectives, references, schedules, evaluations, associated media,
  * and involved parties (e.g., professors and assistants).
  */
 @Entity
@@ -77,12 +77,12 @@ public class SiteEntity extends AbstractAuditEntity {
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
-            name = "site_assessment_link",
+            name = "site_evaluation_link",
             joinColumns = @JoinColumn(name = "site_id", insertable = false, updatable = false),
-            inverseJoinColumns = @JoinColumn(name = "site_assessment_id")
+            inverseJoinColumns = @JoinColumn(name = "site_evaluation_id")
     )
     @EqualsAndHashCode.Exclude
-    private Set<SiteAssessmentEntity> assessments;
+    private Set<SiteEvaluationEntity> evaluations;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(
