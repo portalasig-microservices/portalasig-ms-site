@@ -11,6 +11,9 @@ import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 
+/**
+ * Defines the REST operations for site evaluations.
+ */
 @HttpExchange(SiteRestConstant.SiteEvaluation.Path.BASE)
 public interface SiteEvaluationOperations {
 

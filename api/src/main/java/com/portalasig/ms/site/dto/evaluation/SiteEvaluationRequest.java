@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
+/**
+ * Represents a site evaluation request.
+ */
 @Data
 @Builder
 @AllArgsConstructor
