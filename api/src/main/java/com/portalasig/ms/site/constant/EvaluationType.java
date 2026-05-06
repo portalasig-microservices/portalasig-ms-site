@@ -6,10 +6,10 @@ import com.portalasig.ms.commons.persistence.CodeToEnumMapper;
 import com.portalasig.ms.commons.persistence.Codeable;
 
 /**
- * Enum representing types of assessments such as lectures, practices, or labs.
+ * Enum representing types of evaluations such as lectures, practices, or labs.
  * Defaults to INVALID for unknown codes.
  */
-public enum AssessmentType implements Codeable<String> {
+public enum EvaluationType implements Codeable<String> {
 
     LECTURE("LECTURE"),
     PRACTICE("PRACTICE"),
@@ -17,12 +17,12 @@ public enum AssessmentType implements Codeable<String> {
     OTHER("OTHER"),
     INVALID("");
 
-    private static final CodeToEnumMapper<String, AssessmentType> CODE_TO_ENUM_MAPPER =
-            new CodeToEnumMapper<>(AssessmentType.class);
+    private static final CodeToEnumMapper<String, EvaluationType> CODE_TO_ENUM_MAPPER =
+            new CodeToEnumMapper<>(EvaluationType.class);
 
     final String code;
 
-    AssessmentType(String code) {
+    EvaluationType(String code) {
         this.code = code;
     }
 
@@ -31,7 +31,7 @@ public enum AssessmentType implements Codeable<String> {
      * Defaults to INVALID if not recognized.
      */
     @JsonCreator
-    public static AssessmentType fromCode(String code) {
+    public static EvaluationType fromCode(String code) {
         return CODE_TO_ENUM_MAPPER.fromCode(code).isPresent() ? CODE_TO_ENUM_MAPPER.fromCode(code).get() : INVALID;
     }
 

@@ -19,15 +19,15 @@ CREATE TABLE site_reference_link
 ) COMMENT 'Join table between site and its references';
 
 
-CREATE TABLE site_assessment_link
+CREATE TABLE site_evaluation_link
 (
-    site_assessment_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
+    site_evaluation_link_id INT       NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
     site_id                 INT       NOT NULL COMMENT 'site ID',
-    site_assessment_id      INT       NOT NULL COMMENT 'site assessment ID',
+    site_evaluation_id      INT       NOT NULL COMMENT 'site evaluation ID',
     created_date            TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
     updated_date            TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (site_assessment_link_id)
-) COMMENT 'Join table between site and its assessments';
+    PRIMARY KEY (site_evaluation_link_id)
+) COMMENT 'Join table between site and its evaluation';
 
 CREATE TABLE site_news_link
 (
@@ -96,18 +96,18 @@ CREATE TABLE site
     PRIMARY KEY (site_id)
 ) COMMENT 'A site';
 
-CREATE TABLE site_assessment
+CREATE TABLE site_evaluation
 (
-    site_assessment_id INT           NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
-    weight             DECIMAL(5, 2) NOT NULL DEFAULT 0 COMMENT 'Site Assessment weight',
-    name               VARCHAR(255)  NOT NULL COMMENT 'Site Assessment name',
-    assessment_type    VARCHAR(32) COMMENT 'Site Assessment type',
-    start_date         TIMESTAMP COMMENT 'date and time this assessment starts',
-    end_date           TIMESTAMP COMMENT 'date and time this assessment ends',
+    site_evaluation_id INT           NOT NULL AUTO_INCREMENT COMMENT 'primary key, auto increment',
+    weight             DECIMAL(5, 2) NOT NULL DEFAULT 0 COMMENT 'Site evaluation weight',
+    name               VARCHAR(255)  NOT NULL COMMENT 'Site evaluation name',
+    evaluation_type    VARCHAR(32) COMMENT 'Site evaluation type',
+    start_date         TIMESTAMP COMMENT 'date and time this evaluation starts',
+    end_date           TIMESTAMP COMMENT 'date and time this evaluation ends',
     created_date       TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'date and time this row was created',
     updated_date       TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'date and time this row was last updated',
-    PRIMARY KEY (site_assessment_id)
-) COMMENT 'A site assessment';
+    PRIMARY KEY (site_evaluation_id)
+) COMMENT 'A site evaluation';
 
 CREATE TABLE media
 (

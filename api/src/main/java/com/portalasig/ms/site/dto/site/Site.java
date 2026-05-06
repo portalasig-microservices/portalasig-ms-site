@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * Represents a course site instance for a given semester, including schedules, assessments, media, and related data.
+ * Represents a course site instance for a given semester, including schedules, evaluations, media, and related data.
  */
 @Data
 @Builder
@@ -33,10 +33,10 @@ public class Site {
     @ApiModelProperty(value = "List of topics ids associated with the course")
     private List<SiteCourseTopic> courseTopics;
 
-    @ApiModelProperty(value = "Class assessments for course site")
-    private List<SiteAssessment> assessments;
+    @ApiModelProperty(value = "Class evaluations for course site")
+    private List<SiteEvaluation> evaluations;
 
-    @ApiModelProperty(value = "Ccourse site news")
+    @ApiModelProperty(value = "Course site news")
     private List<SiteNews> news;
 
     @ApiModelProperty(value = "Media files associated with the course site")

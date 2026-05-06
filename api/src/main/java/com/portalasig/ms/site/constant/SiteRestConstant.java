@@ -70,6 +70,17 @@ public final class SiteRestConstant {
         }
     }
 
+    public static final class SiteEvaluation {
+        public static final class Path {
+            public static final String EVALUATION = "/evaluation";
+            public static final String BASE = RestConstants.VERSION_ONE +
+                    Site.Path.SITE +
+                    Site.Path.ELEMENT +
+                    EVALUATION;
+            public static final String ELEMENT = "/{evaluationId:\\d+}";
+        }
+    }
+
     /**
      * Paths related to course references within a site.
      */
