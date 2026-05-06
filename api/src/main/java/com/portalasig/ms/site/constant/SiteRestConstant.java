@@ -70,7 +70,13 @@ public final class SiteRestConstant {
         }
     }
 
+    /**
+     * Paths related to site evaluations.
+     */
     public static final class SiteEvaluation {
+        /**
+         * Path definitions for site evaluation operations.
+         */
         public static final class Path {
             public static final String EVALUATION = "/evaluation";
             public static final String BASE = RestConstants.VERSION_ONE +

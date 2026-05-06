@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Objects;
 
+/**
+ * Service for managing site evaluations.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -24,6 +27,13 @@ public class SiteEvaluationService {
     private final SiteMapper siteMapper;
     private final SiteEvaluationMapper evaluationMapper;
 
+    /**
+     * Creates or updates a site evaluation.
+     *
+     * @param request the evaluation request
+     * @param siteId  the site id
+     * @return the updated site
+     */
     public Site upsert(SiteEvaluationRequest request, Integer siteId) {
         SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(
                 () -> new ResourceNotFoundException(String.format("Site with site_id=%d not found", siteId))
@@ -66,6 +76,13 @@ public class SiteEvaluationService {
         evaluationMapper.toEntityFromExisting(existingEvaluation, request);
     }
 
+    /**
+     * Deletes a site evaluation by ID.
+     *
+     * @param evaluationId the evaluation id
+     * @param siteId       the site id
+     * @return the updated site
+     */
     public Site deleteById(Integer evaluationId, Integer siteId) {
         SiteEntity siteEntity = siteRepository.findById(siteId).orElseThrow(
                 () -> new ResourceNotFoundException(String.format("Site with site_id=%d not found", siteId))
