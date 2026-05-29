@@ -39,6 +39,7 @@ import java.util.Set;
 
 /**
  * Service for managing course operations, including create, update, delete, retrieve, and CSV import.
+ * Validates course code format to ensure compliance with institutional naming conventions (e.g., MAT-1234).
  */
 @RequiredArgsConstructor
 @Service
@@ -190,3 +191,5 @@ public class CourseService {
                 );
     }
 }
+
+
