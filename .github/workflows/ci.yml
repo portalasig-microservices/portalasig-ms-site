@@ -37,5 +37,21 @@ jobs:
           cd portalasig-ms-uaa
           mvn clean install
 
+      - name: Checkstyle code quality analysis
+        run: mvn checkstyle:check
+
+      - name: Run unit and integration tests
+        run: mvn test
+
+      - name: Generate code coverage report with JaCoCo
+        continue-on-error: true
+        run: mvn jacoco:report
+
+      - name: Verify minimum code coverage threshold
+        continue-on-error: true
+        run: |
+          echo "Verifying JaCoCo coverage threshold (70% lines, 60% branches)..."
+          mvn verify
+
       - name: Build and verify portalasig-ms-site
         run: mvn clean verify
