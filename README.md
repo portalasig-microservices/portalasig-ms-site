@@ -1,5 +1,8 @@
 # portalasig-ms-site
 
+![Build and Verify Services](https://github.com/portalasig-microservices/portalasig-ms-site/actions/workflows/ci.yml/badge.svg?branch=develop)
+
+
 Microservicio de sitios académicos de PortalAsig: cursos, semestres, sitios, secciones, horarios, evaluaciones, contenidos y participantes.
 
 ## Tests y cobertura
