@@ -19,6 +19,11 @@ jobs:
       - name: Checkout portalasig-ms-site repository
         uses: actions/checkout@v3
 
+      # docker-java defaults to API 1.32 but recent Docker requires >= 1.40;
+      # without this, Testcontainers cannot talk to the runner's Docker daemon
+      - name: Configure docker-java API version for Testcontainers
+        run: echo "api.version=1.44" > ~/.docker-java.properties
+
       - name: Clone and build portalasig-commons
         run: |
           git clone --branch master https://github.com/portalasig-microservices/portalasig-commons.git
@@ -37,21 +42,7 @@ jobs:
           cd portalasig-ms-uaa
           mvn clean install
 
-      - name: Checkstyle code quality analysis
-        run: mvn checkstyle:check
-
-      - name: Run unit and integration tests
-        run: mvn test
-
-      - name: Generate code coverage report with JaCoCo
-        continue-on-error: true
-        run: mvn jacoco:report
-
-      - name: Verify minimum code coverage threshold
-        continue-on-error: true
-        run: |
-          echo "Verifying JaCoCo coverage threshold (70% lines, 60% branches)..."
-          mvn verify
-
+      # verify = checkstyle + tests (Testcontainers/MySQL) + JaCoCo report and coverage check
+      # (build fails below 70% lines / 60% branches)
       - name: Build and verify portalasig-ms-site
         run: mvn clean verify

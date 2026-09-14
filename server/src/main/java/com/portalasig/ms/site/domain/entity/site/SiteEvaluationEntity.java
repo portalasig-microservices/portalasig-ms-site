@@ -9,8 +9,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -57,9 +55,4 @@ public class SiteEvaluationEntity extends AbstractAuditEntity {
 
     @Column(name = "end_date")
     private LocalDate endDate;
-
-    @ManyToOne
-    @JoinColumn(name = "site_id")
-    @EqualsAndHashCode.Exclude
-    private SiteEntity site;
 }

@@ -5,7 +5,6 @@ import com.portalasig.ms.site.dto.evaluation.SiteEvaluationRequest;
 import com.portalasig.ms.site.dto.site.SiteEvaluation;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
@@ -54,7 +53,6 @@ public interface SiteEvaluationMapper {
      * @param request the request to map
      * @return the mapped entity
      */
-    @Mapping(target = "site", ignore = true)
     SiteEvaluationEntity toEntityFromRequest(SiteEvaluationRequest request);
 
     /**
@@ -63,7 +61,6 @@ public interface SiteEvaluationMapper {
      * @param existingEvaluation the existing entity
      * @param request            the request
      */
-    @Mapping(target = "site", ignore = true)
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void toEntityFromExisting(
             @MappingTarget SiteEvaluationEntity existingEvaluation,

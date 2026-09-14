@@ -129,7 +129,12 @@ public class SiteObjectiveService {
                     );
                     return new ResourceNotFoundException(errorMessage);
                 });
-        siteEntity.getObjectives().remove(objective);
+        /*
+         * Iterator-based removal: entity hashCode is not stable across persistence (id and audit
+         * dates are assigned on save), so Set.remove() may silently fail to locate the element.
+         */
+        siteEntity.getObjectives()
+                .removeIf(obj -> obj.getCourseObjectiveId().equals(objective.getCourseObjectiveId()));
         siteRepository.save(siteEntity);
         return siteMapper.toDto(siteEntity);
     }

@@ -49,9 +49,11 @@ public class ReferenceRequest {
     private String author;
 
     @ApiModelProperty(value = "Relevance order of the reference")
+    @Builder.Default
     private Integer priority = 0;
 
     @ApiModelProperty(value = "Can be marked as a mandatory to read")
+    @Builder.Default
     private Boolean isRequired = false;
 
     /**

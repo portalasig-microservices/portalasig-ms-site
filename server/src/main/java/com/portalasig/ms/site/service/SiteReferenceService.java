@@ -134,7 +134,12 @@ public class SiteReferenceService {
                         String.format("reference_id=%d not found", referenceId)
                 ));
 
-        siteEntity.getReferences().remove(reference);
+        /*
+         * Iterator-based removal: entity hashCode is not stable across persistence (id and audit
+         * dates are assigned on save), so Set.remove() may silently fail to locate the element.
+         */
+        siteEntity.getReferences()
+                .removeIf(ref -> ref.getReferenceId().equals(reference.getReferenceId()));
         siteRepository.save(siteEntity);
 
         log.info("Reference with id={} deleted from site_id={}", referenceId, siteEntity.getSiteId());

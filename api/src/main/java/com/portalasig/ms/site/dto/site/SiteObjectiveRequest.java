@@ -31,6 +31,7 @@ public class SiteObjectiveRequest {
     private String description;
 
     @ApiModelProperty(value = "Objective priority")
+    @Builder.Default
     private Integer priority = 0;
 
 }

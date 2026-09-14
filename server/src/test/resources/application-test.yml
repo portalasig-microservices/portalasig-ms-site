@@ -1,0 +1,21 @@
+portalasig:
+  fe:
+    url: http://localhost:8080
+  security:
+    jwk-set-uri: http://localhost:5860/portalasig/uaa/oauth2/jwks
+  uaa:
+    ms:
+      url: http://localhost:5860/portalasig/uaa
+  notify:
+    ms:
+      url: http://localhost:5862/portalasig/notify
+
+site:
+  tools:
+    courses:
+      csv:
+        input-header: code, name, credits, type, level, requirements, careers
+    students:
+      import:
+        email-blacklist: bloqueado@portalasig.ucv.ve
+        input-header: NRO,LICENCIATURA,CEDULA,NOMBRES,APELLIDOS,CORREO,ESTADO

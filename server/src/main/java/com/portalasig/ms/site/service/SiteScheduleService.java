@@ -77,7 +77,8 @@ public class SiteScheduleService {
             SiteScheduleRequest request
     ) {
         Integer sectionId = request.getSection().getSectionId();
-        if (sectionId != null || request.getSection().getCode() != null) {
+        if (siteEntity.getSections() != null
+                && (sectionId != null || request.getSection().getCode() != null)) {
             for (SiteSectionEntity section : siteEntity.getSections()) {
                 if (Objects.equals(section.getSectionId(), sectionId) ||
                         Objects.equals(section.getCode(), request.getSection().getCode())

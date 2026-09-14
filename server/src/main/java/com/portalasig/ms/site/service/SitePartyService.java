@@ -228,13 +228,18 @@ public class SitePartyService {
                 .findById(siteId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("site_id=%s not found", siteId)));
         var siteUsers = new ArrayList<SiteParty>();
-        var parties = siteEntity.getParties().stream().map(sitePartyMapper::toDto).toList();
-        var students = siteEntity
-                .getSections()
-                .stream()
-                .flatMap(section -> section.getStudents().stream())
-                .map(siteStudentMapper::toDto)
-                .toList();
+        // Sites without parties or sections arrive here with null collections; treat them as empty
+        var parties = siteEntity.getParties() == null
+                ? List.<SiteParty>of()
+                : siteEntity.getParties().stream().map(sitePartyMapper::toDto).toList();
+        var students = siteEntity.getSections() == null
+                ? List.<SiteParty>of()
+                : siteEntity
+                        .getSections()
+                        .stream()
+                        .flatMap(section -> section.getStudents().stream())
+                        .map(siteStudentMapper::toDto)
+                        .toList();
         siteUsers.addAll(parties);
         siteUsers.addAll(students);
         Set<SiteParty> matches = filterPartiesByQueryAndPartyRoles(siteUsers, query, validRoles);
@@ -270,6 +275,9 @@ public class SitePartyService {
         partyEntity.setPartyRole(request.getPartyRole());
         partyEntity.setPartySiteTitle(request.getPartySiteTitle());
         partyEntity.setSite(siteEntity);
+        if (siteEntity.getParties() == null) {
+            siteEntity.setParties(new HashSet<>());
+        }
         siteEntity.getParties().add(partyEntity);
     }
 

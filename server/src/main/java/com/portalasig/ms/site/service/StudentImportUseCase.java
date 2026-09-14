@@ -136,6 +136,10 @@ public class StudentImportUseCase {
     }
 
     private SiteSectionEntity createOrFindSection(SiteEntity siteEntity, String sectionCode) {
+        // Sites created without sections arrive here with a null collection; initialize it before streaming
+        if (siteEntity.getSections() == null) {
+            siteEntity.setSections(new HashSet<>());
+        }
         SiteSectionEntity sectionEntity = siteEntity
                 .getSections()
                 .stream()

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Service for managing site evaluations.
@@ -52,18 +53,18 @@ public class SiteEvaluationService {
 
     private void createEvaluation(SiteEntity siteEntity, SiteEvaluationRequest request) {
         SiteEvaluationEntity evaluationEntity = evaluationMapper.toEntityFromRequest(request);
-        evaluationEntity.setSite(siteEntity);
 
         if (siteEntity.getEvaluations() == null) {
             siteEntity.setEvaluations(new HashSet<>());
         }
 
+        // the site_evaluation_link join table persists the association through the owning side
         siteEntity.getEvaluations().add(evaluationEntity);
     }
 
     private void updateEvaluation(SiteEntity siteEntity, SiteEvaluationRequest request) {
-        SiteEvaluationEntity existingEvaluation = siteEntity
-                .getEvaluations()
+        SiteEvaluationEntity existingEvaluation = Optional.ofNullable(siteEntity.getEvaluations())
+                .orElseGet(HashSet::new)
                 .stream()
                 .filter(evaluation -> Objects.equals(
                         evaluation.getEvaluationId(), request.getEvaluationId()
@@ -88,8 +89,8 @@ public class SiteEvaluationService {
                 () -> new ResourceNotFoundException(String.format("Site with site_id=%d not found", siteId))
         );
 
-        SiteEvaluationEntity evaluation = siteEntity
-                .getEvaluations()
+        SiteEvaluationEntity evaluation = Optional.ofNullable(siteEntity.getEvaluations())
+                .orElseGet(HashSet::new)
                 .stream()
                 .filter(eval -> eval.getEvaluationId().equals(evaluationId))
                 .findFirst()
