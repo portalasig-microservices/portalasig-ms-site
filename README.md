@@ -21,3 +21,5 @@ el build **falla** si la cobertura baja de **70% líneas / 60% ramas**.
 > `api.version=1.44` para que Testcontainers hable con el daemon.
 
 Estado actual: **80.5% líneas / 61.3% ramas** (60 tests).
+
+<!-- CI: badge workflow validado end-to-end -->
