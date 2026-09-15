@@ -21,6 +21,7 @@ public class SecurityConfiguration {
     SecurityFilterChain clientSecurityFilterChain(HttpSecurity http) throws Exception {
         http.formLogin(Customizer.withDefaults());
         http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/actuator/**").permitAll()
                 .anyRequest().authenticated()
         );
         
